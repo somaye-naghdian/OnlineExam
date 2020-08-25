@@ -1,0 +1,38 @@
+* {
+    margin: 0px; padding: 0px;
+}
+body {
+    font-size: 120%;
+    background-image: url("https://groupquality.com/2015/wp-content/uploads/2015/10/Background-typing.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100%;
+    max-width: 600px;
+}
+.container{
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    margin: 0px auto;
+    padding: 20px;
+    border: 1px solid yellow;
+    border-radius: 10px;
+}
+label{
+    color: white;
+}
+button{
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background: darkcyan;
+    border: none;
+    border-radius: 5px;
+    cursor:pointer;
+}
+#h02{
+    color: #B0C4DE;
+    text-align:center ;
+    align-content: center;
+}

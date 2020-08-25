@@ -1,0 +1,40 @@
+* { margin: 0px; padding: 0px; }
+body {
+    font-size: 120%;
+    background-image: url("https://acrpnet.org/wp-content/uploads/2018/11/magnifying-glass-search-concept-and-futuristic-technology-background-vector-id827302644.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100%;
+    max-width: 600px;
+}
+.container{
+    align-items: center;
+    text-align: center;
+}
+.input-group{
+    align-items: center;
+}
+table {
+    width: 70%;
+    align-content: center;
+}
+
+table, th, td {
+    border: 1px solid white;
+    border-collapse: collapse;
+    color: white;
+}
+form{
+    align-content: center;
+    justify-content: center;
+}
+button {
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background: darkcyan;
+    border: none;
+    border-radius: 5px;
+    cursor:pointer;
+}

@@ -11,48 +11,47 @@
     <title>Admin Page</title>
 </head>
 <body>
-<h1 id="h1">Admin Dashboard</h1>
+<h1 id="h1">Admin Page</h1>
 
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark " style="margin-top:0 ;">
-        <a class="navbar-brand" href="#" style="size: A3">Dashboard</a>
-        <%--    <button class="navbar-toggler" type="button"  data-toggle="collapse" data-target="#myNavbar" aria-expanded="true">--%>
-        <span class="navbar-toggler-icon"></span>
-        </button>
+<div class="container" style="display: inline-flex">
+<div class="navbar-collapse collapse " id="myNavbar">
+    <div>
+        <ul class="nav navbar-nav">
+            <li class="nav-item">
+                <form:form action="unconfirmedUser" method="get">
+                    <button type="submit" name="confirmUser" value="confirmUser">Confirm User</button>
+                </form:form>
+            </li>
 
-        <div class="navbar-collapse collapse " id="myNavbar">
-            <ul class="nav navbar-nav">
+            <li class="nav-item">
+                <form:form action="getUserList" method="get" >
+                    <button type="submit" name="userList" value="UserList">User List</button>
+                </form:form>
+            </li>
+
+
+            <li class="nav-item">
+                <form:form action="search" method="get">
+                    <button type="submit" name="searchUser" value="searchUser">Search User</button>
+                </form:form>
+            </li>
+
+            <li class="nav-item">
+                <form:form action="getCourseList" method="get">
+                    <button type="submit" name="courseList" value="courseList">Course List</button>
+                </form:form>
+            </li>
+            </nav>
+        </ul>
+        <ul class="nav navbar-nav">
+            <div class="navbar-collapse collapse " id="myNavbar2" style=" position: absolute; right: 20px;" >
                 <li class="nav-item">
-                    <form:form action="unconfirmedUser" method="get">
-                        <button type="submit" name="confirmUser" value="confirmUser">Confirm User</button>
+                    <form:form action="addClassification" method="get">
+                        <button type="submit" name="addClassification" value="addClassification">
+                            Add Classification
+                        </button>
                     </form:form>
                 </li>
-
-                <li class="nav-item">
-                    <form:form action="getUserList" method="get" modelAttribute="user">
-                        <button type="submit" name="userList" value="UserList">User List</button>
-                    </form:form>
-                </li>
-
-
-                <li class="nav-item">
-                    <form:form action="search" method="get" >
-                        <%--                    <a class="nav-link" href="/getUserList">User List</a>--%>
-                        <button type="submit" name="searchUser" value="searchUser">Search User</button>
-                    </form:form>
-                </li>
-
-                <li class="nav-item">
-                    <form:form action="getCourseList" method="get">
-                        <button type="submit" name="courseList" value="courseList">Course List</button>
-                    </form:form>
-                </li>
-
-                            <li class="nav-item">
-                                <form:form action="addClassification" method="get" >
-                                    <button type="submit" name="addClassification" value="addClassification">
-                                    Add Classification</button>
-                                </form:form>
-                            </li>
 
                 <li class="nav-item">
                     <form:form action="addCourse" method="get">
@@ -62,21 +61,25 @@
 
                 <li class="nav-item">
                     <form:form action="addUserToCourse" method="get">
-                        <button type="submit" name="addUserToCourse" value="addUserToCourse">Add User Course</button>
+                        <button type="submit" name="CourseRegistration" value="addUserToCourse">Course Management
+                        </button>
                     </form:form>
                 </li>
 
                 <li class="nav-item">
                     <form:form action="userOfCourse" method="get">
-                        <button type="submit" name="userOfCourse" value="userOfCourse"> Users Of Course</button>
+                        <button type="submit" name="userOfCourse" value="userOfCourse">User Of Course
+                        </button>
                     </form:form>
                 </li>
-            </ul>
-        </div>
-</div>
-</div>
-</nav>
 
+                </nav>
+            </div>
+        </ul>
+
+    </div>
+</div>
+</div>
 
 <div class="container">
 

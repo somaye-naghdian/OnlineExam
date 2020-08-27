@@ -11,21 +11,28 @@
     <title>Search</title>
 </head>
 <body>
+
+<div align="right" style="float: right;"  >
+    <button onclick="location.href='/admin';">back</button>
+</div><br>
+
+<h3 style="color: maroon" > Search User </h3>
+
 <div class="container">
     <form:form action="searchProcess" modelAttribute="user" method="post">
         <div class="input-group">
             <form:input path="name" name="name" placeHolder="Name"/>
 
-            <form:input path="family" name="family" placeHolder="Family"/>
+            <form:input path="family" name="family" placeHolder="Family"/><br>
 
             <form:input path="email" name="email" placeHolder="email"/>
 
-            <form:input path="role" name="role" placeHolder="role"/>
+            <form:input path="role" name="role" placeHolder="role"/><br>
 
             <form:button name="search">Search</form:button>
         </div>
         <br><br>
-        <table align="center">
+        <table align="center" >
             <tr>
                 <th>Name</th>
                 <th>Family</th>
@@ -48,7 +55,7 @@
         <br>
     </form:form>
     <form action="/" method="get">
-        <button style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
+        <button  style="justify-content: end; margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
                 value="home" class="btn">Home
         </button>
     </form>

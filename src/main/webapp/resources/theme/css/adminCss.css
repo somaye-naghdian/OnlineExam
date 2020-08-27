@@ -10,6 +10,24 @@ body {
     height: 100%;
     max-width: 600px;
 }
+.container {
+    width: 80%;
+    height: 200px;
+    margin: auto;
+    padding: 10px;
+    display: inline-block;
+}
+.myNavbar {
+    width: 15%;
+    height: 200px;
+    float: left;
+    justify-content: center;
+}
+
+.myNavbar2 {
+    margin-left: 15%;
+    height: 200px;
+}
 #h1 {
     width: 60%;
     margin: 50px auto 0px;

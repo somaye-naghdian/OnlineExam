@@ -31,7 +31,10 @@
     </style>
 </head>
 <body>
-<%--<h3>User List Of Course</h3>--%>
+
+<div align="right" style="float: right;"  >
+    <button class="btn" onclick="location.href='/admin';">back</button>
+</div>
 <div class="container">
 <form:form modelAttribute="course" action="userOfCourseProcess" method="post">
 

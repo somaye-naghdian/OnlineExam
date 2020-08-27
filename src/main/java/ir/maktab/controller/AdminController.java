@@ -47,6 +47,10 @@ public class AdminController {
         this.modelMapper = modelMapper;
     }
 
+    @RequestMapping(value = "admin", method = RequestMethod.GET)
+    public String getAdminPage() {
+        return "adminDashboard";
+    }
 
     @RequestMapping(value = "getUserList", method = RequestMethod.GET)
     public ModelAndView getUserList() {
@@ -127,7 +131,7 @@ public class AdminController {
     @RequestMapping(value = "addCourse", method = RequestMethod.GET)
     public ModelAndView addCourse(Model model) {
         model.addAttribute("course", new CourseDto());
-        ModelAndView modelAndView =new ModelAndView("addCourse");
+        ModelAndView modelAndView = new ModelAndView("addCourse");
         List<Classification> allClassification = classificationService.getAllClassification();
         modelAndView.addObject("allClassification", allClassification);
         return modelAndView;
@@ -136,8 +140,8 @@ public class AdminController {
     @RequestMapping(value = "addCourseProcess", method = RequestMethod.GET)
     public ModelAndView addCourseProcess(@ModelAttribute("course") CourseDto courseDto,
                                          @RequestParam("classification") String title) {
-       String courseTitle = courseDto.getCourseTitle();
-      //  Classification classificationByTitle = classificationService.getClassificationByTitle(title);
+        String courseTitle = courseDto.getCourseTitle();
+        //  Classification classificationByTitle = classificationService.getClassificationByTitle(title);
         String classification = courseDto.getClassification();
         Classification classificationDto = classificationService.getClassificationByTitle(classification);
         Course course = new Course();
@@ -145,7 +149,7 @@ public class AdminController {
         course.setClassification(classificationDto);
         try {
 
-            courseService.addNewCourse(course);
+            courseService.save(course);
 
         } catch (CourseAlreadyExist e) {
             new ModelAndView("error", "errorMsg", e.getMessage());
@@ -154,7 +158,6 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView("simpleMessage", "message", message);
         return modelAndView;
     }
-
 
 
     private CourseDto convertToCourseDto(Course course) {

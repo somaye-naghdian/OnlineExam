@@ -14,6 +14,10 @@
 </head>
 <body>
 
+<div align="right" style="float: right;"  >
+    <button class="btn" onclick="location.href='/admin';">back</button>
+</div>
+
 <h4 >Course List</h4>
 <table class="center" id="t01">
 
@@ -33,7 +37,7 @@
 
     <div>
         <form action="/" method="get">
-            <button style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
+            <button  style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
                     value="home" class="btn" >Home
             </button>
         </form>

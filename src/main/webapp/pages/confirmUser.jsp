@@ -8,17 +8,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="<c:url value="/resources/theme/css/confirmCss.css" />">
-    <title>pending users</title>
+    <title>Waiting users</title>
 
 </head>
 <body>
 
 <h4 id="h04"> Confirm User And Change User Attributes</h4>
+
+<div align="right" style="float: right;"  >
+    <button class="btn"  onclick="location.href='/admin';">back</button>
+</div><br>
+
 <c:choose>
 
     <c:when test="${empty waitingUsers}">
-
-        <p>No Waiting User To Confirm</p>
 
     </c:when>
 
@@ -81,12 +84,7 @@
 </c:choose>
 
 <div>
-<%--    <form action="adminDashboard.jsp" method="get">--%>
-<%--        <button type="submit" class="btn">--%>
-<%--            Admin Dashborad--%>
-<%--        </button>--%>
-<%--        <a href="adminDashboard.jsp" style="color: yellow"></a>--%>
-<%--    </form>--%>
+
     <form action="/" method="get">
         <button type="submit" class="btn">
             Home

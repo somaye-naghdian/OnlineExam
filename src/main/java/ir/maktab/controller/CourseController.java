@@ -2,7 +2,6 @@ package ir.maktab.controller;
 
 import ir.maktab.model.dto.CourseDto;
 import ir.maktab.model.dto.UserDto;
-import ir.maktab.model.entity.Classification;
 import ir.maktab.model.entity.Course;
 import ir.maktab.model.entity.User;
 import ir.maktab.service.AdminService;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,7 +31,6 @@ public class CourseController {
     private AdminService adminService;
     private ClassificationService classificationService;
     private ModelMapper modelMapper;
-    Set<User> users = new HashSet<>();
 
     @Autowired
     public CourseController(UserService userService, CourseService courseService,
@@ -50,7 +46,7 @@ public class CourseController {
     @RequestMapping(value = "addUserToCourse", method = RequestMethod.GET)
     public ModelAndView addUserToCourse(Model model) {
         model.addAttribute("user", new UserDto());
-        ModelAndView modelAndView = new ModelAndView("addUserToCourse");
+        ModelAndView modelAndView = new ModelAndView("course_user");
         List<Course> allCourse = courseService.getAllCourse();
         List<CourseDto> courseDtoList = allCourse.stream()
                 .map(this::convertToCourseDto)
@@ -59,30 +55,36 @@ public class CourseController {
         return modelAndView;
     }
 
-   @RequestMapping(value = "addUserToCourseProcess", method = RequestMethod.POST)
-    public ModelAndView addUserToCourseProcess(@ModelAttribute("user") UserDto userDto,
-                                               @RequestParam("course") String courseTitle) {
-        String email = userDto.getEmail();
-        User user = userService.findUserByEmail(email);
-        Course course = courseService.findCourseByTitle(courseTitle);
-        users.add(user);
-        courseService.updateCourseUsers(users,course.getCourseTitle());
-        ModelAndView modelAndView = new ModelAndView("addUserToCourse", "message", "user"+user.getName()+"successfully added to" + course.getCourseTitle() );
+//   @RequestMapping(value = "addUserToCourseProcess", method = RequestMethod.POST)
+//    public ModelAndView addUserToCourseProcess(@ModelAttribute("user") UserDto userDto,
+//                                               @RequestParam("course") String courseTitle) {
+//        String email = userDto.getEmail();
+//        User user = userService.findUserByEmail(email);
+//        Course course = courseService.findCourseByTitle(courseTitle);
+//      //  users.add(user);
+//     //   courseService.updateCourseUsers(users,course.getCourseTitle());
+//        ModelAndView modelAndView = new ModelAndView("course_user", "message", "user"+user.getName()+"successfully added to" + course.getCourseTitle() );
+//        return modelAndView;
+//    }
+
+    @RequestMapping(value = "userOfCourse", method = RequestMethod.GET)
+    public ModelAndView getUserOfCourse(Model model) {
+        model.addAttribute("course", new CourseDto());
+        ModelAndView modelAndView = new ModelAndView("showUserOfCourse");
         return modelAndView;
     }
 
-    @RequestMapping(value = "userOfCourse",method = RequestMethod.GET)
-    public ModelAndView getUserOfCourse(Model model){
-        model.addAttribute("course",new CourseDto());
-        ModelAndView modelAndView=new ModelAndView("showUserOfCourse");
-        return modelAndView;
-    }
-    @RequestMapping(value = "userOfCourseProcess",method = RequestMethod.POST)
-    public ModelAndView getUserOfCourseProcess(@ModelAttribute("course")CourseDto courseDto){
-        String courseTitle = courseDto.getCourseTitle();
-        List<User> userOfCourse = courseService.getUserOfCourse(courseTitle);
-        ModelAndView modelAndView=new ModelAndView("showUserOfCourse");
-        modelAndView.addObject("userOfCourse",userOfCourse);
+    @RequestMapping(value = "userOfCourseProcess", method = RequestMethod.POST)
+    public ModelAndView getUserOfCourseProcess(@ModelAttribute("course") CourseDto courseDto) {
+        ModelAndView modelAndView =new ModelAndView("showUserOfCourse");
+        try {
+            Set<User> studentOfCourse = courseService.getStudentOfCourse(courseDto.getCourseTitle());
+            modelAndView = new ModelAndView("showUserOfCourse");
+            modelAndView.addObject("userOfCourse", studentOfCourse);
+            return modelAndView;
+        } catch (Exception e) {
+            new ModelAndView("error", "errorMsg", e.getMessage());
+        }
         return modelAndView;
     }
 

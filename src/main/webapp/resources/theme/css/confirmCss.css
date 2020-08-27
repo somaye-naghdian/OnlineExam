@@ -6,17 +6,19 @@ body {
   background-size: cover;
   background-position: center center;
   height: 100%;
-  max-width: 500px;
+  max-width:400px;
 }
 table {
-  width:50%;
+  width:45%;
+  max-width: 45%;
 }
 table, th, td {
+  margin: 0;
   border: 1px solid yellow;
   border-collapse: collapse;
 }
 th, td {
-  padding: 15px;
+  padding: 5px;
   text-align: left;
 }
 th{
@@ -35,7 +37,7 @@ p{
   color: #B0C4DE;
 }
 .btn{
-  padding: 10px;
+  padding: 5px;
   font-size: 10px;
   color: white;
   background: darkcyan;
@@ -48,4 +50,5 @@ p{
   align-content:center;
   text-align: center;
 }
+
 

@@ -14,14 +14,15 @@
     <title>Welcome</title>
 </head>
 <body>
-<h1>Online Test </h1><br><br>
-<div class="container">
+<h1>Home </h1><br><br>
+<div class="container" align="center">
 <form action="register" method="get">
     <button class="btn" type="submit" name="submitButton" value="Register" style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;">
         REGISTER
     </button>
 </form>
-
+</div>
+<div class="container" align="center">
     <br><br>
 <form action="login" method="get">
     <button style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"

@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -89,12 +88,17 @@ public class UserService {
 
     @Transactional
     public void updateUser(User user) {
-        userRepository.updateUser(user.getName(), user.getFamily(), user.getEnabled()
+        userRepository.updateUser(user.getName(), user.getFamily(), user.getStatus()
                 , user.getRole(), user.getEmail());
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
 
+
+
+
+//    @Transactional
+//    public void addCourseUser(User user, Course course){
+//        user.getCourseList().add(course);
+//        userRepository.updateUserCourse(user.getCourseList(),user.getId());
+//    }
 }

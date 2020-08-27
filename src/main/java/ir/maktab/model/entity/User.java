@@ -4,8 +4,6 @@ import ir.maktab.util.StatusType;
 import ir.maktab.util.UserRole;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 public class User {
@@ -19,12 +17,7 @@ public class User {
     private UserRole role;
     private String password;
     @Column(name = "enabled")
-    private StatusType enabled;
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
-    @JoinTable(name = "course_like",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private Set<Course> courseList;
+    private StatusType status;
 
     public User() {
     }
@@ -80,23 +73,14 @@ public class User {
     }
 
     public StatusType isEnabled() {
-        return enabled;
+        return status;
     }
 
-    public void setEnabled(StatusType enabled) {
-        this.enabled = enabled;
+    public void setStatus(StatusType enabled) {
+        this.status = enabled;
     }
 
-    public StatusType getEnabled() {
-        return enabled;
+    public StatusType getStatus() {
+        return status;
     }
-
-    public Set<Course> getCourseList() {
-        return courseList;
-    }
-
-    public void setCourseList(Set<Course> courseList) {
-        this.courseList = courseList;
-    }
-
 }

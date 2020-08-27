@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 
 @Controller
@@ -51,7 +50,7 @@ public class RegistrationController {
             , Model model) {
         try {
             User user = convertToUserEntity(userDto);
-            user.setEnabled(StatusType.INACTIVE);
+            user.setStatus(StatusType.INACTIVE);
             userService.registerNewUser(user);
             sendTo(user);
 
@@ -83,15 +82,15 @@ public class RegistrationController {
             confirmModel.addObject("errorMsg", "ExpireToken");
             return confirmModel;
         }
-        if (user.getEnabled().equals(StatusType.AWAITING) ||
-                user.getEnabled().equals(StatusType.ACCEPTED)) {
+        if (user.getStatus().equals(StatusType.AWAITING) ||
+                user.getStatus().equals(StatusType.ACCEPTED)) {
             confirmModel = new ModelAndView("error");
             confirmModel.addObject("errorMsg", "Your account has already been verified");
             return confirmModel;
         }
 
         if (user != null) {
-            user.setEnabled(StatusType.AWAITING);
+            user.setStatus(StatusType.AWAITING);
             userService.updateUser(StatusType.AWAITING, user.getEmail());
             confirmModel = new ModelAndView("simpleMessage");
             confirmModel.addObject("message", "Your Account Verified");

@@ -16,23 +16,13 @@ public class Course {
     @ManyToOne(fetch = FetchType.EAGER)
     private Classification classification;
 
-    @ManyToMany(mappedBy = "courseList", fetch = FetchType.EAGER)
+
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> userList;
 
     public Course() {
     }
-
-    public void addUser(User user) {
-    this.userList.add(user);
-    user.getCourseList().add(this);
-    }
-
-    public  void removeUser(User user){
-        this.userList.remove(user);
-        user.getCourseList().remove(this);
-    }
-
-
+    
     public Integer getId() {
         return id;
     }
@@ -57,13 +47,6 @@ public class Course {
         this.classification = classification;
     }
 
-    public Set<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(Set<User> userList) {
-        this.userList = userList;
-    }
 
     @Override
     public String toString() {
@@ -71,7 +54,16 @@ public class Course {
                 "id=" + id +
                 ", courseTitle='" + courseTitle + '\'' +
                 ", classification=" + classification +
-                ", userList=" + userList +
                 '}';
     }
+
+        public Set<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(Set<User> userList) {
+        this.userList = userList;
+    }
+
+
 }

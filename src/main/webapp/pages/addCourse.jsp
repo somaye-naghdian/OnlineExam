@@ -18,6 +18,10 @@
     <h2 id="h02">ADD New COURSE</h2>
 </div>
 
+<div align="right" style="float: right;"  >
+    <button onclick="location.href='/admin';">back</button>
+</div>
+
 <div class="container">
 
     <form:form action="addCourseProcess" modelAttribute="course" method="get" >
@@ -34,13 +38,6 @@
             </c:forEach>
         </form:select>
 
-<%--            <c:forEach items="${allClassification}" var="classification">--%>
-<%--            <li>--%>
-<%--                <form:input type="radio" path="classification" name="classification" value="${classification.classificationTitle}" id="classification"--%>
-<%--                            required="required"/>--%>
-<%--                    ${classification.classificationTitle}--%>
-<%--            </li>--%>
-<%--    </c:forEach>--%>
     <br>
 
     <button name="add" class="btn">Save Course</button>

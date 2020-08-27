@@ -4,10 +4,12 @@ import ir.maktab.exceptions.CourseAlreadyExist;
 import ir.maktab.model.entity.User;
 import ir.maktab.model.repository.CourseRepository;
 import ir.maktab.model.entity.Course;
+import ir.maktab.util.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,9 +24,8 @@ public class CourseService {
     }
 
     @Transactional
-    public void addNewCourse(Course course) throws CourseAlreadyExist {
+    public void save(Course course) throws CourseAlreadyExist {
         courseRepository.save(course);
-        //todo i duplicate
     }
 
     public List<Course> getAllCourse() {
@@ -32,18 +33,37 @@ public class CourseService {
     }
 
     public Course findCourseByTitle(String title) {
-        //todo if not exist course with this title
-       return courseRepository.findByCourseTitle(title);
+
+        return courseRepository.findByCourseTitle(title);
+    }
+
+    public Set<User> getStudentOfCourse(String courseTitle) {
+        Set<User> allUsers = courseRepository.findUsersByCourseTitle(courseTitle);
+        Set<User> users=new HashSet<>();
+        for (User user:
+             allUsers) {
+            if(! user.getRole().equals(UserRole.ADMIN)){
+                users.add(user);
+            }
+        }
+        return  users;
     }
 
     @Transactional
-    public void updateCourseUsers(Set<User> users, String courseTitle){
-        courseRepository.updateCourse(users,courseTitle);
+    public void addUserToCourse(Course course, User user) throws Exception {
+        if(course.getUserList().contains(user)){
+            throw new Exception("duplicate user");
+        }
+        course.getUserList().add(user);
+        save(course);
     }
 
-    public List<User> getUserOfCourse(String courseTitle){
-         return courseRepository.findUsersByCourseTitle(courseTitle);
+    @Transactional
+    public void deleteToCourse(Course course, User user) {
+        boolean remove = course.getUserList().remove(user);
+        if (remove) {
+            courseRepository.save(course);
+        }
     }
-
 
 }

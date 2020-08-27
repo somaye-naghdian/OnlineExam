@@ -15,7 +15,7 @@
     <tr>
         <td style="size: A3">error: ${errorMsg}</td>
     </tr>
-    <td><a href="/">Home</a>
+
 </table>
 
 <form action="/" method="get">

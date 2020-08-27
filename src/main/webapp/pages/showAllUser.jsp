@@ -12,6 +12,9 @@
 </head>
 <body>
 <h4 >User List</h4>
+<div  style="float: right;"  >
+    <button class="btn" onclick="location.href='/admin';">back</button>
+</div>
 <table class="center" id="t01">
 
     <tr>
@@ -35,7 +38,7 @@
 </table>
 <div>
     <form action="/" method="get">
-        <button style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
+        <button style="justify-content:end; margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
                 value="home" class="btn" >Home
         </button>
     </form>

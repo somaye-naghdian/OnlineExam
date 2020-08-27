@@ -18,17 +18,17 @@ public interface CourseRepository extends Repository<Course, Integer> {
 
     void save(Course course);
 
+
     List<Course> findAll();
 
     Course findByCourseTitle(String title);
 
      @Modifying
-    @Query("update Course c set c.userList =:userList where c.courseTitle=:courseTitle")
-    void updateCourse(@Param("userList")Set<User>  users,
-                    @Param("courseTitle")String  courseTitle);
+     @Query("update Course set userList=:userList where courseTitle=:courseTitle")
+    void updateCourse(@Param("courseTitle")String  courseTitle);
 
     @Query("select userList from Course where courseTitle=:title")
-    List<User> findUsersByCourseTitle(@Param("title") String title);
+    Set<User> findUsersByCourseTitle(@Param("title") String title);
 
     Optional<Course> findByClassification(Classification classification);
 }

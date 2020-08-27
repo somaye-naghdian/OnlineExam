@@ -49,7 +49,7 @@ public class UserController {
             UserRole userRole = userService.authenticationUser(email, password);
             User userByEmail = userService.findUserByEmail(email);
             UserDto modelUser = convertToUserDto(userByEmail);
-            if ((!userByEmail.getEnabled().equals(StatusType.ACCEPTED)) || (userByEmail.equals(null))) {
+            if ((!userByEmail.getStatus().equals(StatusType.ACCEPTED)) || (userByEmail.equals(null))) {
                 modelAndView = new ModelAndView("error");
                 modelAndView.addObject("errorMsg ", message);
                 return modelAndView;

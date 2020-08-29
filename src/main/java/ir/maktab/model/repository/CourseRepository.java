@@ -30,5 +30,7 @@ public interface CourseRepository extends Repository<Course, Integer> {
     @Query("select userList from Course where courseTitle=:title")
     Set<User> findUsersByCourseTitle(@Param("title") String title);
 
+    List<Course> findByUser(User user);
+
     Optional<Course> findByClassification(Classification classification);
 }

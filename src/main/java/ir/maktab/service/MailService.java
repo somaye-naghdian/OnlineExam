@@ -9,13 +9,16 @@ import java.util.Properties;
 @Service
 public class MailService {
 
+
     public boolean sendMail(String userEmail, String message2, String subject) {
+
+
         Properties properties = System.getProperties();
 
         String from = "somayehnaqdian@gmail.com";
         String host = "smtp.gmail.com";
         properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", "465");
+        properties.put("mail.smtp.port", "587");
         properties.put("mail.smtp.ssl.enable", "true");
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.socketFactory.port", "465");
@@ -25,7 +28,7 @@ public class MailService {
 
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication(from, "sana1393ehsan");
+                return new PasswordAuthentication(from, "13somayeh64ehsan");
             }
         });
 

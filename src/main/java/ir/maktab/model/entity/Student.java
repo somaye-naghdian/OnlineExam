@@ -7,7 +7,11 @@ import javax.persistence.Entity;
 @Entity
 public class Student extends User {
 
-    public Student() {
+    public Student(User user) {
+        super(user.getName(), user.getFamily(), user.getEmail(), user.getPassword(), user.getRole());
         this.setRole(UserRole.STUDENT);
+    }
+
+    public Student() {
     }
 }

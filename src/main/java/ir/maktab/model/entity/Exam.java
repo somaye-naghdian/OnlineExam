@@ -4,12 +4,10 @@ package ir.maktab.model.entity;
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Timer;
 
 @Entity
-public class Quiz {
+public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -26,7 +24,7 @@ public class Quiz {
 
     private Time timer;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Question> questions;
 
 

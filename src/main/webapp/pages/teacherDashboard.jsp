@@ -11,6 +11,16 @@
 <body>
 <h1>Professor Page</h1>
 
+<div class="course">
+    <h5>Course</h5>
+    <button>Course List</button>
+    <ul id="courseList">
+
+    </ul>
+
+</div>
+
+
 <div>
     <form action="/" method="get">
         <button style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"

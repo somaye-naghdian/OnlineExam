@@ -7,17 +7,13 @@ import javax.persistence.Entity;
 @Entity
 public class Teacher extends User{
 
-    private String teacherNumber;
 
-    public Teacher(){
+
+
+    public Teacher(User user){
+        super(user.getName(), user.getFamily(), user.getEmail(), user.getPassword(), user.getRole());
         this.setRole(UserRole.TEACHER);
     }
 
-    public String getTeacherNumber() {
-        return teacherNumber;
-    }
-
-    public void setTeacherNumber(String teacherNumber) {
-        this.teacherNumber = teacherNumber;
-    }
+    public Teacher(){}
 }

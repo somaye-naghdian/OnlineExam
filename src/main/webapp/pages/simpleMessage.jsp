@@ -12,9 +12,9 @@
     <td><a href="/">Home</a>
 </table>
 
-<form action="/" method="get">
+<form action="/login" method="get">
     <button style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
-            value="home" >LOGIN
+            value="login" >LOGIN
     </button>
 </form>
 </body>

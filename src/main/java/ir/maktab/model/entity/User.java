@@ -16,13 +16,21 @@ public class User {
     private String email;
     private UserRole role;
     private String password;
-    @Column(name = "enabled")
+    @Column(name = "status")
     private StatusType status;
+
+
+    public User(String name, String family, String email, String password, UserRole role) {
+        this.name = name;
+        this.family = family;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+
+    }
 
     public User() {
     }
-
-
 
     public Integer getId() {
         return id;

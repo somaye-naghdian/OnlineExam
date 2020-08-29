@@ -1,0 +1,13 @@
+* {
+    margin: 0px; padding: 0px;
+}
+body {
+    font-size: 120%;
+    background-image: url("/resources/theme/css/img/Teacher.jpg");
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100%;
+    max-width: 600px;
+}

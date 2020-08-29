@@ -1,7 +1,6 @@
 package ir.maktab.model.repository;
 
 
-import ir.maktab.model.entity.Course;
 import ir.maktab.model.entity.User;
 import ir.maktab.util.StatusType;
 import ir.maktab.util.UserRole;
@@ -12,8 +11,6 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @org.springframework.stereotype.Repository
 public interface UserRepository extends Repository<User, Integer>, JpaSpecificationExecutor<User> {
@@ -26,9 +23,11 @@ public interface UserRepository extends Repository<User, Integer>, JpaSpecificat
 
     User findById(Integer id);
 
-    List<User> findByEnabled(StatusType status);
+    List<User> findByStatus(StatusType status);
 
     List<User> findByRole(UserRole role);
+
+    void deleteById(int id);
 
 
     @Modifying
@@ -42,9 +41,6 @@ public interface UserRepository extends Repository<User, Integer>, JpaSpecificat
                     @Param("newEnable") StatusType statusType, @Param("newRole") UserRole newRole,
                     @Param("email") String email);
 
-//    @Modifying
-//    @Query("update User set courseList=:courseList where id=:id")
-//    void updateUserCourse(@Param("courseList") Set<Course> courseList, @Param("id") Integer id);
 
 
 }

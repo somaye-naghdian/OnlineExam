@@ -14,7 +14,7 @@ public class UserDto {
     private String email;
     private UserRole role;
     private String password;
-    private StatusType enabled;
+    private StatusType status;
 
     private List<Course> courseList;
 
@@ -67,15 +67,15 @@ public class UserDto {
     }
 
     public StatusType isEnabled() {
-        return enabled;
+        return status;
     }
 
-    public void setEnabled(StatusType enabled) {
-        this.enabled = enabled;
+    public void setStatus(StatusType status) {
+        this.status = status;
     }
 
-    public StatusType getEnabled() {
-        return enabled;
+    public StatusType getStatus() {
+        return status;
     }
 
     public List<Course> getCourseList() {

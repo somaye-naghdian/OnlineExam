@@ -1,29 +1,38 @@
 package ir.maktab.controller;
 
+import ir.maktab.model.dto.CourseDto;
 import ir.maktab.model.dto.UserDto;
+import ir.maktab.model.entity.Course;
 import ir.maktab.model.entity.User;
+import ir.maktab.service.CourseService;
 import ir.maktab.service.UserService;
+import ir.maktab.util.Mapper;
 import ir.maktab.util.StatusType;
 import ir.maktab.util.UserRole;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+import java.util.Set;
+
 @Controller
 public class UserController {
 
     private UserService userService;
-    private ModelMapper modelMapper;
+    private CourseService courseService;
+    private Mapper mapper ;
 
     @Autowired
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService,CourseService courseService
+    ,Mapper mapper) {
         this.userService = userService;
-        this.modelMapper = modelMapper;
-
+        this.courseService=courseService;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -31,45 +40,7 @@ public class UserController {
         return "home";
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
-    public ModelAndView login() {
-        ModelAndView modelAndView = new ModelAndView("login");
-        modelAndView.addObject("user", new UserDto());
-        return modelAndView;
-    }
 
-
-    @RequestMapping(value = "loginProcess", method = RequestMethod.POST)
-    public ModelAndView loginProcess(@ModelAttribute("user") UserDto userDto) {
-        String email = userDto.getEmail();
-        String password = userDto.getPassword();
-        String message = "Access Denied";
-        ModelAndView modelAndView;
-        try {
-            UserRole userRole = userService.authenticationUser(email, password);
-            User userByEmail = userService.findUserByEmail(email);
-            UserDto modelUser = convertToUserDto(userByEmail);
-            if ((!userByEmail.getStatus().equals(StatusType.ACCEPTED)) || (userByEmail.equals(null))) {
-                modelAndView = new ModelAndView("error");
-                modelAndView.addObject("errorMsg ", message);
-                return modelAndView;
-            }
-            if (userByEmail.equals("") || userByEmail.equals(null)) {
-                modelAndView = new ModelAndView("error");
-                modelAndView.addObject("errorMsg", message);
-                return modelAndView;
-            }
-            String role = userRole.name().toLowerCase();
-            modelAndView = new ModelAndView(role + "Dashboard");
-            modelAndView.addObject("modelUser", modelUser);
-            return modelAndView;
-
-        } catch (NullPointerException ne){
-            modelAndView = new ModelAndView("error");
-            modelAndView.addObject("errorMsg", ne.getMessage());
-        }
-        return modelAndView;
-    }
 
     @RequestMapping(value = "error", method = RequestMethod.GET)
     public String showError(String message) {
@@ -77,9 +48,35 @@ public class UserController {
         modelAndView.addObject(message);
         return "error";
     }
-
-    private UserDto convertToUserDto(User user) {
-        return modelMapper.map(user, UserDto.class);
+    @RequestMapping(value = "addUserToCourse", method = RequestMethod.GET)
+    public ModelAndView addUserToCourse(Model model) {
+        model.addAttribute("user", new UserDto());
+        ModelAndView modelAndView = new ModelAndView("course_user");
+        List<Course> allCourse = courseService.getAllCourse();
+        List<CourseDto> courseDtoList = mapper.convertToCourseDtoList(allCourse);
+        modelAndView.addObject("allCourse", courseDtoList);
+        return modelAndView;
     }
 
+
+    @RequestMapping(value = "userOfCourse", method = RequestMethod.GET)
+    public ModelAndView getUserOfCourse(Model model) {
+        model.addAttribute("course", new CourseDto());
+        ModelAndView modelAndView = new ModelAndView("showUserOfCourse");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "userOfCourseProcess", method = RequestMethod.POST)
+    public ModelAndView getUserOfCourseProcess(@ModelAttribute("course") CourseDto courseDto) {
+        ModelAndView modelAndView =new ModelAndView("showUserOfCourse");
+        try {
+            Set<User> studentOfCourse = courseService.getStudentOfCourse(courseDto.getCourseTitle());
+            modelAndView = new ModelAndView("showUserOfCourse");
+            modelAndView.addObject("userOfCourse", studentOfCourse);
+            return modelAndView;
+        } catch (Exception e) {
+            new ModelAndView("error", "errorMsg", e.getMessage());
+        }
+        return modelAndView;
+    }
 }

@@ -2,18 +2,22 @@ package ir.maktab.service;
 
 import ir.maktab.exceptions.UserAlreadyExistsException;
 import ir.maktab.exceptions.UserNotFoundException;
+import ir.maktab.model.entity.*;
+import ir.maktab.model.repository.AdminRepository;
+import ir.maktab.model.repository.TeacherRepository;
 import ir.maktab.model.repository.UserRepository;
 import ir.maktab.model.repository.UserSpecifications;
-import ir.maktab.model.entity.User;
 import ir.maktab.util.StatusType;
 import ir.maktab.util.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,19 +25,56 @@ import java.util.List;
 public class UserService {
 
     private UserRepository userRepository;
+    private VerificationTokenService verificationTokenService;
+    private MailService mailService;
+    private AuthenticationService authenticationService;
+    @Autowired
+    private AdminService adminService;
+    @Autowired
+    private TeacherService teacherService;
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, MailService mailService
+            , VerificationTokenService verificationTokenService, AuthenticationService authenticationService) {
         this.userRepository = userRepository;
+        this.mailService = mailService;
+        this.verificationTokenService = verificationTokenService;
+        this.authenticationService = authenticationService;
     }
 
     @Transactional
-    public void registerNewUser(User user) throws UserAlreadyExistsException {
-        User found = userRepository.findByEmail(user.getEmail());
-        if (found == null) {
-            userRepository.save(user);
-        } else
-            throw new UserAlreadyExistsException("duplicate email!");
+    public void registerNewUser(User user) {
+//        try {
+//         //   User found = userRepository.findByEmail(user.getEmail());
+//        }catch (NullPointerException e){
+//            e.
+//        }
+
+//        user.setStatus(StatusType.INACTIVE);
+//        //   if (found == null) {
+//        if (authenticationService.isUserInformationTrue(user)) {
+//            user.setPassword(passwordEncoder.encode(user.getPassword()));
+//            UserRole userRole = user.getRole();
+//            switch (userRole) {
+//                case ADMIN:
+//                   return adminService.save(getAdminFromUser(user));
+//                    break;
+//                case TEACHER:
+//                   return teacherService.save(getTeacherFromUser(user));
+//                    break;
+//                case STUDENT:
+//                   return studentService.save(getStudentFromUser(user));
+//                    break;
+//            }
+//            //   sendTo(user);
+//        } else
+//            throw new UserAlreadyExistsException("duplicate email!");
+//        //   }
+
     }
 
     public User findById(Integer id) {
@@ -66,7 +107,7 @@ public class UserService {
         return users;
     }
 
-    @Transactional
+
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -93,12 +134,28 @@ public class UserService {
     }
 
 
+    public boolean sendTo(User user) {
 
+        VerificationToken verificationToken = new VerificationToken(user);
+        verificationTokenService.save(verificationToken);
+        String mailText = "To confirm your account, please click here : "
+                + "http://localhost:8080/verify?token=" + verificationToken.getToken();
+        return mailService.sendMail(user.getEmail(), mailText, "Account Verification");
+    }
 
+    public Admin getAdminFromUser(User user) {
+        Admin admin = new Admin(user);
+        return admin;
+    }
 
-//    @Transactional
-//    public void addCourseUser(User user, Course course){
-//        user.getCourseList().add(course);
-//        userRepository.updateUserCourse(user.getCourseList(),user.getId());
-//    }
+    public Student getStudentFromUser(User user) {
+        Student student = new Student(user);
+        return student;
+    }
+
+    public Teacher getTeacherFromUser(User user) {
+        Teacher teacher = new Teacher(user);
+        return teacher;
+    }
+
 }

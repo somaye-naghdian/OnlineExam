@@ -15,7 +15,8 @@ public class VerificationToken {
 
     private String token;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER,
+            cascade = CascadeType.MERGE,orphanRemoval = true)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
@@ -38,6 +39,7 @@ public class VerificationToken {
     expiryDate=calculateExpiryDate();
     }
 
+
     public VerificationToken() {}
 
     public Long getId() {
@@ -55,7 +57,7 @@ public class VerificationToken {
     public void setToken(String token) {
         this.token = token;
     }
-
+//
     public User getUser() {
         return user;
     }
@@ -79,4 +81,6 @@ public class VerificationToken {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
+
+
 }

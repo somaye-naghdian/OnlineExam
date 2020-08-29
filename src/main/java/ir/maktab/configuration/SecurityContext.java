@@ -18,7 +18,10 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityContext extends WebSecurityConfigurerAdapter {
 
-    private static final String AUTHORITY_QUERY = "SELECT email, password FROM `user` WHERE `email` = ?";
+
+    private static final String AUTHORITY_QUERY = "select email, role from user where email = ?";
+
+    private static final String USERNAME_QUERY = "SELECT email, password, 1 FROM `user` WHERE `email` = ?";
 
     @Autowired
     DataSource dataSource;
@@ -31,23 +34,35 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+//                .authorizeRequests()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/loginProcess")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .successForwardUrl("/")
+                .failureUrl("/error")
+                .permitAll()
+                .and()
                 .authorizeRequests()
                 .antMatchers("/register").permitAll()
-                .anyRequest().authenticated()
-                .and().requiresChannel().anyRequest().requiresSecure()
+                .antMatchers("/registration").permitAll()
+                .antMatchers("/verify").permitAll()
                 .and()
-                .formLogin().and()
                 .httpBasic();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication().withUser("test").password("{noop}test").roles("USER");
-        auth.jdbcAuthentication().dataSource(dataSource).authoritiesByUsernameQuery(AUTHORITY_QUERY);
+        auth.jdbcAuthentication().dataSource(dataSource).
+                usersByUsernameQuery(USERNAME_QUERY)
+                .authoritiesByUsernameQuery(AUTHORITY_QUERY)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
     }
+
 }

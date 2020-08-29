@@ -14,7 +14,9 @@
     <title>Welcome</title>
 </head>
 <body>
-<h1>Home </h1><br><br>
+
+<h1>Online Exam  </h1><br><br>
+
 <div class="container" align="center">
 <form action="register" method="get">
     <button class="btn" type="submit" name="submitButton" value="Register" style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;">

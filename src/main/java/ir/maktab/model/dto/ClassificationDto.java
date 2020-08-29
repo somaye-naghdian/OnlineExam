@@ -1,8 +1,5 @@
 package ir.maktab.model.dto;
 
-import ir.maktab.model.entity.Course;
-import java.util.List;
-
 public class ClassificationDto {
 
     private Integer id;

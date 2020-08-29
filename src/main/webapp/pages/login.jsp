@@ -16,7 +16,7 @@
     <h2>Login Form</h2>
 </div>
 <div class="container">
-<form:form action="loginProcess" modelAttribute="user" method="post">
+<form:form action="loginProcess" modelAttribute="user" method="get">
 
     <form:label path="email">email</form:label>
     <input type="text" name="email"  placeholder="email" class="form-control"

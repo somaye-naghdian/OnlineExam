@@ -20,6 +20,12 @@ public class Course {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> userList;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Student> studentList;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Teacher> teacherList;
+
     public Course() {
     }
     
@@ -47,6 +53,21 @@ public class Course {
         this.classification = classification;
     }
 
+    public List<Student> getStudentList() {
+        return studentList;
+    }
+
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
+    }
+
+    public List<Teacher> getTeacherList() {
+        return teacherList;
+    }
+
+    public void setTeacherList(List<Teacher> teacherList) {
+        this.teacherList = teacherList;
+    }
 
     @Override
     public String toString() {

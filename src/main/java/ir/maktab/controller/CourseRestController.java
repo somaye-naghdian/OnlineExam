@@ -4,6 +4,7 @@ import ir.maktab.model.entity.Course;
 import ir.maktab.model.entity.User;
 import ir.maktab.service.CourseService;
 import ir.maktab.service.UserService;
+import ir.maktab.util.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +17,15 @@ public class CourseRestController {
 
     private UserService userService;
     private CourseService courseService;
-    private ModelMapper modelMapper;
 
 
     @Autowired
     public CourseRestController(UserService userService, CourseService courseService
-            , ModelMapper modelMapper) {
+            ) {
         this.userService = userService;
         this.courseService = courseService;
-        this.modelMapper = modelMapper;
-    }
 
+    }
 
     @PutMapping(value = "/addUserToCourseRest/{courseTitle}/{userId}")
     public ResponseEntity addUserToCourse(@PathVariable("courseTitle") String courseTitle,

@@ -1,13 +1,10 @@
 package ir.maktab.controller;
 
-import ir.maktab.exceptions.UserAlreadyExistsException;
 import ir.maktab.model.dto.UserDto;
-import ir.maktab.model.entity.User;
-import ir.maktab.model.entity.VerificationToken;
-import ir.maktab.service.MailService;
-import ir.maktab.service.TokenService;
-import ir.maktab.service.UserService;
+import ir.maktab.model.entity.*;
+import ir.maktab.service.*;
 import ir.maktab.util.StatusType;
+import ir.maktab.util.UserRole;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,17 +21,22 @@ import java.util.Calendar;
 public class RegistrationController {
 
     private UserService userService;
-    private TokenService tokenService;
-    private MailService mailService;
-    private ModelMapper modelMapper;
+    private AdminService adminService;
+    private StudentService studentService;
+    private TeacherService teacherService;
+    private VerificationTokenService verificationTokenService;
+    private ModelMapper mapper;
 
     @Autowired
-    public RegistrationController(UserService userService, TokenService tokenService,
-                                  MailService mailService,ModelMapper modelMapper) {
+    public RegistrationController(UserService userService, AdminService adminService
+            , VerificationTokenService verificationTokenService, ModelMapper mapper
+            , StudentService studentService, TeacherService teacherService) {
         this.userService = userService;
-        this.tokenService = tokenService;
-        this.mailService = mailService;
-        this.modelMapper=modelMapper;
+        this.mapper = mapper;
+        this.verificationTokenService = verificationTokenService;
+        this.adminService = adminService;
+        this.studentService=studentService;
+        this.teacherService=teacherService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -46,16 +48,23 @@ public class RegistrationController {
     }
 
     @RequestMapping(value = "registration", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute("user") UserDto userDto
-            , Model model) {
-        try {
-            User user = convertToUserEntity(userDto);
-            user.setStatus(StatusType.INACTIVE);
-            userService.registerNewUser(user);
-            sendTo(user);
-
-        } catch (UserAlreadyExistsException e) {
-            new ModelAndView("error", "errorMsg", e.getMessage());
+    public String addUser(@ModelAttribute("user") UserDto userDto, Model model) {
+        User user = convertToUserEntity(userDto);
+        UserRole role = user.getRole();
+        user.setStatus(StatusType.INACTIVE);
+        switch (role) {
+            case ADMIN:
+                Admin admin = adminService.save(user);
+                adminService.sendMail(admin);
+                break;
+            case STUDENT:
+                Student student = studentService.save(user);
+                studentService.sendMail(student);
+                break;
+            case TEACHER:
+                Teacher teacher = teacherService.save(user);
+                teacherService.sendMail(teacher);
+                break;
         }
         String message = " Verification Email send to " + userDto.getEmail();
         model.addAttribute("message", message);
@@ -65,7 +74,7 @@ public class RegistrationController {
     @RequestMapping(value = "verify", method = RequestMethod.GET)
     public ModelAndView verify(@RequestParam("token") String token) {
         ModelAndView confirmModel = null;
-        VerificationToken verificationToken = tokenService.findByToken(token);
+        VerificationToken verificationToken = verificationTokenService.findByToken(token);
 
         if (verificationToken == null) {
             confirmModel = new ModelAndView("error");
@@ -82,32 +91,27 @@ public class RegistrationController {
             confirmModel.addObject("errorMsg", "ExpireToken");
             return confirmModel;
         }
-        if (user.getStatus().equals(StatusType.AWAITING) ||
-                user.getStatus().equals(StatusType.ACCEPTED)) {
-            confirmModel = new ModelAndView("error");
-            confirmModel.addObject("errorMsg", "Your account has already been verified");
-            return confirmModel;
-        }
 
         if (user != null) {
             user.setStatus(StatusType.AWAITING);
             userService.updateUser(StatusType.AWAITING, user.getEmail());
             confirmModel = new ModelAndView("simpleMessage");
-            confirmModel.addObject("message", "Your Account Verified");
+            confirmModel.addObject("message", "Your account will be checked by the administrator");
+        }
+        else {
+            if (user.getStatus().equals(StatusType.AWAITING) ||
+                    user.getStatus().equals(StatusType.ACCEPTED)) {
+                confirmModel = new ModelAndView("error");
+                confirmModel.addObject("errorMsg", "Your account has already been verified");
+                return confirmModel;
+            }
+
         }
         return confirmModel;
     }
 
-    private boolean sendTo(User user) {
-
-        VerificationToken verificationToken = new VerificationToken(user);
-        tokenService.save(verificationToken);
-        String mailText = "To confirm your account, please click here : "
-                + "http://localhost:8080/verify?token=" + verificationToken.getToken();
-        return mailService.sendMail(user.getEmail(), mailText, "Account Verification");
+    public User convertToUserEntity(UserDto userDto) {
+        return mapper.map(userDto, User.class);
     }
 
-    private User convertToUserEntity(UserDto userDto) {
-        return modelMapper.map(userDto, User.class);
-    }
 }

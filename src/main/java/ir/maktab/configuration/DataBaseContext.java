@@ -12,11 +12,13 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.Properties;
 
 @Configuration
+@EnableWebMvc
 @ComponentScan(basePackages = "ir.maktab")
 @PropertySource("classpath:database.properties")
 @EnableJpaRepositories(basePackages = "ir.maktab.model.repository")

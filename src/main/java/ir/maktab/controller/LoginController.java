@@ -3,12 +3,12 @@ package ir.maktab.controller;
 import ir.maktab.model.dto.UserDto;
 import ir.maktab.model.entity.User;
 import ir.maktab.service.UserService;
-import ir.maktab.util.Mapper;
 import ir.maktab.util.StatusType;
 import ir.maktab.util.UserRole;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,8 +21,8 @@ public class LoginController {
     private ModelMapper mapper;
 
     @Autowired
-    public LoginController(UserService userService,ModelMapper mapper) {
-        this.mapper=mapper;
+    public LoginController(UserService userService, ModelMapper mapper) {
+        this.mapper = mapper;
         this.userService = userService;
     }
 
@@ -35,7 +35,8 @@ public class LoginController {
 
 
     @RequestMapping(value = "loginProcess", method = RequestMethod.GET)
-    public ModelAndView loginProcess(@ModelAttribute("user") UserDto userDto) {
+    public ModelAndView loginProcess(@ModelAttribute("user") UserDto userDto,
+                                     Model model) {
         String email = userDto.getEmail();
         String password = userDto.getPassword();
         String message = "Access Denied";
@@ -43,7 +44,7 @@ public class LoginController {
         try {
             UserRole userRole = userService.authenticationUser(email, password);
             User userByEmail = userService.findUserByEmail(email);
-            UserDto modelUser = convertUserToUserDto(userByEmail);
+            UserDto user = convertUserToUserDto(userByEmail);
             if ((!userByEmail.getStatus().equals(StatusType.ACCEPTED)) || (userByEmail.equals(null))) {
                 modelAndView = new ModelAndView("error");
                 modelAndView.addObject("errorMsg ", message);
@@ -56,7 +57,8 @@ public class LoginController {
             }
             String role = userByEmail.getRole().name().toLowerCase();
             modelAndView = new ModelAndView(role + "Dashboard");
-            modelAndView.addObject("modelUser", modelUser);
+            modelAndView.addObject("user", user);
+          //  model.addAttribute("user",user);
             return modelAndView;
 
         } catch (NullPointerException ne) {

@@ -1,5 +1,7 @@
 package ir.maktab.model.entity;
 
+import net.minidev.json.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +11,7 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Integer id;
 
     private String courseTitle;
@@ -16,19 +19,16 @@ public class Course {
     @ManyToOne(fetch = FetchType.EAGER)
     private Classification classification;
 
+    @OneToMany(mappedBy = "course")
+    private List<Exam> examList;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<User> userList;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Student> studentList;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Teacher> teacherList;
+    @ManyToMany(mappedBy = "courseList",fetch = FetchType.EAGER)
+    private List<User> userList;
 
     public Course() {
     }
-    
+
     public Integer getId() {
         return id;
     }
@@ -53,22 +53,6 @@ public class Course {
         this.classification = classification;
     }
 
-    public List<Student> getStudentList() {
-        return studentList;
-    }
-
-    public void setStudentList(List<Student> studentList) {
-        this.studentList = studentList;
-    }
-
-    public List<Teacher> getTeacherList() {
-        return teacherList;
-    }
-
-    public void setTeacherList(List<Teacher> teacherList) {
-        this.teacherList = teacherList;
-    }
-
     @Override
     public String toString() {
         return "Course{" +
@@ -78,13 +62,19 @@ public class Course {
                 '}';
     }
 
-        public Set<User> getUserList() {
+    public List<User> getUserList() {
         return userList;
     }
 
-    public void setUserList(Set<User> userList) {
+    public void setUserList(List<User> userList) {
         this.userList = userList;
     }
 
+    public List<Exam> getExamList() {
+        return examList;
+    }
 
+    public void setExamList(List<Exam> examList) {
+        this.examList = examList;
+    }
 }

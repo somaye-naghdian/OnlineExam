@@ -28,7 +28,7 @@ public class MailService {
 
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication(from, "13somayeh64ehsan");
+                return new PasswordAuthentication(from, "****************");
             }
         });
 

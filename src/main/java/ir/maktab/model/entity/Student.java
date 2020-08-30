@@ -2,7 +2,11 @@ package ir.maktab.model.entity;
 
 import ir.maktab.util.UserRole;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import java.util.List;
 
 @Entity
 public class Student extends User {
@@ -14,4 +18,6 @@ public class Student extends User {
 
     public Student() {
     }
+
+
 }

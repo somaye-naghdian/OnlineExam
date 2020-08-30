@@ -1,6 +1,7 @@
 package ir.maktab.model.repository;
 
 
+import ir.maktab.model.entity.Course;
 import ir.maktab.model.entity.User;
 import ir.maktab.util.StatusType;
 import ir.maktab.util.UserRole;
@@ -29,6 +30,8 @@ public interface UserRepository extends Repository<User, Integer>, JpaSpecificat
 
     void deleteById(int id);
 
+    @Query("select courseList from User where email=:email")
+    List<Course> findUserCourse(@Param("email") String email);
 
     @Modifying
     @Query("update User set status=:newEnable where email=:email")

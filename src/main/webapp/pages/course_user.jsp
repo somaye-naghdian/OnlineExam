@@ -17,8 +17,8 @@
 </div>
 
 <div class="container" align="center">
-    <label path="userId" style="color: #dff0d8">user:</label>
-    <input path="userId" name="userId" id="userId" class="form-control"
+    <label path="email" style="color: #dff0d8">user:</label>
+    <input path="email" name="email" id="email" class="form-control"
            required="required"/>
 
     <label path="courseList" style="color: #dff0d8">course:</label>
@@ -43,9 +43,9 @@
 </div>
 <br>
 
-<ul id="set" align="center" style="color: #dff0d8"></ul>
+<ul id="set" align="center" style="color: darkslategrey"></ul>
 
-<p id="demo" align="center" style="color: #dff0d8"></p>
+<p id="demo" align="center" style="color: darkslategrey"></p>
 
 </body>
 <script type="text/javascript">
@@ -53,7 +53,7 @@
     function addUser() {
         let request = new XMLHttpRequest();
         let courseTitle = document.getElementById("courseTitle").value;
-        let userId = document.getElementById("userId").value;
+        let email = document.getElementById("email").value;
         request.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var data = (this.responseText);
@@ -61,14 +61,14 @@
                 console.log(this.responseText);
             }
         };
-        request.open("PUT", "http://localhost:8080/addUserToCourseRest/" + courseTitle + "/" + userId, true);
+        request.open("PUT", "http://localhost:8080/addUserToCourseRest/" + courseTitle + "/" + email, true);
         request.send();
     }
 
     function deleteUser() {
         let request = new XMLHttpRequest();
         let courseTitle = document.getElementById("courseTitle").value;
-        let userId = document.getElementById("userId").value;
+        let email = document.getElementById("email").value;
         request.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var data = (this.responseText);
@@ -76,7 +76,7 @@
                 console.log(this.responseText);
             }
         };
-        request.open("DELETE", "http://localhost:8080/deleteUserFromCourse/" + courseTitle + "/" + userId, true);
+        request.open("DELETE", "http://localhost:8080/deleteUserFromCourse/" + courseTitle + "/" + email, true);
         request.send();
     }
 

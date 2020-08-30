@@ -37,10 +37,10 @@ public class TeacherService {
         return teacherRepository.save(teacher);
     }
 
-    public List<Course> getTeacherCourses(String email) {
-        User teacher = userService.findUserByEmail(email);
-        return courseRepository.findByUser(teacher);
-    }
+//    public List<Course> getTeacherCourses(String email) {
+//   //     User teacher = userService.findUserByEmail(email);
+//        return teacherRepository.findByEmail(email);
+//    }
 
 
     public void sendMail(Teacher teacher) {

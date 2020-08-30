@@ -13,6 +13,8 @@ public class Classification {
     private Integer id;
     private String classificationTitle;
 
+    //todo ad azmoni chizi
+
     public Classification() {
     }
 

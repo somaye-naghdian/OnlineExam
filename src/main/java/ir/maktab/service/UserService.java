@@ -46,6 +46,11 @@ public class UserService {
         this.authenticationService = authenticationService;
     }
 
+   public List<Course> getUserCourses(String email){
+      return   userRepository.findUserCourse(email);
+    }
+
+
     @Transactional
     public void registerNewUser(User user) {
 //        try {
@@ -143,19 +148,5 @@ public class UserService {
         return mailService.sendMail(user.getEmail(), mailText, "Account Verification");
     }
 
-    public Admin getAdminFromUser(User user) {
-        Admin admin = new Admin(user);
-        return admin;
-    }
-
-    public Student getStudentFromUser(User user) {
-        Student student = new Student(user);
-        return student;
-    }
-
-    public Teacher getTeacherFromUser(User user) {
-        Teacher teacher = new Teacher(user);
-        return teacher;
-    }
 
 }

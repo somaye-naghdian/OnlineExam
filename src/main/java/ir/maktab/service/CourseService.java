@@ -1,9 +1,8 @@
 package ir.maktab.service;
 
 import ir.maktab.exceptions.CourseAlreadyExist;
-import ir.maktab.model.entity.User;
+import ir.maktab.model.entity.*;
 import ir.maktab.model.repository.CourseRepository;
-import ir.maktab.model.entity.Course;
 import ir.maktab.util.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,7 @@ import java.util.Set;
 public class CourseService {
 
     private CourseRepository courseRepository;
+    private UserService userService;
 
     @Autowired
     public CourseService(CourseRepository courseRepository) {
@@ -37,33 +37,39 @@ public class CourseService {
         return courseRepository.findByCourseTitle(title);
     }
 
-    public Set<User> getStudentOfCourse(String courseTitle) {
-        Set<User> allUsers = courseRepository.findUsersByCourseTitle(courseTitle);
-        Set<User> users=new HashSet<>();
-        for (User user:
-             allUsers) {
-            if(! user.getRole().equals(UserRole.ADMIN)){
+    public Set<User> getUserOfCourse(String courseTitle) {
+        List<User> allUsers = courseRepository.findUsersByCourseTitle(courseTitle);
+        Set<User> users = new HashSet<>();
+        for (User user :
+                allUsers) {
+            if (!user.getRole().equals(UserRole.ADMIN)) {
                 users.add(user);
             }
         }
-        return  users;
+        return users;
     }
 
+
+
     @Transactional
-    public void addUserToCourse(Course course, User user) throws Exception {
-        if(course.getUserList().contains(user)){
-            throw new Exception("duplicate user");
-        }
+    public void addUserToCourse(String courseTitle, String email)  {
+        Course course = findCourseByTitle(courseTitle);
+        User user = userService.findUserByEmail(email);
+        System.out.println(user);
         course.getUserList().add(user);
         save(course);
     }
 
     @Transactional
     public void deleteToCourse(Course course, User user) {
-        boolean remove = course.getUserList().remove(user);
-        if (remove) {
-            courseRepository.save(course);
-        }
+
+        course.getUserList().remove(user);
+        save(course);
     }
 
+    public List<Exam> getExamsOfCourse(String courseTitle){
+      return  courseRepository.findExamOfCourse(courseTitle);
+    }
 }
+
+

@@ -6,24 +6,15 @@ import ir.maktab.model.dto.UserDto;
 import ir.maktab.model.entity.Classification;
 import ir.maktab.model.entity.Course;
 import ir.maktab.model.entity.User;
-import ir.maktab.service.AdminService;
-import ir.maktab.service.ClassificationService;
-import ir.maktab.service.CourseService;
-import ir.maktab.service.UserService;
+import ir.maktab.service.*;
 import ir.maktab.util.Mapper;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 public class CourseController {
@@ -31,19 +22,20 @@ public class CourseController {
 
     private UserService userService;
     private CourseService courseService;
-    private AdminService adminService;
+    private TeacherService teacherService;
     private ClassificationService classificationService;
-    private Mapper mapper=new Mapper();
+    private Mapper mapper;
 
 
     @Autowired
     public CourseController(UserService userService, CourseService courseService,
-                            AdminService adminService, ClassificationService classificationService) {
+                            TeacherService teacherService, ClassificationService classificationService
+                            , Mapper mapper) {
         this.userService = userService;
         this.courseService = courseService;
-        this.adminService = adminService;
+        this.teacherService = teacherService;
         this.classificationService = classificationService;
-
+        this.mapper=mapper;
     }
 
 
@@ -66,7 +58,6 @@ public class CourseController {
         course.setCourseTitle(courseTitle);
         course.setClassification(classificationDto);
         try {
-
             courseService.save(course);
 
         } catch (CourseAlreadyExist e) {
@@ -76,8 +67,18 @@ public class CourseController {
         ModelAndView modelAndView = new ModelAndView("simpleMessage", "message", message);
         return modelAndView;
     }
+    @RequestMapping(value = "getCoursePage", method = RequestMethod.GET)
+    public ModelAndView getCoursePage(@ModelAttribute("user") String email) {
+        User user = userService.findUserByEmail(email);
+        try {
+            List<Course> courseList = userService.getUserCourses(user.getEmail());
+            System.out.println(courseList);
+            return new ModelAndView("teacherCourses", "courseList", courseList);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ModelAndView("teacherCourses");
+        }
 
-
-
+    }
 
 }

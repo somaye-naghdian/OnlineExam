@@ -3,6 +3,7 @@ package ir.maktab.controller;
 import ir.maktab.model.dto.UserDto;
 import ir.maktab.model.entity.*;
 import ir.maktab.service.*;
+import ir.maktab.util.Mapper;
 import ir.maktab.util.StatusType;
 import ir.maktab.util.UserRole;
 import org.modelmapper.ModelMapper;
@@ -25,11 +26,11 @@ public class RegistrationController {
     private StudentService studentService;
     private TeacherService teacherService;
     private VerificationTokenService verificationTokenService;
-    private ModelMapper mapper;
+    private Mapper mapper;
 
     @Autowired
     public RegistrationController(UserService userService, AdminService adminService
-            , VerificationTokenService verificationTokenService, ModelMapper mapper
+            , VerificationTokenService verificationTokenService, Mapper mapper
             , StudentService studentService, TeacherService teacherService) {
         this.userService = userService;
         this.mapper = mapper;
@@ -49,7 +50,7 @@ public class RegistrationController {
 
     @RequestMapping(value = "registration", method = RequestMethod.POST)
     public String addUser(@ModelAttribute("user") UserDto userDto, Model model) {
-        User user = convertToUserEntity(userDto);
+        User user = mapper.convertUserDtoToEntity(userDto);
         UserRole role = user.getRole();
         user.setStatus(StatusType.INACTIVE);
         switch (role) {
@@ -110,8 +111,5 @@ public class RegistrationController {
         return confirmModel;
     }
 
-    public User convertToUserEntity(UserDto userDto) {
-        return mapper.map(userDto, User.class);
-    }
 
 }

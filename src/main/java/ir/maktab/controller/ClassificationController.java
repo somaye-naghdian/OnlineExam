@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ClassificationController {
 
     private ClassificationService classificationService;
-    private Mapper mapper =new Mapper();
+    private Mapper mapper ;
 
     @Autowired
     public ClassificationController(ClassificationService classificationService) {
@@ -34,7 +34,7 @@ public class ClassificationController {
     public ModelAndView addClassificationProcess(@ModelAttribute("classification") ClassificationDto classificationDto) {
         ModelAndView modelAndView = new ModelAndView("simpleMessage");
         try {
-            classificationService.addClassification(mapper.ConvertToClassificationEntity(classificationDto));
+            classificationService.addClassification(mapper.convertClassifyDtoToEntity(classificationDto));
 
         } catch (CourseAlreadyExist e) {
             new ModelAndView("error", "errorMsg", e.getMessage());

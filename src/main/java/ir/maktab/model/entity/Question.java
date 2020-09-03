@@ -23,6 +23,9 @@ public class Question {
     @OneToOne
     private Answer correctAnswer;
 
+    @ManyToOne
+    private Classification classification;
+
     public Question() {
     }
 
@@ -72,5 +75,13 @@ public class Question {
 
     public void setCorrectAnswer(Answer correctAnswer) {
         this.correctAnswer = correctAnswer;
+    }
+
+    public Classification getClassification() {
+        return classification;
+    }
+
+    public void setClassification(Classification classification) {
+        this.classification = classification;
     }
 }

@@ -29,9 +29,9 @@ public interface UserRepository extends Repository<User, Integer>, JpaSpecificat
     List<User> findByRole(UserRole role);
 
     void deleteById(int id);
-
-    @Query("select courseList from User where email=:email")
-    List<Course> findUserCourse(@Param("email") String email);
+//
+//    @Query("select courseList from User where email=:email")
+//    List<Course> findUserCourse(@Param("email") String email);
 
     @Modifying
     @Query("update User set status=:newEnable where email=:email")

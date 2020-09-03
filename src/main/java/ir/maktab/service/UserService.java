@@ -46,9 +46,9 @@ public class UserService {
         this.authenticationService = authenticationService;
     }
 
-   public List<Course> getUserCourses(String email){
-      return   userRepository.findUserCourse(email);
-    }
+//   public List<Course> getUserCourses(String email){
+//      return   userRepository.findUserCourse(email);
+//    }
 
 
     @Transactional

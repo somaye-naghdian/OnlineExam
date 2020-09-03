@@ -5,6 +5,7 @@ import ir.maktab.model.entity.*;
 import ir.maktab.model.repository.CourseRepository;
 import ir.maktab.util.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +24,10 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
+    @Modifying
     @Transactional
-    public void save(Course course) throws CourseAlreadyExist {
-        courseRepository.save(course);
+    public Course save(Course course) throws CourseAlreadyExist {
+        return courseRepository.save(course);
     }
 
     public List<Course> getAllCourse() {
@@ -68,7 +70,9 @@ public class CourseService {
     }
 
     public List<Exam> getExamsOfCourse(String courseTitle){
-      return  courseRepository.findExamOfCourse(courseTitle);
+        List<Exam> examOfCourse = courseRepository.findExamOfCourse(courseTitle);
+        System.out.println(examOfCourse);
+        return  examOfCourse;
     }
 }
 

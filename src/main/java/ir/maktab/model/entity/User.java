@@ -23,7 +23,7 @@ public class User {
     @Column(name = "status")
     private StatusType status;
 
-   @ManyToMany(fetch = FetchType.EAGER)
+   @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
    //@LazyCollection(LazyCollectionOption.FALSE)
     private List<Course> courseList;
 

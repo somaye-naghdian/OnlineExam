@@ -13,4 +13,6 @@ public interface TeacherRepository extends Repository<Teacher,Integer> {
 
     List<Course> findByEmail(String email);
 
+    Teacher findById(Integer id);
+
 }

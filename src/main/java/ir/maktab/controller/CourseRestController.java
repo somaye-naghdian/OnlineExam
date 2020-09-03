@@ -8,6 +8,7 @@ import ir.maktab.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class CourseRestController {
 
     @Autowired
     public CourseRestController(UserService userService, CourseService courseService
-            ) {
+    ) {
         this.userService = userService;
         this.courseService = courseService;
 
@@ -31,7 +32,7 @@ public class CourseRestController {
                                           @PathVariable("email") String email) {
 
         try {
-            courseService.addUserToCourse(courseTitle,email );
+            courseService.addUserToCourse(courseTitle, email);
             return ResponseEntity.ok()
                     .body("user added to course");
         } catch (Exception e) {
@@ -58,7 +59,7 @@ public class CourseRestController {
         }
     }
 
-    @GetMapping(value = "/showAllStudentOfCourse/{courseTitle}",consumes = "application/json", produces = "text/html")
+    @GetMapping(value = "/showAllStudentOfCourse/{courseTitle}", consumes = "application/json", produces = "text/html")
     public List<User> getAllUsersOfCourse(@PathVariable("courseTitle") String courseTitle) {
 
         try {
@@ -69,16 +70,20 @@ public class CourseRestController {
         }
     }
 
-    @GetMapping(value = "/examsOfCourse/{courseTitle}",produces = "text/html")
-    public List<Exam> getListCoursesExam(@PathVariable("courseTitle") String courseTitle){
+
+
+
+ /*   @GetMapping(value = "/getExamsOfCourseProcess/{courseTitle}", produces = "text/html")
+    @ResponseBody
+    public List<Exam> getExamsOfCourse(@PathVariable("courseTitle") String courseTitle) {
+       // ModelAndView modelAndView = new ModelAndView("teacher_showExam");
         try {
-            return courseService.getExamsOfCourse(courseTitle);
-        }catch (NullPointerException e){
-            e.printStackTrace();
+           return courseService.getExamsOfCourse(courseTitle);
+         //   modelAndView.addObject("examsOfCourse", examsOfCourse);
+        } catch (Exception e) {
+        //    modelAndView = new ModelAndView("simpleMessage", "message", e.getMessage());
             return null;
         }
-    }
-
-
+    }*/
 
 }

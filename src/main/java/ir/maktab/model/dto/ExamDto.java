@@ -1,29 +1,40 @@
 package ir.maktab.model.dto;
 
+import ir.maktab.model.entity.Course;
 import ir.maktab.model.entity.Question;
-import ir.maktab.model.entity.User;
+import ir.maktab.model.entity.Student;
+import ir.maktab.model.entity.Teacher;
 
-import java.sql.Time;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
 
 public class ExamDto {
 
-        private Integer id;
+    private Integer id;
 
-        private User teacher;
+    private String title;
 
-        private String title;
+    private String description;
 
-        private String description;
+    private Date startDate;
 
-        private Calendar startDate;
+    private Date endDate;
 
-        private Calendar endDate;
+    private Integer timer;
 
-        private Time timer;
+    private List<Question> questions;
 
-        private List<Question> questions;
+    private Teacher teacher;
+
+
+    private Course course;
+
+
+    private List<Student> examiners;
+
+    public ExamDto() {
+    }
 
     public Integer getId() {
         return id;
@@ -33,11 +44,11 @@ public class ExamDto {
         this.id = id;
     }
 
-    public User getTeacher() {
+    public Teacher getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(User teacher) {
+    public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
     }
 
@@ -57,27 +68,27 @@ public class ExamDto {
         this.description = description;
     }
 
-    public Calendar getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Calendar startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public Calendar getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Calendar endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
-    public Time getTimer() {
+    public Integer getTimer() {
         return timer;
     }
 
-    public void setTimer(Time timer) {
+    public void setTimer(Integer timer) {
         this.timer = timer;
     }
 
@@ -89,6 +100,20 @@ public class ExamDto {
         this.questions = questions;
     }
 
+    public Course getCourse() {
+        return course;
+    }
 
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public List<Student> getExaminers() {
+        return examiners;
+    }
+
+    public void setExaminers(List<Student> examiners) {
+        this.examiners = examiners;
+    }
 }
 

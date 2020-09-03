@@ -9,8 +9,7 @@ import java.util.Set;
 @Entity
 public class Course {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Integer id;
 
@@ -19,10 +18,11 @@ public class Course {
     @ManyToOne(fetch = FetchType.EAGER)
     private Classification classification;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course",cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     private List<Exam> examList;
-
-
     @ManyToMany(mappedBy = "courseList",fetch = FetchType.EAGER)
     private List<User> userList;
 
@@ -77,4 +77,5 @@ public class Course {
     public void setExamList(List<Exam> examList) {
         this.examList = examList;
     }
+
 }

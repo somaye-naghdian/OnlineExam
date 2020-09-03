@@ -17,7 +17,7 @@ import java.util.Set;
 @org.springframework.stereotype.Repository
 public interface CourseRepository extends Repository<Course, Integer> {
 
-    void save(Course course);
+    Course save(Course course);
 
 
     List<Course> findAll();

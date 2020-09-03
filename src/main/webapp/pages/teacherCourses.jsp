@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="for" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,15 +14,34 @@
 <body>
 <div>
     <h3>Course List</h3>
-    <table>
-        <c:forEach items="${courseList}" var="course">
-            <tr>
-                <td>${course.courseTitle}</td>
 
+    <c:forEach items="${courseList}" var="course">
+        <tr><br>
+            <td>${course.courseTitle}
+                <form:form action="newExam" modelAttribute="course" method="get">
+                    <input type="hidden" name="course" id="courseTitle" value="${course.courseTitle}">
+                    <input type="hidden" name="user" value="${user}">
+                    <button class="btn" id="newExam" value="ACTIVE">New Exam</button>
+                </form:form>
 
-            </tr>
-        </c:forEach>
-    </table>
+                <for:form action="getExamsOfCourse/${course.courseTitle}" method="get">
+<%--                    <input type="hidden" name="user" value="${user}">--%>
+                    <button class="btn1" id="examList">Exam List</button>
+                </for:form>
+
+                <button class="btn" id="editExam" value="ACTIVE">Edit Exam</button>
+            </td>
+        </tr>
+
+    </c:forEach>
+
 </div>
+<div>
+    <ul>
+        <li id="exams">
+        </li>
+    </ul>
+</div>
+
 </body>
 </html>

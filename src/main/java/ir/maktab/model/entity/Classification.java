@@ -1,9 +1,7 @@
 package ir.maktab.model.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,7 +11,8 @@ public class Classification {
     private Integer id;
     private String classificationTitle;
 
-    //todo ad azmoni chizi
+    @OneToMany
+    private List<Question> questionBank;
 
     public Classification() {
     }
@@ -32,6 +31,14 @@ public class Classification {
 
     public void setClassificationTitle(String classificationTitle) {
         this.classificationTitle = classificationTitle;
+    }
+
+    public List<Question> getQuestionBank() {
+        return questionBank;
+    }
+
+    public void setQuestionBank(List<Question> questionBank) {
+        this.questionBank = questionBank;
     }
 
     @Override

@@ -2,11 +2,12 @@ package ir.maktab.util;
 
 import ir.maktab.model.dto.ClassificationDto;
 import ir.maktab.model.dto.CourseDto;
+import ir.maktab.model.dto.ExamDto;
 import ir.maktab.model.dto.UserDto;
 import ir.maktab.model.entity.Classification;
 import ir.maktab.model.entity.Course;
+import ir.maktab.model.entity.Exam;
 import ir.maktab.model.entity.User;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -81,10 +82,25 @@ public class Mapper {
         return courseDtoList;
     }
 
-    public Classification convertClassifyDtoToEntity(ClassificationDto classificationDto){
-        Classification classification=new Classification();
+    public Classification convertClassifyDtoToEntity(ClassificationDto classificationDto) {
+        Classification classification = new Classification();
         classification.setId(classificationDto.getId());
         classification.setClassificationTitle(classificationDto.getClassificationTitle());
         return classification;
+    }
+
+    public Exam convertExamDtoToEntity(ExamDto examDto) {
+        Exam exam = new Exam();
+        exam.setId(examDto.getId());
+        exam.setCourse(examDto.getCourse());
+        exam.setDescription(examDto.getDescription());
+        exam.setEndDate(examDto.getEndDate());
+        exam.setStartDate(examDto.getStartDate());
+        exam.setQuestions(examDto.getQuestions());
+        exam.setTeacher(examDto.getTeacher());
+        exam.setTime(examDto.getTimer());
+        exam.setTitle(examDto.getTitle());
+        exam.setExaminers(examDto.getExaminers());
+        return exam;
     }
 }

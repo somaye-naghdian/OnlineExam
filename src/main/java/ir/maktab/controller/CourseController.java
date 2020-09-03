@@ -5,6 +5,7 @@ import ir.maktab.model.dto.CourseDto;
 import ir.maktab.model.dto.UserDto;
 import ir.maktab.model.entity.Classification;
 import ir.maktab.model.entity.Course;
+import ir.maktab.model.entity.Exam;
 import ir.maktab.model.entity.User;
 import ir.maktab.service.*;
 import ir.maktab.util.Mapper;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -30,12 +32,12 @@ public class CourseController {
     @Autowired
     public CourseController(UserService userService, CourseService courseService,
                             TeacherService teacherService, ClassificationService classificationService
-                            , Mapper mapper) {
+            , Mapper mapper) {
         this.userService = userService;
         this.courseService = courseService;
         this.teacherService = teacherService;
         this.classificationService = classificationService;
-        this.mapper=mapper;
+        this.mapper = mapper;
     }
 
 
@@ -67,18 +69,32 @@ public class CourseController {
         ModelAndView modelAndView = new ModelAndView("simpleMessage", "message", message);
         return modelAndView;
     }
+
+
     @RequestMapping(value = "getCoursePage", method = RequestMethod.GET)
     public ModelAndView getCoursePage(@ModelAttribute("user") String email) {
         User user = userService.findUserByEmail(email);
+        ModelAndView modelAndView = new ModelAndView("teacherCourses");
         try {
-            List<Course> courseList = userService.getUserCourses(user.getEmail());
-            System.out.println(courseList);
-            return new ModelAndView("teacherCourses", "courseList", courseList);
-        }catch (Exception e){
+            List<Course> courses = user.getCourseList();
+            modelAndView.addObject("user", user);
+            modelAndView = new ModelAndView("teacherCourses", "courseList", courses);
+            return modelAndView;
+        } catch (Exception e) {
             e.printStackTrace();
-            return new ModelAndView("teacherCourses");
+            return modelAndView;
         }
+    }
 
+    @GetMapping(value = "/getExamsOfCourse/{course}")
+    public ModelAndView getExamsOfCourse(@PathVariable("course") String courseTitle
+           , HttpServletRequest request) {
+        String userEmail = request.getParameter("user");
+        List<Exam> examsOfCourse = courseService.getExamsOfCourse(courseTitle);
+        User user = userService.findUserByEmail(userEmail);
+        ModelAndView modelAndView = new ModelAndView("teacher_showExam", "examsOfCourse", examsOfCourse);
+       modelAndView.addObject("user",user);
+        return modelAndView;
     }
 
 }

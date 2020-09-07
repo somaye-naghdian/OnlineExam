@@ -2,11 +2,8 @@ package ir.maktab.service;
 
 import ir.maktab.exceptions.CourseAlreadyExist;
 import ir.maktab.model.dto.QuestionDto;
-import ir.maktab.model.entity.DescriptiveQuestion;
-import ir.maktab.model.entity.Exam;
-import ir.maktab.model.entity.Question;
+import ir.maktab.model.entity.*;
 import ir.maktab.model.repository.ClassificationRepository;
-import ir.maktab.model.entity.Classification;
 import ir.maktab.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,20 +16,17 @@ import java.util.List;
 public class ClassificationService {
 
     private ClassificationRepository classificationRepository;
-    private ExamService examService;
-    private QuestionService questionService;
     private DescriptiveQuestionService dqService;
-    private Mapper mapper;
+    private MultipleChoiceQuestionService mcqService;
+
 
     @Autowired
     public ClassificationService(ClassificationRepository classificationRepository
-    ,ExamService examService,QuestionService questionService,
-                                 DescriptiveQuestionService dqService,Mapper mapper) {
+            , DescriptiveQuestionService dqService, MultipleChoiceQuestionService mcqService) {
         this.classificationRepository = classificationRepository;
-        this.questionService=questionService;
-        this.examService=examService;
-        this.dqService=dqService;
-        this.mapper=mapper;
+        this.mcqService = mcqService;
+        this.dqService = dqService;
+
     }
 
     @Transactional
@@ -64,17 +58,22 @@ public class ClassificationService {
     }
 
     @Transactional
-    public Classification addQuestionToClassification(DescriptiveQuestion descriptiveQuestion){
-        //System.out.println(questionDto.getId());
-      //  Exam exam = examService.getExamById(Integer.parseInt(examId));
-       // DescriptiveQuestion descriptiveQuestion = dqService.getDQuestionByID(questionDto.getId());
-     //   Classification classification = exam.getCourse().getClassification();
-     //   dqService.saveQuestion(descriptiveQuestion);
+    public Classification addQuestionToClassification(DescriptiveQuestion descriptiveQuestion) {
         Classification classification = descriptiveQuestion.getClassification();
         dqService.saveQuestion(descriptiveQuestion);
         classification.getQuestionBank().add(descriptiveQuestion);
 
-       return classificationRepository.save(classification);
+        return classificationRepository.save(classification);
+    }
+
+
+    @Transactional
+    public Classification addMultiQuestionToClassification(MultipleChoiceQuestion multipleChoiceQuestion) {
+        Classification classification = multipleChoiceQuestion.getClassification();
+        mcqService.saveQuestion(multipleChoiceQuestion);
+        classification.getQuestionBank().add(multipleChoiceQuestion);
+
+        return classificationRepository.save(classification);
     }
 
 }

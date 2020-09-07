@@ -7,10 +7,11 @@
     <title>Exams Of ${courseTitle}</title>
     <style>
         table {
-            width: 60%;
             border: 1px solid yellow;
             border-collapse: collapse;
             float: inside;
+            table-layout: fixed;
+            width: 100%;
         }
 
         table, th, td {

@@ -31,9 +31,11 @@ public class DescriptiveQuestionService {
     public DescriptiveQuestion saveQuestion(DescriptiveQuestion descriptiveQuestion) {
         return dQuestionRepository.save(descriptiveQuestion);
     }
+
+
 @Modifying
 @Transactional
-    public DescriptiveQuestion createDQuestion(QuestionDto questionDto, String examId,Double score) {
+    public DescriptiveQuestion createDQuestion(QuestionDto questionDto, String examId) {
         Classification classification = examService.getExamById(Integer.parseInt(examId)).getCourse().getClassification();
         Question question = mapper.convertDtoToQuestionEntity(questionDto);
         DescriptiveQuestion descriptiveQuestion = new DescriptiveQuestion(question);

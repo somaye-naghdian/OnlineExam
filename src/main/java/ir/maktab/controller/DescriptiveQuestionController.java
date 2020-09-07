@@ -29,10 +29,11 @@ public class DescriptiveQuestionController {
 
     @RequestMapping(value = "newDescriptiveQuestion", method = RequestMethod.GET)
     public ModelAndView newDescriptiveQuestion(@ModelAttribute("question") QuestionDto questionDto
-            , @RequestParam("examId") String examId, @RequestParam("status") String status
+            , @RequestParam("examId") String examId
+            , @RequestParam("status") String status
             , @RequestParam("score") String score) {
-        DescriptiveQuestion dQuestion = dQuestionService.createDQuestion(questionDto, examId, Double.valueOf(score));
-        examService.addExamScore(Integer.parseInt(examId), Double.valueOf(score),dQuestion);
+        DescriptiveQuestion dQuestion = dQuestionService.createDQuestion(questionDto, examId);
+        examService.addExamScore(Integer.parseInt(examId), Double.valueOf(score), dQuestion);
         if (status.equals("YES")) {
             classificationService.addQuestionToClassification(dQuestion);
         }

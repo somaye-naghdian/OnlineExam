@@ -1,20 +1,13 @@
 package ir.maktab.controller;
 
-import ir.maktab.model.dto.ExamDto;
-import ir.maktab.model.dto.QuestionDto;
-import ir.maktab.model.entity.Course;
-import ir.maktab.model.entity.Exam;
 import ir.maktab.model.entity.Student;
-import ir.maktab.model.entity.User;
 import ir.maktab.service.CourseService;
 import ir.maktab.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController

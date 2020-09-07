@@ -1,17 +1,16 @@
 package ir.maktab.model.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class MultipleChoiceQuestion extends Question {
 
-    @OneToMany(mappedBy = "multipleChoiceQuestion", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "multipleChoiceQuestion", fetch = FetchType.EAGER
+    ,cascade = CascadeType.ALL)
     private List<Answer> answers;
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Answer correctAnswer;
 
     public MultipleChoiceQuestion() {
@@ -22,12 +21,19 @@ public class MultipleChoiceQuestion extends Question {
 
     }
 
-
     public List<Answer> getAnswers() {
         return answers;
     }
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
+    }
+
+    public Answer getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public void setCorrectAnswer(Answer correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 }

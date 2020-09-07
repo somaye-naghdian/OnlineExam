@@ -26,10 +26,6 @@ public class QuestionDto {
     private Exam exam;
 
 
-    private Answer correctAnswer;
-
-    private int score;
-
     private Classification classification;
 
     public QuestionDto() {
@@ -73,22 +69,6 @@ public class QuestionDto {
 
     public void setExam(Exam exam) {
         this.exam = exam;
-    }
-
-    public Answer getCorrectAnswer() {
-        return correctAnswer;
-    }
-
-    public void setCorrectAnswer(Answer correctAnswer) {
-        this.correctAnswer = correctAnswer;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     public Classification getClassification() {

@@ -3,6 +3,7 @@ package ir.maktab.controller;
 import ir.maktab.model.dto.CourseDto;
 import ir.maktab.model.dto.UserDto;
 import ir.maktab.model.entity.Course;
+import ir.maktab.model.entity.Student;
 import ir.maktab.model.entity.User;
 import ir.maktab.service.AdminService;
 import ir.maktab.service.CourseService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -32,11 +34,11 @@ public class UserController {
 
     @Autowired
     public UserController(UserService userService, CourseService courseService
-    , AdminService adminService, Mapper mapper) {
+            , AdminService adminService, Mapper mapper) {
         this.userService = userService;
-        this.courseService=courseService;
-        this.adminService=adminService;
-       this.mapper = mapper;
+        this.courseService = courseService;
+        this.adminService = adminService;
+        this.mapper = mapper;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -45,20 +47,23 @@ public class UserController {
     }
 
 
-
     @RequestMapping(value = "error", method = RequestMethod.GET)
     public String showError(String message) {
         ModelAndView modelAndView = new ModelAndView("error");
         modelAndView.addObject(message);
         return "error";
     }
+
     @RequestMapping(value = "addUserToCourse", method = RequestMethod.GET)
     public ModelAndView addUserToCourse(Model model) {
+        List<UserDto> userDtoList = new ArrayList<>();
         model.addAttribute("user", new UserDto());
         ModelAndView modelAndView = new ModelAndView("course_user");
         List<Course> allCourse = courseService.getAllCourse();
         List<CourseDto> courseDtoList = mapper.convertCourseToDtoList(allCourse);
         modelAndView.addObject("allCourse", courseDtoList);
+        modelAndView.addObject("students", userService.findAllStudents());
+        modelAndView.addObject("teachers",userService.findAllTeachers());
         return modelAndView;
     }
 
@@ -72,9 +77,9 @@ public class UserController {
 
     @RequestMapping(value = "userOfCourseProcess", method = RequestMethod.POST)
     public ModelAndView getUserOfCourseProcess(@ModelAttribute("course") CourseDto courseDto) {
-        ModelAndView modelAndView =new ModelAndView("showUserOfCourse");
+        ModelAndView modelAndView = new ModelAndView("showUserOfCourse");
         try {
-            Set<User> studentOfCourse = courseService.getUserOfCourse(courseDto.getCourseTitle());
+            List<Student> studentOfCourse = courseService.getStudentsOfCourse(courseDto.getCourseTitle());
             modelAndView = new ModelAndView("showUserOfCourse");
             modelAndView.addObject("userOfCourse", studentOfCourse);
             return modelAndView;
@@ -83,6 +88,7 @@ public class UserController {
         }
         return modelAndView;
     }
+
     @RequestMapping(value = "unconfirmedUser", method = RequestMethod.GET)
     public ModelAndView getUnconfirmedUsers() {
         List<User> waitingUsers = adminService.findByStatus(StatusType.AWAITING);

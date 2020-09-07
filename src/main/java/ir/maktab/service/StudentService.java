@@ -10,6 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class StudentService {
 
@@ -27,8 +30,18 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-
     public boolean sendMail(Student student) {
         return userService.sendTo(student);
     }
+
+public List<Student> createStudentListFromUser(List<User> users){
+    List<Student> students =new ArrayList<>();
+        for (User user:
+         users) {
+        Student student =new Student(user);
+        students.add(student);
+    }
+        return students;
+}
+
 }

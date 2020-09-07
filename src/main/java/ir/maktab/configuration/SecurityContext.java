@@ -34,7 +34,6 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-//                .authorizeRequests()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/loginProcess")
@@ -48,8 +47,13 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/verify").permitAll()
+                .antMatchers("/addnewDQuestion").permitAll()
                 .and()
                 .httpBasic();
+
+//                http.headers().httpStrictTransportSecurity()
+//                .maxAgeInSeconds(0)
+//                .includeSubDomains(true);
     }
 
     @Override
@@ -64,5 +68,6 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
     }
+
 
 }

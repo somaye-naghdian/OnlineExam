@@ -1,13 +1,7 @@
 package ir.maktab.util;
 
-import ir.maktab.model.dto.ClassificationDto;
-import ir.maktab.model.dto.CourseDto;
-import ir.maktab.model.dto.ExamDto;
-import ir.maktab.model.dto.UserDto;
-import ir.maktab.model.entity.Classification;
-import ir.maktab.model.entity.Course;
-import ir.maktab.model.entity.Exam;
-import ir.maktab.model.entity.User;
+import ir.maktab.model.dto.*;
+import ir.maktab.model.entity.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,7 +19,7 @@ public class Mapper {
         userDto.setRole(user.getRole());
         userDto.setPassword(user.getPassword());
         userDto.setStatus(user.getStatus());
-        userDto.setCourseList(user.getCourseList());
+//        userDto.setCourseList(user.getCourseList());
         return userDto;
     }
 
@@ -38,7 +32,7 @@ public class Mapper {
         user.setRole(userDto.getRole());
         user.setPassword(userDto.getPassword());
         user.setStatus(userDto.getStatus());
-        user.setCourseList(userDto.getCourseList());
+//        user.setCourseList(userDto.getCourseList());
         return user;
     }
 
@@ -67,7 +61,7 @@ public class Mapper {
         courseDto.setId(course.getId());
         courseDto.setCourseTitle(course.getCourseTitle());
         courseDto.setClassification(String.valueOf(course.getClassification()));
-        courseDto.setUserList(course.getUserList());
+//        courseDto.setUserList(course.getUserList());
         return courseDto;
     }
 
@@ -98,9 +92,35 @@ public class Mapper {
         exam.setStartDate(examDto.getStartDate());
         exam.setQuestions(examDto.getQuestions());
         exam.setTeacher(examDto.getTeacher());
-        exam.setTime(examDto.getTimer());
+        exam.setTime(examDto.getTime());
         exam.setTitle(examDto.getTitle());
         exam.setExaminers(examDto.getExaminers());
         return exam;
+    }
+
+    public ExamDto  convertEntityToExamDto(Exam exam) {
+        ExamDto examDto = new ExamDto();
+        examDto.setId(exam.getId());
+        examDto.setCourse(exam.getCourse());
+        examDto.setDescription(exam.getDescription());
+        examDto.setEndDate(exam.getEndDate());
+        examDto.setStartDate(exam.getStartDate());
+        examDto.setQuestions(exam.getQuestions());
+        examDto.setTeacher(exam.getTeacher());
+        examDto.setTime(exam.getTime());
+        examDto.setTitle(exam.getTitle());
+        examDto.setExaminers(exam.getExaminers());
+        return examDto;
+    }
+
+
+    public Question convertDtoToQuestionEntity(QuestionDto questionDto){
+        Question question =new Question();
+        question.setId(questionDto.getId());
+        question.setText(questionDto.getText());
+        question.setTitle(questionDto.getTitle());
+        question.setExam(questionDto.getExam());
+        question.setClassification(questionDto.getClassification());
+       return  question;
     }
 }

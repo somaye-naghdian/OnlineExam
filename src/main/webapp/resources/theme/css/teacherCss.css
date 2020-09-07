@@ -3,11 +3,19 @@
 }
 body {
     font-size: 120%;
-    background-image: url("/resources/theme/css/img/Teacher.jpg");
-
+    background-image: url("/resources/theme/css/img/home.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
     height: 100%;
     max-width: 600px;
+}
+button , .btn,.button{
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background: darkcyan;
+    border: none;
+    border-radius: 5px;
+    cursor:pointer;
 }

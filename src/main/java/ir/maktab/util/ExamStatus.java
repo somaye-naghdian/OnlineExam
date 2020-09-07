@@ -1,5 +1,5 @@
 package ir.maktab.util;
 
 public enum ExamStatus {
-    START, STOP
+    START, STOP,NotStart,Finish
 }

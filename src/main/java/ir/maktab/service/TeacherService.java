@@ -35,6 +35,12 @@ public class TeacherService {
         return teacherRepository.save(teacher);
     }
 
+
+    public Teacher getTeacherByEmail(String email){
+        return teacherRepository.findByEmail(email);
+    }
+
+
 public Teacher getTeacher(Integer id) throws Exception {
     try {
         return teacherRepository.findById(id);

@@ -1,14 +1,17 @@
 package ir.maktab.service;
 
 import ir.maktab.exceptions.CourseAlreadyExist;
+import ir.maktab.model.dto.UserDto;
 import ir.maktab.model.entity.*;
 import ir.maktab.model.repository.CourseRepository;
+import ir.maktab.util.Mapper;
 import ir.maktab.util.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,11 +20,19 @@ import java.util.Set;
 public class CourseService {
 
     private CourseRepository courseRepository;
+    private StudentService studentService;
+    private Mapper mapper;
     private UserService userService;
+    public List<Student> studentList = new ArrayList<>();
 
     @Autowired
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository
+            , StudentService studentService, Mapper mapper,
+                         UserService userService) {
         this.courseRepository = courseRepository;
+        this.studentService = studentService;
+        this.mapper = mapper;
+        this.userService = userService;
     }
 
     @Modifying
@@ -39,41 +50,57 @@ public class CourseService {
         return courseRepository.findByCourseTitle(title);
     }
 
-    public Set<User> getUserOfCourse(String courseTitle) {
-        List<User> allUsers = courseRepository.findUsersByCourseTitle(courseTitle);
-        Set<User> users = new HashSet<>();
-        for (User user :
-                allUsers) {
-            if (!user.getRole().equals(UserRole.ADMIN)) {
-                users.add(user);
-            }
-        }
-        return users;
+    public List<Student> getStudentsOfCourse(String courseTitle) {
+        List<Student> allStudents = courseRepository.findUsersByCourseTitle(courseTitle);
+        return allStudents;
     }
 
-
-
     @Transactional
-    public void addUserToCourse(String courseTitle, String email)  {
-        Course course = findCourseByTitle(courseTitle);
+    public void addStudentToCourse(String courseTitle, String email) {
         User user = userService.findUserByEmail(email);
-        System.out.println(user);
+        Course course = findCourseByTitle(courseTitle);
+//        student.getCourseList().add(course);
         course.getUserList().add(user);
+
         save(course);
+
+
     }
 
     @Transactional
-    public void deleteToCourse(Course course, User user) {
+    public void addTeacherToCourse(String courseTitle, String email) {
+        User user = userService.findUserByEmail(email);
+        Course course = findCourseByTitle(courseTitle);
+        if (course.getUserList().isEmpty()) {
+            List<User> userList = new ArrayList<>();
+            userList.add(user);
+            course.setUserList(userList);
+        } else {
+            List<User> userList = course.getUserList();
+            userList.add(user);
+            course.setUserList(userList);
+        }
+        user.getCourseList().add(course);
+        userService.save(user);
+        courseRepository.save(course);
+    }
 
+
+    @Transactional
+    public void deleteStudentFromCourse(String courseTitle, String email) {
+        User user = userService.findUserByEmail(email);
+        Course course = findCourseByTitle(courseTitle);
         course.getUserList().remove(user);
         save(course);
     }
 
-    public List<Exam> getExamsOfCourse(String courseTitle){
+    public List<Exam> getExamsOfCourse(String courseTitle) {
         List<Exam> examOfCourse = courseRepository.findExamOfCourse(courseTitle);
         System.out.println(examOfCourse);
-        return  examOfCourse;
+        return examOfCourse;
     }
+
+
 }
 
 

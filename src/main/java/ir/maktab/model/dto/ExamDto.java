@@ -4,9 +4,12 @@ import ir.maktab.model.entity.Course;
 import ir.maktab.model.entity.Question;
 import ir.maktab.model.entity.Student;
 import ir.maktab.model.entity.Teacher;
+import ir.maktab.util.ExamStatus;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ExamDto {
@@ -21,17 +24,23 @@ public class ExamDto {
 
     private Date endDate;
 
-    private Integer timer;
+    private ExamStatus examState;
+
+    private Integer time;
+
+    private int score;
+
 
     private List<Question> questions;
 
     private Teacher teacher;
 
-
     private Course course;
 
 
     private List<Student> examiners;
+
+//    private Map<Question, Integer> scoreEachQuestion = new HashMap<>();
 
     public ExamDto() {
     }
@@ -84,12 +93,12 @@ public class ExamDto {
         this.endDate = endDate;
     }
 
-    public Integer getTimer() {
-        return timer;
+    public Integer getTime() {
+        return time;
     }
 
-    public void setTimer(Integer timer) {
-        this.timer = timer;
+    public void setTime(Integer time) {
+        this.time = time;
     }
 
     public List<Question> getQuestions() {
@@ -115,5 +124,29 @@ public class ExamDto {
     public void setExaminers(List<Student> examiners) {
         this.examiners = examiners;
     }
+
+    public ExamStatus getExamState() {
+        return examState;
+    }
+
+    public void setExamState(ExamStatus examState) {
+        this.examState = examState;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+//    public Map<Question, Integer> getScoreEachQuestion() {
+//        return scoreEachQuestion;
+//    }
+//
+//    public void setScoreEachQuestion(Map<Question, Integer> scoreEachQuestion) {
+//        this.scoreEachQuestion = scoreEachQuestion;
+//    }
 }
 

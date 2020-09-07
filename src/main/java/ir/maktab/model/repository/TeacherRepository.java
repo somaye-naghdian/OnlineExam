@@ -11,8 +11,9 @@ public interface TeacherRepository extends Repository<Teacher,Integer> {
 
     Teacher save(Teacher teacher);
 
-    List<Course> findByEmail(String email);
+//    List<Course> findByEmail(String email);
 
     Teacher findById(Integer id);
 
+    Teacher findByEmail(String email);
 }

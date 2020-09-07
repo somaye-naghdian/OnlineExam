@@ -1,6 +1,5 @@
 package ir.maktab.controller;
 
-import ir.maktab.model.dto.ExamDto;
 import ir.maktab.model.entity.Course;
 import ir.maktab.model.entity.Exam;
 import ir.maktab.model.entity.User;
@@ -8,13 +7,16 @@ import ir.maktab.service.CourseService;
 import ir.maktab.service.ExamService;
 import ir.maktab.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController
+@Controller
 public class ExamController {
 
     private ExamService examService;
@@ -29,12 +31,11 @@ public class ExamController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "newExam")
-    public ModelAndView getNewExam(@ModelAttribute("course") String courseTitle,
-                                   HttpServletRequest request) {
-        String userEmail = request.getParameter("user");
-        System.out.println(userEmail);
-        User user = userService.findUserByEmail(userEmail);
+    @RequestMapping(value = "newExam", method = RequestMethod.GET)
+    public ModelAndView getNewExam(@RequestParam("courseTitle") String courseTitle,
+                                   @RequestParam("userEmail") String email) {
+        System.out.println(email);
+        User user = userService.findUserByEmail(email);
         Course course = courseService.findCourseByTitle(courseTitle);
         ModelAndView modelAndView = new ModelAndView("teacher_addExam");
         modelAndView.addObject("user", user);
@@ -42,59 +43,34 @@ public class ExamController {
         return modelAndView;
     }
 
-    @PostMapping(value = "/createNewExam/{course}/{user}", consumes = "application/json")
-    public ResponseEntity createNewExam(@RequestBody ExamDto examDto,
-                                        @PathVariable("course") String courseTitle
-            , @PathVariable("user") String userId) {
 
+    @RequestMapping(value = {"/editExam", "/deleteExam"}, method = RequestMethod.GET)
+    public ModelAndView updateExam(HttpServletRequest request
+            , @RequestParam("startDate") String startDate
+            , @RequestParam("endDate") String endDate
+            , @RequestParam("id") String examId) {
+        String requestedValue = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+        String examId2 = request.getParameter("id");
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+        String time = request.getParameter("time");
+        String teacher_email = request.getParameter("teacher");
+        ModelAndView modelAndView = new ModelAndView("simpleMessage");
         try {
-
-            examService.saveExam(examDto,Integer.parseInt(userId),courseTitle);
-            return ResponseEntity.ok()
-                    .body("Exam saved with title:" + examDto.getTitle());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest()
-                    .body("error " + e.getMessage());
-        }
-    }
-
-
-
-
-    @PutMapping(value = "/editExam/{course}/{id}", consumes = "application/json")
-    public ResponseEntity updateExam(@RequestBody ExamDto examDto
-            , @PathVariable("id") String userId) {
-
-        try {
-                examService.updateExam(examDto, Integer.parseInt(userId));
-                return ResponseEntity.ok()
-                        .body("Exam update with title:" + examDto.getTitle());
+            if (requestedValue.equals("/editExam")) {
+                Exam exam = examService.updateExam(examId, title, description, startDate, endDate, time, teacher_email);
+                System.out.println(exam);
+                modelAndView.addObject("message", "exam " + exam.getTitle() + " successfully updated");
+            } else if (requestedValue.equals("/deleteExam")) {
+                examService.deleteExam(Integer.parseInt(examId),teacher_email );
+                modelAndView.addObject("message", "exam successfully deleted");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest()
-                    .body("error " + e.getMessage());
+            modelAndView.addObject("message", e.getMessage());
         }
+        return modelAndView;
     }
-
-    @PutMapping(value = "/stopExam/{title}/{id}")
-    public ResponseEntity stopExam(@PathVariable("title") String title
-    ,@PathVariable("id") String id) {
-        try {
-            examService.stopExam(title,id);
-            return ResponseEntity.ok()
-                    .body("exam stopped");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest()
-                    .body("error " + e.getMessage());
-        }
-    }
-
-//    @DeleteMapping(value = "/deleteExam")
-//    public ResponseEntity deleteExam(@RequestBody ExamDto examDto){
-//
-//    }
 
 }

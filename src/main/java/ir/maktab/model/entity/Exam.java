@@ -2,6 +2,7 @@
 package ir.maktab.model.entity;
 
 import ir.maktab.util.ExamStatus;
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -54,7 +55,11 @@ public class Exam {
     private ExamStatus examState;
 
     @ElementCollection
-    private Map<Question, Integer> scoreEachQuestion = new HashMap<>();
+    @JsonIgnore
+    @MapKeyJoinColumn(name = "question_id")
+    @Column(name = "question_score")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Map<Question, Double> scoreEachQuestion ;
 
     public Exam() {
     }
@@ -147,11 +152,11 @@ public class Exam {
         this.examState = examState;
     }
 
-    public Map<Question, Integer> getScoreEachQuestion() {
+    public Map<Question, Double> getScoreEachQuestion() {
         return scoreEachQuestion;
     }
 
-    public void setScoreEachQuestion(Map<Question, Integer> scoreEachQuestion) {
+    public void setScoreEachQuestion(Map<Question, Double> scoreEachQuestion) {
         this.scoreEachQuestion = scoreEachQuestion;
     }
 

@@ -7,7 +7,9 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true,
+
+@EnableGlobalMethodSecurity
+        (prePostEnabled = true,
         securedEnabled = true,
         jsr250Enabled = true)
 public class MethodSecurityContext extends GlobalMethodSecurityConfiguration {

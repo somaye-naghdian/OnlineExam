@@ -15,6 +15,9 @@ public class Teacher extends User {
             })
     private List<Exam> exams;
 
+
+
+
     public Teacher(User user) {
         super(user.getName(), user.getFamily(), user.getEmail(), user.getPassword(), user.getRole());
         this.setRole(UserRole.TEACHER);
@@ -31,6 +34,4 @@ public class Teacher extends User {
     public void setExams(List<Exam> exams) {
         this.exams = exams;
     }
-
-
 }

@@ -1,5 +1,8 @@
 package ir.maktab.model.entity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -12,6 +15,7 @@ public class Classification {
     private String classificationTitle;
 
     @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Question> questionBank;
 
     public Classification() {

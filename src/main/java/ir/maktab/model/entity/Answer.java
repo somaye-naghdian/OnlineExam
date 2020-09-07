@@ -9,8 +9,9 @@ public class Answer {
     private Integer id;
 
     private String content;
+
     @ManyToOne
-    private Question question;
+    private MultipleChoiceQuestion multipleChoiceQuestion;
 
     public Answer() {
     }
@@ -31,11 +32,11 @@ public class Answer {
         this.content = content;
     }
 
-    public Question getQuestion() {
-        return question;
+    public MultipleChoiceQuestion getMultipleChoiceQuestion() {
+        return multipleChoiceQuestion;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setMultipleChoiceQuestion(MultipleChoiceQuestion multipleChoiceQuestion) {
+        this.multipleChoiceQuestion = multipleChoiceQuestion;
     }
 }

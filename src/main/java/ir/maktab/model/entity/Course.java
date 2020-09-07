@@ -4,7 +4,6 @@ import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Course {
@@ -23,8 +22,13 @@ public class Course {
             CascadeType.MERGE
     })
     private List<Exam> examList;
-    @ManyToMany(mappedBy = "courseList",fetch = FetchType.EAGER)
+
+    @ManyToMany(mappedBy = "courseList",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private List<User> userList;
+
+//
+//    @ManyToMany(mappedBy = "courseList",fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+//    private List<Teacher> teacherList;
 
     public Course() {
     }

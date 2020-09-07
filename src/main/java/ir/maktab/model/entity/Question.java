@@ -1,8 +1,7 @@
 package ir.maktab.model.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.util.List;
+
 
 @Entity
 public class Question {
@@ -14,19 +13,25 @@ public class Question {
 
     private String text;
 
-    @OneToMany(mappedBy = "question")
-    private List<Answer> answers;
+//    private int score;
 
-    @ManyToOne
+    /*@OneToMany(mappedBy = "question")
+    private List<Answer> answers;*/
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private Exam exam;
-
-    @OneToOne
-    private Answer correctAnswer;
 
     @ManyToOne
     private Classification classification;
 
     public Question() {
+    }
+
+    public Question(String title, String text,Exam exam,Classification classification) {
+        this.title=title;
+        this.text=text;
+        this.exam=exam;
+        this.classification=classification;
     }
 
     public Integer getId() {
@@ -53,14 +58,6 @@ public class Question {
         this.text = text;
     }
 
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
-
     public Exam getExam() {
         return exam;
     }
@@ -69,19 +66,20 @@ public class Question {
         this.exam = exam;
     }
 
-    public Answer getCorrectAnswer() {
-        return correctAnswer;
-    }
-
-    public void setCorrectAnswer(Answer correctAnswer) {
-        this.correctAnswer = correctAnswer;
-    }
-
     public Classification getClassification() {
         return classification;
     }
 
     public void setClassification(Classification classification) {
         this.classification = classification;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                '}';
     }
 }

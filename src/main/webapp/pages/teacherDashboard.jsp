@@ -7,13 +7,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="<c:url value="/resources/theme/css/teacherCss.css" />">
+
     <title>Professor Page</title>
 </head>
 <body>
-<h1>Teacher Page</h1>
+<h1>Teacher Page</h1><br>
 
 <div class="course">
-    <h3>Course</h3>
+    <h3>Course</h3><br>
     <form:form action="getCoursePage"  method="get">
         <input type="hidden" id="email" name="user" value="${user.email}" name="user">
 <%--        <button type="submit" value="course"/>course--%>
@@ -21,19 +23,19 @@
     </form:form>
 
 
-    <c:forEach items="${courseList}" var="course">
-        <tr><br>
-            <td>${course.courseTitle}
-                <form:form action="newExam" modelAttribute="course" method="get">
-                    <input type="hidden" name="course" value="${course.courseTitle}">
-                    <button class="btn" id="newExam" value="ACTIVE">New Exam</button>
-                </form:form>
-                <button class="btn" id="examList" value="ACTIVE">Exam List</button>
-                <button class="btn" id="editExam" value="ACTIVE">Edit Exam</button>
-            </td>
-        </tr>
+<%--    <c:forEach items="${courseList}" var="course">--%>
+<%--        <tr><br>--%>
+<%--            <td>${course.courseTitle}--%>
+<%--                <form:form action="newExam" modelAttribute="course" method="get">--%>
+<%--                    <input type="hidden" name="course" value="${course.courseTitle}">--%>
+<%--                    <button class="btn" id="newExam" value="ACTIVE">New Exam</button>--%>
+<%--                </form:form>--%>
+<%--                <button class="btn" id="examList" value="ACTIVE">Exam List</button>--%>
+<%--                <button class="btn" id="editExam" value="ACTIVE">Edit Exam</button>--%>
+<%--            </td>--%>
+<%--        </tr>--%>
 
-    </c:forEach>
+<%--    </c:forEach>--%>
     <div id="courseList">
     </div>
 
@@ -41,7 +43,7 @@
 
 
 
-</form>
+</form><br>
 
 
 
@@ -90,14 +92,14 @@
     //     request.send();
     // });
 
-
-    function renderHtml(data) {
-        var list = "";
-        for (i = 0; i < data.length; i++) {
-           list +='<p>'+ data[i] +'</p>';
-        }
-        document.getElementById("courseList").innerHTML = list;
-    }
+    //
+    // function renderHtml(data) {
+    //     var list = "";
+    //     for (i = 0; i < data.length; i++) {
+    //        list +='<p>'+ data[i] +'</p>';
+    //     }
+    //     document.getElementById("courseList").innerHTML = list;
+    // }
 </script>
 
 </html>

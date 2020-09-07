@@ -2,11 +2,13 @@ package ir.maktab.service;
 
 import ir.maktab.exceptions.UserAlreadyExistsException;
 import ir.maktab.exceptions.UserNotFoundException;
+import ir.maktab.model.dto.UserDto;
 import ir.maktab.model.entity.*;
 import ir.maktab.model.repository.AdminRepository;
 import ir.maktab.model.repository.TeacherRepository;
 import ir.maktab.model.repository.UserRepository;
 import ir.maktab.model.repository.UserSpecifications;
+import ir.maktab.util.Mapper;
 import ir.maktab.util.StatusType;
 import ir.maktab.util.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,24 +29,34 @@ public class UserService {
     private UserRepository userRepository;
     private VerificationTokenService verificationTokenService;
     private MailService mailService;
-    private AuthenticationService authenticationService;
-    @Autowired
-    private AdminService adminService;
-    @Autowired
-    private TeacherService teacherService;
-    @Autowired
-    private StudentService studentService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private Mapper mapper;
+
 
     @Autowired
     public UserService(UserRepository userRepository, MailService mailService
-            , VerificationTokenService verificationTokenService, AuthenticationService authenticationService) {
+            , VerificationTokenService verificationTokenService,
+                       Mapper mapper) {
         this.userRepository = userRepository;
         this.mailService = mailService;
         this.verificationTokenService = verificationTokenService;
-        this.authenticationService = authenticationService;
+        this.mapper = mapper;
     }
+
+
+   public List<UserDto> findAllStudents(){
+       List<User> students = userRepository.findByRole(UserRole.STUDENT);
+       List<UserDto> userDtoList = mapper.convertEntityListToDto(students);
+       return userDtoList;
+   }
+   public List<User> findAllTeachers(){
+       return userRepository.findByRole(UserRole.TEACHER);
+
+   }
+
+   public User save(User user){
+      return   userRepository.save(user);
+   }
+
 
 //   public List<Course> getUserCourses(String email){
 //      return   userRepository.findUserCourse(email);

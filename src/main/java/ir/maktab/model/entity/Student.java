@@ -14,6 +14,11 @@ public class Student extends User {
     @ManyToMany(mappedBy = "examiners",fetch = FetchType.LAZY)
     private List<Exam> exams;
 
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    //@LazyCollection(LazyCollectionOption.FALSE)
+//    private List<Course> courseList;
+
+
     public Student(User user) {
         super(user.getName(), user.getFamily(), user.getEmail(), user.getPassword(), user.getRole());
         this.setRole(UserRole.STUDENT);
@@ -29,4 +34,13 @@ public class Student extends User {
     public void setExams(List<Exam> exams) {
         this.exams = exams;
     }
+
+
+//    public List<Course> getCourseList() {
+//        return courseList;
+//    }
+//
+//    public void setCourseList(List<Course> courseList) {
+//        this.courseList = courseList;
+//    }
 }

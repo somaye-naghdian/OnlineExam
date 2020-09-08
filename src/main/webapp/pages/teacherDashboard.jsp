@@ -12,30 +12,15 @@
     <title>Professor Page</title>
 </head>
 <body>
-<h1>Teacher Page</h1><br>
+<h1 align="center">Teacher Page</h1><br>
 
 <div class="course">
-    <h3>Course</h3><br>
+    <h3 style=" text-decoration: underline overline;">Course</h3><br>
     <form:form action="getCoursePage"  method="get">
         <input type="hidden" id="email" name="user" value="${user.email}" name="user">
-<%--        <button type="submit" value="course"/>course--%>
     <button id="btn" >Course List</button>
     </form:form>
 
-
-<%--    <c:forEach items="${courseList}" var="course">--%>
-<%--        <tr><br>--%>
-<%--            <td>${course.courseTitle}--%>
-<%--                <form:form action="newExam" modelAttribute="course" method="get">--%>
-<%--                    <input type="hidden" name="course" value="${course.courseTitle}">--%>
-<%--                    <button class="btn" id="newExam" value="ACTIVE">New Exam</button>--%>
-<%--                </form:form>--%>
-<%--                <button class="btn" id="examList" value="ACTIVE">Exam List</button>--%>
-<%--                <button class="btn" id="editExam" value="ACTIVE">Edit Exam</button>--%>
-<%--            </td>--%>
-<%--        </tr>--%>
-
-<%--    </c:forEach>--%>
     <div id="courseList">
     </div>
 
@@ -48,7 +33,7 @@
 
 
 
-<div>
+<div class="d-flex align-items-end">
     <form action="/" method="get">
         <button style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
                 value="home" class="btn">Home

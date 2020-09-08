@@ -39,12 +39,13 @@ public class MultipleChoiceQuestionController {
                                                   @RequestParam("answer") String answers) {
 
         MultipleChoiceQuestion choiceQuestion = mcQuestionService.saveMultiQuestion(questionDto, examId, answers,correctAnswer);
-        examService.addExamScore(Integer.parseInt(examId), Double.valueOf(score), choiceQuestion);
+        Double totalScore = examService.addExamScore(Integer.parseInt(examId), Double.valueOf(score), choiceQuestion);
         if (status.equals("YES")) {
             classificationService.addMultiQuestionToClassification(choiceQuestion);
         }
         ModelAndView modelAndView = new ModelAndView("simpleMessage");
-        return modelAndView.addObject("message", "multiple Choice Question added successfully");
+        return modelAndView.addObject("message", "multiple Choice Question added successfully and total Score " +
+                "of exam is : " +totalScore );
     }
 }
 

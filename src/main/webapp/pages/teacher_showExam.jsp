@@ -10,7 +10,7 @@
             border: 1px solid yellow;
             border-collapse: collapse;
             float: inside;
-            table-layout: fixed;
+            table-layout: auto;
             width: 100%;
         }
 
@@ -21,6 +21,7 @@
     </style>
 </head>
 <body>
+<h3 align="center">Exam List</h3>
 <div>
 
     <table id="table">
@@ -38,7 +39,7 @@
         <c:forEach items="${examsOfCourse}" var="exam">
             <tr>
                 <form:form modelAttribute="exam" action="/editExam" method="get">
-                    <form:input path="teacher" type="hidden" id="teacher" name="creator" value="${exam.teacher.email}"/>
+                    <form:input path="teacher" type="hidden" id="teacher" name="creator" value="${exam.teacher.id}"/>
                    <td> <form:input path="id"  name="id" id="id" value="${exam.id}"/></td>
                     <td><form:input path="title" id="title" class="examTitle" name="title" value="${exam.title}"/></td>
                     <td><form:input path="description" name="description" value="${exam.description}"/></td>

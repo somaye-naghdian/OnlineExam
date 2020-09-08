@@ -33,11 +33,13 @@ public class DescriptiveQuestionController {
             , @RequestParam("status") String status
             , @RequestParam("score") String score) {
         DescriptiveQuestion dQuestion = dQuestionService.createDQuestion(questionDto, examId);
-        examService.addExamScore(Integer.parseInt(examId), Double.valueOf(score), dQuestion);
+        Double totalScore = examService.addExamScore(Integer.parseInt(examId), Double.valueOf(score), dQuestion);
         if (status.equals("YES")) {
             classificationService.addQuestionToClassification(dQuestion);
         }
-        ModelAndView modelAndView = new ModelAndView("simpleMessage", "message", "descriptive question added");
+        ModelAndView modelAndView = new ModelAndView("simpleMessage", "message", "descriptive question added. Total Score " +
+                "of exam is : " +totalScore);
+
         return modelAndView;
     }
 

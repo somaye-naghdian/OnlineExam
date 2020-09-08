@@ -14,7 +14,7 @@ public class Classification {
     private Integer id;
     private String classificationTitle;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Question> questionBank;
 

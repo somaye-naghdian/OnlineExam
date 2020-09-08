@@ -11,4 +11,6 @@ public interface QuestionRepository extends Repository<Question,Integer> {
     Question save(Question question);
 
     List<Question> findAll();
+
+    Question findById(Integer id);
 }

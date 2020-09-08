@@ -8,14 +8,14 @@
 </head>
 <body>
 
-<h4 style="color: midnightblue">Add Question To exam From Question Bank</h4>
-<form:form action="/getFromQuestionBank" method="get">
+<h4 style="color: midnightblue; text-decoration: underline; ">Add Question To exam From Question Bank</h4>
+<form:form action="/getFromQuestionBank"  method="get">
     <input name="examId" value="${exam.id}" type="hidden"/>
     <input type="submit" class=".btn" value="FromQuestionBank"/>
 </form:form>
 <br><br>
 
-<h4 style="color: midnightblue">ADD New Question</h4>
+<h4 style="color: midnightblue; text-decoration: underline;">ADD New Question</h4>
 <div>
 
     <form:form action="/newDescriptiveQuestion" modelAttribute="question" method="get">

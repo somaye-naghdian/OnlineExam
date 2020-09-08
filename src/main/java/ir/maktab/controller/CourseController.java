@@ -4,18 +4,27 @@ import ir.maktab.exceptions.CourseAlreadyExist;
 import ir.maktab.model.dto.CourseDto;
 import ir.maktab.model.dto.ExamDto;
 import ir.maktab.model.dto.QuestionDto;
-import ir.maktab.model.dto.UserDto;
-import ir.maktab.model.entity.*;
-import ir.maktab.service.*;
+import ir.maktab.model.entity.Classification;
+import ir.maktab.model.entity.Course;
+import ir.maktab.model.entity.Exam;
+import ir.maktab.model.entity.User;
+import ir.maktab.service.ClassificationService;
+import ir.maktab.service.CourseService;
+import ir.maktab.service.TeacherService;
+import ir.maktab.service.UserService;
 import ir.maktab.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class CourseController {
@@ -76,7 +85,8 @@ public class CourseController {
        // Teacher teacher=new Teacher(user);
         ModelAndView modelAndView = new ModelAndView("teacherCourses");
         try {
-            List<Course> courses = user.getCourseList();
+
+            Set<Course> courses = courseService.getUserCourses(user);
             modelAndView.addObject("user", user);
             modelAndView.addObject ( "courseList", courses);
             return modelAndView;

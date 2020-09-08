@@ -19,3 +19,6 @@ button , .btn,.button{
     border-radius: 5px;
     cursor:pointer;
 }
+h1,h4,h3 , label ,p{
+    color: midnightblue;
+}

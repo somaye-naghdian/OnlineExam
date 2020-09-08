@@ -12,12 +12,12 @@
     <title>Title</title>
 </head>
 <body>
-<div>
+<div style="display: inline">
     <h3>Course List</h3>
 
     <c:forEach items="${courseList}" var="course">
         <tr><br>
-            <td>${course.courseTitle}
+            <td style=" text-decoration: underline overline;">${course.courseTitle}
                 <form:form action="newExam" modelAttribute="course" method="get">
                     <input type="hidden" name="courseTitle" id="courseTitle" value="${course.courseTitle}">
                     <input type="hidden" name="userEmail" value="${user.email}">

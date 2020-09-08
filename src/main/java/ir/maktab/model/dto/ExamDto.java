@@ -5,6 +5,7 @@ import ir.maktab.model.entity.Question;
 import ir.maktab.model.entity.Student;
 import ir.maktab.model.entity.Teacher;
 import ir.maktab.util.ExamStatus;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public class ExamDto {
 
     private int score;
 
-
+    @JsonIgnore
     private List<Question> questions;
 
     private Teacher teacher;

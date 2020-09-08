@@ -1,6 +1,7 @@
 package ir.maktab.service;
 
 import ir.maktab.model.dto.ExamDto;
+import ir.maktab.model.dto.QuestionDto;
 import ir.maktab.model.entity.DescriptiveQuestion;
 import ir.maktab.model.entity.Exam;
 import ir.maktab.model.entity.Question;
@@ -32,12 +33,12 @@ public class ExamService {
 
     @Autowired
     public ExamService(ExamRepository examRepository, Mapper mapper,
-                       CourseService courseService
+                       CourseService courseService, QuestionService questionService
             , TeacherService teacherService) {
         this.examRepository = examRepository;
         this.courseService = courseService;
         this.teacherService = teacherService;
-
+        this.questionService = questionService;
         this.mapper = mapper;
     }
 
@@ -74,10 +75,10 @@ public class ExamService {
     @Modifying
     @Transactional
     public Exam updateExam(String examId, String title, String description, String startDate,
-                           String endDate, String time, String teacherEmail) throws Exception {
+                           String endDate, String time, String teacherId) throws Exception {
         Exam exam = examRepository.findById(Integer.parseInt(examId));
         try {
-            if (teacherEmail.equals(exam.getTeacher().getEmail())) {
+            if (Integer.parseInt(teacherId) == exam.getTeacher().getId()) {
                 exam.setTitle(title);
                 exam.setDescription(description);
                 exam.setStartDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(startDate));
@@ -94,9 +95,9 @@ public class ExamService {
     }
 
     @Transactional
-    public void deleteExam(Integer id, String teacher_email) throws AccessDeniedException {
+    public void deleteExam(Integer id, String teacher_Id) throws AccessDeniedException {
         Exam exam = examRepository.findById(id);
-        if (exam.getTeacher().getEmail().equals(teacher_email)) {
+        if (exam.getTeacher().getId()== Integer.parseInt(teacher_Id)) {
             examRepository.deleteById(id);
         } else {
             throw new AccessDeniedException("you can't delete this exam");
@@ -104,11 +105,26 @@ public class ExamService {
     }
 
     @Transactional
-    public void addExamScore(Integer id, Double score, Question question) {
+    public Double addExamScore(Integer id, Double score, Question question) {
         Exam exam = getExamById(id);
-   //     questionService.
-     Map<Question, Double> scoreEachQuestion =exam.getScoreEachQuestion();
-       scoreEachQuestion.put(question, score);
+        Map<Question, Double> scoreEachQuestion = exam.getScoreEachQuestion();
+        scoreEachQuestion.put(question, score);
         examRepository.save(exam);
+        return calculateExamTotalPoint(scoreEachQuestion);
+    }
+
+    public Double addQuestionToExamFromBank(String examId, String score, QuestionDto questionDto) {
+//        Question question = mapper.convertDtoToQuestionEntity(questionDto);
+        Question question = questionService.getQuestionById(questionDto.getId());
+        return addExamScore(Integer.parseInt(examId), Double.valueOf(score), question);
+    }
+
+    public Double calculateExamTotalPoint(Map<Question, Double> scoreOfQuestion) {
+        Double totalScore = 0.0;
+        for (Double score :
+                scoreOfQuestion.values()) {
+            totalScore += score;
+        }
+        return totalScore;
     }
 }

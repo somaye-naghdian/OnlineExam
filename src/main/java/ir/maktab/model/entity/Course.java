@@ -8,27 +8,24 @@ import java.util.List;
 @Entity
 public class Course {
 
-    @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Integer id;
 
     private String courseTitle;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Classification classification;
 
-    @OneToMany(mappedBy = "course",cascade = {
+    @OneToMany(mappedBy = "course", cascade = {
             CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+            CascadeType.MERGE})
     private List<Exam> examList;
 
-    @ManyToMany(mappedBy = "courseList",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "courseList", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<User> userList;
 
-//
-//    @ManyToMany(mappedBy = "courseList",fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
-//    private List<Teacher> teacherList;
 
     public Course() {
     }

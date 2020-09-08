@@ -1,5 +1,6 @@
 package ir.maktab.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import ir.maktab.model.entity.Answer;
 import ir.maktab.model.entity.Classification;
 import ir.maktab.model.entity.Exam;
@@ -22,7 +23,7 @@ public class QuestionDto {
 
 
     private List<Answer> answers;
-
+    @JsonManagedReference
     private Exam exam;
 
 

@@ -1,5 +1,9 @@
 package ir.maktab.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 
@@ -13,15 +17,12 @@ public class Question {
 
     private String text;
 
-//    private int score;
-
-    /*@OneToMany(mappedBy = "question")
-    private List<Answer> answers;*/
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonManagedReference
+    @JsonIgnore
     private Exam exam;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Classification classification;
 
     public Question() {

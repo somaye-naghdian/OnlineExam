@@ -59,12 +59,8 @@ public class CourseService {
     public void addStudentToCourse(String courseTitle, String email) {
         User user = userService.findUserByEmail(email);
         Course course = findCourseByTitle(courseTitle);
-//        student.getCourseList().add(course);
         course.getUserList().add(user);
-
         save(course);
-
-
     }
 
     @Transactional
@@ -100,7 +96,13 @@ public class CourseService {
         return examOfCourse;
     }
 
-
+public Set<Course> getUserCourses(User user){
+    List<Course> courseList = user.getCourseList();
+    Set<Course> courses = new HashSet<>();
+    for (Course course : courseList)
+        courses.add(course);
+    return courses;
+}
 }
 
 

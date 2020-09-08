@@ -1,6 +1,11 @@
 
 package ir.maktab.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import ir.maktab.util.CustomKeyDeserializer;
+import ir.maktab.util.CustomKeySerializer;
 import ir.maktab.util.ExamStatus;
 import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
@@ -40,7 +45,9 @@ public class Exam {
 
     private Integer time;
 
-    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "exam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Question> questions;
 
@@ -55,10 +62,13 @@ public class Exam {
     private ExamStatus examState;
 
     @ElementCollection
-    @JsonIgnore
+//    @JsonIgnore
+//    @JsonManagedReference
     @MapKeyJoinColumn(name = "question_id")
     @Column(name = "question_score")
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonDeserialize(keyUsing = CustomKeyDeserializer.class)
+    @JsonSerialize(keyUsing = CustomKeySerializer.class)
     private Map<Question, Double> scoreEachQuestion ;
 
     public Exam() {
@@ -116,8 +126,8 @@ public class Exam {
         return time;
     }
 
-    public void setTime(Integer timer) {
-        this.time = timer;
+    public void setTime(Integer time) {
+        this.time = time;
     }
 
     public List<Question> getQuestions() {
@@ -168,7 +178,7 @@ public class Exam {
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", timer=" + time +
+                ", time=" + time +
                 ", examState=" + examState +
                 '}';
     }

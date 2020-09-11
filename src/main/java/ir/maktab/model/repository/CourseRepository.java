@@ -12,18 +12,13 @@ import java.util.Optional;
 import java.util.Set;
 
 @org.springframework.stereotype.Repository
-public interface CourseRepository extends Repository<Course, Integer> {
+public interface CourseRepository extends Repository<Course, Long> {
 
     Course save(Course course);
-
 
     List<Course> findAll();
 
     Course findByCourseTitle(String title);
-
-//    @Modifying
-//    @Query("update Course set userList=:userList where courseTitle=:courseTitle")
-//    void updateCourse(@Param("courseTitle") String courseTitle);
 
     @Query("select userList from Course where courseTitle=:title")
     List<Student> findUsersByCourseTitle(@Param("title") String title);
@@ -32,5 +27,4 @@ public interface CourseRepository extends Repository<Course, Integer> {
     List<Exam> findExamOfCourse(@Param("courseTitle") String courseTitle);
 
 
-//    Course update(Integer id);
 }

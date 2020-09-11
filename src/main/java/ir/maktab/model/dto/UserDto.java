@@ -8,21 +8,27 @@ import java.util.List;
 
 public class UserDto {
 
-    private Integer id;
+    private Long id;
+
     private String name;
+
     private String family;
+
     private String email;
+
     private UserRole role;
+
     private String password;
+
     private StatusType status;
 
     private List<Course> courseList;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

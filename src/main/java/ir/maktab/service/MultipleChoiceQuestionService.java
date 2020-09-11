@@ -31,10 +31,10 @@ public class MultipleChoiceQuestionService {
 
     @Transactional
     public MultipleChoiceQuestion saveMultiQuestion(QuestionDto questionDto, String examId, String answers,String correctAnswer) {
-        Classification classification = examService.getExamById(Integer.parseInt(examId)).getCourse().getClassification();
+        Classification classification = examService.getExamById(Long.valueOf((examId))).getCourse().getClassification();
         Question question = mapper.convertDtoToQuestionEntity(questionDto);
         MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion(question);
-        multipleChoiceQuestion.setExam(examService.getExamById(Integer.parseInt(examId)));
+        multipleChoiceQuestion.setExam(examService.getExamById(Long.valueOf((examId))));
         multipleChoiceQuestion.setClassification(classification);
         multipleChoiceQuestion.setAnswers(getAnswerList(answers,multipleChoiceQuestion));
         Answer rightAnswer=new Answer();

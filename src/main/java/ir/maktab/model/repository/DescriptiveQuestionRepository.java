@@ -4,9 +4,9 @@ import ir.maktab.model.entity.DescriptiveQuestion;
 import org.springframework.data.repository.Repository;
 
 @org.springframework.stereotype.Repository
-public interface DescriptiveQuestionRepository extends Repository<DescriptiveQuestion, Integer> {
+public interface DescriptiveQuestionRepository extends Repository<DescriptiveQuestion, Long> {
 
     DescriptiveQuestion save(DescriptiveQuestion descriptiveQuestion);
 
-    DescriptiveQuestion findById(Integer id);
+    DescriptiveQuestion findById(Long id);
 }

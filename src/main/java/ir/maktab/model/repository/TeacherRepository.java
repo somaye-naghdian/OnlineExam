@@ -7,13 +7,11 @@ import org.springframework.data.repository.Repository;
 import java.util.List;
 
 @org.springframework.stereotype.Repository
-public interface TeacherRepository extends Repository<Teacher,Integer> {
+public interface TeacherRepository extends Repository<Teacher, Long> {
 
     Teacher save(Teacher teacher);
 
-//    List<Course> findByEmail(String email);
-
-    Teacher findById(Integer id);
+    Teacher findById(Long id);
 
     Teacher findByEmail(String email);
 }

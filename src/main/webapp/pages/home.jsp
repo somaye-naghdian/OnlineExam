@@ -15,22 +15,22 @@
 </head>
 <body>
 
-<h1>Online Exam  </h1><br><br>
-
-<div class="container" align="center">
+<div style="display: block" class="container" align="center" >
 <form action="register" method="get">
-    <button class="btn" type="submit" name="submitButton" value="Register" style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;">
-        REGISTER
-    </button>
+
+    <button  type="submit" name="submitButton" value="Register" >REGISTER</button>
+<br><br>
+    <button  type="submit"  value="login" onclick="document.forms[0].action = 'login';">LOGIN</button>
+
 </form>
 </div>
-<div class="container" align="center">
-    <br><br>
-<form action="login" method="get">
-    <button style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
-            value="login" class="btn">LOGIN
-    </button>
-</form>
-</div>
+<%--</div>--%>
+<%--<div class="container" align="left">--%>
+<%--    <br><br>--%>
+<%--<form action="login" method="get">--%>
+<%-- --%>
+<%--</form>--%>
+<%--</div>--%>
+<%--</div>--%>
 </body>
 </html>

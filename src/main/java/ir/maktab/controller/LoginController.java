@@ -1,6 +1,7 @@
 package ir.maktab.controller;
 
 import ir.maktab.model.dto.UserDto;
+import ir.maktab.model.entity.Course;
 import ir.maktab.model.entity.User;
 import ir.maktab.service.UserService;
 import ir.maktab.util.StatusType;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 public class LoginController {
@@ -57,8 +60,9 @@ public class LoginController {
             }
             String role = userByEmail.getRole().name().toLowerCase();
             modelAndView = new ModelAndView(role + "Dashboard");
+            List<Course> courseList = user.getCourseList();
             modelAndView.addObject("user", user);
-          //  model.addAttribute("user",user);
+            modelAndView.addObject("courseList", courseList);
             return modelAndView;
 
         } catch (NullPointerException ne) {

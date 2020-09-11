@@ -1,12 +1,11 @@
 package ir.maktab.controller;
 
 import ir.maktab.model.dto.QuestionDto;
-import ir.maktab.model.entity.Classification;
-import ir.maktab.model.entity.MultipleChoiceQuestion;
-import ir.maktab.model.entity.Question;
+import ir.maktab.model.entity.*;
 import ir.maktab.service.ClassificationService;
 import ir.maktab.service.ExamService;
 import ir.maktab.service.MultipleChoiceQuestionService;
+import ir.maktab.service.UserService;
 import ir.maktab.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,15 +20,27 @@ public class MultipleChoiceQuestionController {
     private MultipleChoiceQuestionService mcQuestionService;
     private ExamService examService;
     private ClassificationService classificationService;
-    private Mapper mapper;
+    private UserService userService;
 
     @Autowired
     public MultipleChoiceQuestionController(MultipleChoiceQuestionService mcQuestionService
-            , ExamService examService,ClassificationService classificationService ,Mapper mapper) {
+            , ExamService examService,ClassificationService classificationService ,UserService userService) {
         this.mcQuestionService = mcQuestionService;
         this.examService = examService;
         this.classificationService=classificationService;
-        this.mapper = mapper;
+        this.userService = userService;
+    }
+
+    @RequestMapping(value = "/multipleChoice", method = RequestMethod.GET)
+    public ModelAndView getDescriptivePage(@RequestParam("examId") String examId,
+                                           @RequestParam("teacher") String teacherId) {
+        Exam exam = examService.getExamById(Long.valueOf(examId));
+        User teacher = userService.findById(Long.valueOf(teacherId));
+        ModelAndView modelAndView = new ModelAndView("teacher_multipleChoice");
+        modelAndView.addObject("exam", exam);
+        modelAndView.addObject("teacher", teacher);
+        modelAndView.addObject("question",new QuestionDto());
+        return modelAndView;
     }
 
     @RequestMapping(value = "/newMultipleChoiceQuestion", method = RequestMethod.GET)
@@ -39,7 +50,7 @@ public class MultipleChoiceQuestionController {
                                                   @RequestParam("answer") String answers) {
 
         MultipleChoiceQuestion choiceQuestion = mcQuestionService.saveMultiQuestion(questionDto, examId, answers,correctAnswer);
-        Double totalScore = examService.addExamScore(Integer.parseInt(examId), Double.valueOf(score), choiceQuestion);
+        Double totalScore = examService.addExamScore(Long.valueOf((examId)), Double.valueOf(score), choiceQuestion);
         if (status.equals("YES")) {
             classificationService.addMultiQuestionToClassification(choiceQuestion);
         }

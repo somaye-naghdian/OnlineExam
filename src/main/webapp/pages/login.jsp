@@ -15,13 +15,13 @@
 <div class="header">
     <h2>Login Form</h2>
 </div>
-<div class="container">
+<div class="container" align="center">
 <form:form action="loginProcess" modelAttribute="user" method="get">
 
     <form:label path="email">email</form:label>
     <input type="text" name="email"  placeholder="email" class="form-control"
            pattern="^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$"
-           title="simple@example.com"  required="required">
+           title="simple@example.com"  required="required"><br><br>
 
     <form:label path="password" >password</form:label>
     <input type="password" name="password" placeholder="password" class="form-control"
@@ -30,12 +30,13 @@
            required="required"><br><br>
 
     <input type="submit" name="loginButton" value="Sign in" id="s01">
+
+
 </form:form>
 </div>
-<div>
+<div align="center">
 <form action="/" method="get">
-    <button style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
-            value="home" class="btn" >Home
+    <button  type="submit" value="home" class="button" >home
     </button>
 </form>
 </div>

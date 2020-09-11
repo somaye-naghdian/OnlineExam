@@ -1,7 +1,7 @@
 * { margin: 0px; padding: 0px; }
 body {
     font-size: 120%;
-    background-image: url("/resources/theme/css/img/home.png");
+    background-color:PowderBlue;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -10,12 +10,12 @@ body {
 }
 table {
     width:60%;
-    border: 1px solid yellow;
+    border: 1px solid navy;
     border-collapse: collapse;
     float: inside;
 }
 table, th, td {
-    border: 1px solid yellow;
+    border: 1px solid navy;
     border-collapse: collapse;
 }
 th, td {
@@ -30,7 +30,7 @@ th, td {
 }
 #t01 th {
     background-color: black;
-    color: white;
+    color: black;
 }
 h4{
     text-align:center;

@@ -6,7 +6,7 @@ import org.springframework.data.repository.Repository;
 import java.util.List;
 
 @org.springframework.stereotype.Repository
-public interface AnswerRepository extends Repository<Answer,Integer> {
+public interface AnswerRepository extends Repository<Answer,Long> {
 
     Answer save(Answer answer);
 

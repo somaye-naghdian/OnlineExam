@@ -4,6 +4,9 @@ import ir.maktab.model.dto.*;
 import ir.maktab.model.entity.*;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,18 +86,19 @@ public class Mapper {
         return classification;
     }
 
-    public Exam convertExamDtoToEntity(ExamDto examDto) {
+    public Exam convertExamDtoToEntity(ExamDto examDto) throws ParseException {
         Exam exam = new Exam();
+
+
         exam.setId(examDto.getId());
         exam.setCourse(examDto.getCourse());
         exam.setDescription(examDto.getDescription());
-        exam.setEndDate(examDto.getEndDate());
-        exam.setStartDate(examDto.getStartDate());
+        exam.setEndDate(convertStringToSqlDate(examDto.getEndDate()));
+        exam.setStartDate(convertStringToSqlDate(examDto.getStartDate()));
         exam.setQuestions(examDto.getQuestions());
         exam.setTeacher(examDto.getTeacher());
         exam.setTime(examDto.getTime());
         exam.setTitle(examDto.getTitle());
-        exam.setExaminers(examDto.getExaminers());
         return exam;
     }
 
@@ -103,13 +107,12 @@ public class Mapper {
         examDto.setId(exam.getId());
         examDto.setCourse(exam.getCourse());
         examDto.setDescription(exam.getDescription());
-        examDto.setEndDate(exam.getEndDate());
-        examDto.setStartDate(exam.getStartDate());
+        examDto.setEndDate(String.valueOf(exam.getEndDate()));
+        examDto.setStartDate(String.valueOf(exam.getStartDate()));
         examDto.setQuestions(exam.getQuestions());
         examDto.setTeacher(exam.getTeacher());
         examDto.setTime(exam.getTime());
         examDto.setTitle(exam.getTitle());
-        examDto.setExaminers(exam.getExaminers());
         return examDto;
     }
 
@@ -122,5 +125,19 @@ public class Mapper {
         question.setExam(questionDto.getExam());
         question.setClassification(questionDto.getClassification());
        return  question;
+    }
+
+
+
+    public Date convertStringToSqlDate(String inputDate){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = null;
+        try {
+            date = df.parse(inputDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        return sqlDate;
     }
 }

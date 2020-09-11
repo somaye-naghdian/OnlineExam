@@ -36,17 +36,17 @@ public class DescriptiveQuestionService {
 @Modifying
 @Transactional
     public DescriptiveQuestion createDQuestion(QuestionDto questionDto, String examId) {
-        Classification classification = examService.getExamById(Integer.parseInt(examId)).getCourse().getClassification();
+        Classification classification = examService.getExamById(Long.valueOf((examId))).getCourse().getClassification();
         Question question = mapper.convertDtoToQuestionEntity(questionDto);
         DescriptiveQuestion descriptiveQuestion = new DescriptiveQuestion(question);
-        descriptiveQuestion.setExam(examService.getExamById(Integer.parseInt(examId)));
+        descriptiveQuestion.setExam(examService.getExamById(Long.valueOf((examId))));
         descriptiveQuestion.setClassification(classification);
 
         return dQuestionRepository.save(descriptiveQuestion);
     }
 
 
-    public DescriptiveQuestion getDQuestionByID(Integer id) {
+    public DescriptiveQuestion getDQuestionByID(Long id) {
         return dQuestionRepository.findById(id);
     }
 

@@ -1,23 +1,16 @@
 
 package ir.maktab.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import ir.maktab.util.CustomKeyDeserializer;
 import ir.maktab.util.CustomKeySerializer;
-import ir.maktab.util.ExamStatus;
 import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import java.util.Date;
-import java.util.HashMap;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,29 +18,24 @@ import java.util.Map;
 public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Size(min = 2, max = 20, message = "The title must be between 5 and 20 messages.")
-    @NotNull(message = "Please provide a title")
     private String title;
 
-    @Size(max = 500, message = "The description can't be longer than 500 characters.")
-    @NotNull(message = "Please provide a description")
     private String description;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+
     private Date startDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date endDate;
 
     private Integer time;
 
+    @ManyToMany
+    private List<Student> studentList;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "exam", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "exam")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Question> questions;
 
@@ -56,29 +44,25 @@ public class Exam {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
-    @ManyToMany
-    private List<Student> examiners;
 
-    private ExamStatus examState;
+    private Boolean status;
 
     @ElementCollection
-//    @JsonIgnore
-//    @JsonManagedReference
     @MapKeyJoinColumn(name = "question_id")
     @Column(name = "question_score")
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonDeserialize(keyUsing = CustomKeyDeserializer.class)
     @JsonSerialize(keyUsing = CustomKeySerializer.class)
-    private Map<Question, Double> scoreEachQuestion ;
+    private Map<Question, Double> scoreEachQuestion;
 
     public Exam() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -146,20 +130,13 @@ public class Exam {
         this.course = course;
     }
 
-    public List<Student> getExaminers() {
-        return examiners;
+
+    public Boolean getExamState() {
+        return status;
     }
 
-    public void setExaminers(List<Student> examiners) {
-        this.examiners = examiners;
-    }
-
-    public ExamStatus getExamState() {
-        return examState;
-    }
-
-    public void setExamState(ExamStatus examState) {
-        this.examState = examState;
+    public void setExamState(Boolean status) {
+        this.status = status;
     }
 
     public Map<Question, Double> getScoreEachQuestion() {
@@ -168,6 +145,14 @@ public class Exam {
 
     public void setScoreEachQuestion(Map<Question, Double> scoreEachQuestion) {
         this.scoreEachQuestion = scoreEachQuestion;
+    }
+
+    public List<Student> getStudentList() {
+        return studentList;
+    }
+
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
     }
 
     @Override
@@ -179,8 +164,10 @@ public class Exam {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", time=" + time +
-                ", examState=" + examState +
+                ", status=" + status +
                 '}';
     }
+
+
 }
 

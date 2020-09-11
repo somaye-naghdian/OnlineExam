@@ -11,21 +11,22 @@ import java.util.Objects;
 public class Classification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String classificationTitle;
+    private Long id;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private String classificationTitle;
+//cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Question> questionBank;
 
     public Classification() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

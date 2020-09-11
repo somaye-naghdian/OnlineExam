@@ -1,6 +1,8 @@
 package ir.maktab.service;
 
 import ir.maktab.exceptions.CourseAlreadyExist;
+import ir.maktab.exceptions.UserNotFoundException;
+import ir.maktab.model.dto.CourseDto;
 import ir.maktab.model.dto.UserDto;
 import ir.maktab.model.entity.*;
 import ir.maktab.model.repository.CourseRepository;
@@ -23,7 +25,6 @@ public class CourseService {
     private StudentService studentService;
     private Mapper mapper;
     private UserService userService;
-    public List<Student> studentList = new ArrayList<>();
 
     @Autowired
     public CourseService(CourseRepository courseRepository
@@ -35,10 +36,18 @@ public class CourseService {
         this.userService = userService;
     }
 
-    @Modifying
+
     @Transactional
     public Course save(Course course) throws CourseAlreadyExist {
         return courseRepository.save(course);
+    }
+
+    public Course createNewCourse(CourseDto courseDto, Classification classification) {
+        String courseTitle = courseDto.getCourseTitle();
+        Course course = new Course();
+        course.setCourseTitle(courseTitle);
+        course.setClassification(classification);
+        return save(course);
     }
 
     public List<Course> getAllCourse() {
@@ -55,16 +64,16 @@ public class CourseService {
         return allStudents;
     }
 
-    @Transactional
-    public void addStudentToCourse(String courseTitle, String email) {
-        User user = userService.findUserByEmail(email);
-        Course course = findCourseByTitle(courseTitle);
-        course.getUserList().add(user);
-        save(course);
-    }
+//    @Transactional
+//    public void addStudentToCourse(String courseTitle, String email) {
+//        User user = userService.findUserByEmail(email);
+//        Course course = findCourseByTitle(courseTitle);
+//        course.getUserList().add(user);
+//        save(course);
+//    }
 
     @Transactional
-    public void addTeacherToCourse(String courseTitle, String email) {
+    public void addUserToCourse(String courseTitle, String email) {
         User user = userService.findUserByEmail(email);
         Course course = findCourseByTitle(courseTitle);
         if (course.getUserList().isEmpty()) {
@@ -86,23 +95,29 @@ public class CourseService {
     public void deleteStudentFromCourse(String courseTitle, String email) {
         User user = userService.findUserByEmail(email);
         Course course = findCourseByTitle(courseTitle);
-        course.getUserList().remove(user);
-        save(course);
+        if(course.getUserList().isEmpty() ||(! course.getUserList().contains(user))){
+            throw new UserNotFoundException("not Found");
+        }else{
+            course.getUserList().remove(user);
+            user.getCourseList().remove(course);
+            userService.save(user);
+            courseRepository.save(course);
+        }
     }
 
     public List<Exam> getExamsOfCourse(String courseTitle) {
-        List<Exam> examOfCourse = courseRepository.findExamOfCourse(courseTitle);
-        System.out.println(examOfCourse);
-        return examOfCourse;
+        Course course = findCourseByTitle(courseTitle);
+        List<Exam> examList = course.getExamList();
+        return examList;
     }
 
-public Set<Course> getUserCourses(User user){
-    List<Course> courseList = user.getCourseList();
-    Set<Course> courses = new HashSet<>();
-    for (Course course : courseList)
-        courses.add(course);
-    return courses;
-}
+    public Set<Course> getUserCourses(User user) {
+        List<Course> courseList = user.getCourseList();
+        Set<Course> courses = new HashSet<>();
+        for (Course course : courseList)
+            courses.add(course);
+        return courses;
+    }
 }
 
 

@@ -14,7 +14,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 @org.springframework.stereotype.Repository
-public interface UserRepository extends Repository<User, Integer>, JpaSpecificationExecutor<User> {
+public interface UserRepository extends Repository<User, Long>, JpaSpecificationExecutor<User> {
 
     User save(User user);
 
@@ -22,16 +22,12 @@ public interface UserRepository extends Repository<User, Integer>, JpaSpecificat
 
     User findByEmail(String email);
 
-    User findById(Integer id);
+    User findById(Long id);
 
     List<User> findByStatus(StatusType status);
 
     List<User> findByRole(UserRole role);
 
-    void deleteById(int id);
-//
-//    @Query("select courseList from User where email=:email")
-//    List<Course> findUserCourse(@Param("email") String email);
 
     @Modifying
     @Query("update User set status=:newEnable where email=:email")

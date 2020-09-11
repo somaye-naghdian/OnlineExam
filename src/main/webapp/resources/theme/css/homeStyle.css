@@ -1,13 +1,22 @@
 * { margin: 0px; padding: 0px; }
 body {
     font-size: 120%;
-    background-image: url("/resources/theme/css/img/home.png");
+    background-image: url("/resources/theme/css/img/dc946732adc6371c5935504d365fae13.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
     height: 100vh;
     max-width: 600px;
 }
+.container{
+    align-items: flex-start;
+    /*align-content: flex-start;*/
+   margin: 20%;
+    justify-content: center;
+}
+
+
+
 h1 {
     width: 60%;
     color: darkblue;
@@ -15,15 +24,16 @@ h1 {
     align-content: center;
 }
 
-.btn {
+button , .button {
     padding: 10px;
     font-size: 15px;
     color: white;
-    background: #5F9EA0;
+    background: darkcyan;
     border: none;
     border-radius: 5px;
     cursor:pointer;
     align-content: center;
+    justify-content: center;
 }
 
 .profile_info div {

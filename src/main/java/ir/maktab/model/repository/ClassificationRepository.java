@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Queue;
 
 @org.springframework.stereotype.Repository
-public interface ClassificationRepository extends Repository<Classification, Integer> {
+public interface ClassificationRepository extends Repository<Classification, Long> {
 
     Classification save(Classification classification);
 
@@ -20,7 +20,7 @@ public interface ClassificationRepository extends Repository<Classification, Int
 
    Classification findByClassificationTitle(String title);
 
-   List<Question> findById(Integer id);
+   List<Question> findById(Long id);
 
     @Query("select questionBank from Classification where classificationTitle=:title")
     List<Question> findQuestionsById(@Param("title") String title);

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CourseDto {
 
-    private Integer id;
+    private Long id;
 
     private String courseTitle;
 
@@ -15,11 +15,11 @@ public class CourseDto {
     private List<User> userList;
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

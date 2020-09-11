@@ -16,7 +16,6 @@ import ir.maktab.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,13 +61,9 @@ public class CourseController {
     public ModelAndView addCourseProcess(@ModelAttribute("course") CourseDto courseDto,
                                          @RequestParam("classification") String title) {
         String courseTitle = courseDto.getCourseTitle();
-        String classification = courseDto.getClassification();
-        Classification classificationDto = classificationService.getClassificationByTitle(classification);
-        Course course = new Course();
-        course.setCourseTitle(courseTitle);
-        course.setClassification(classificationDto);
+        Classification classification = classificationService.getClassificationByTitle(title);
         try {
-            courseService.save(course);
+            courseService.createNewCourse(courseDto,classification);
 
         } catch (CourseAlreadyExist e) {
             new ModelAndView("error", "errorMsg", e.getMessage());
@@ -82,13 +77,11 @@ public class CourseController {
     @RequestMapping(value = "getCoursePage", method = RequestMethod.GET)
     public ModelAndView getCoursePage(@ModelAttribute("user") String email) {
         User user = userService.findUserByEmail(email);
-       // Teacher teacher=new Teacher(user);
-        ModelAndView modelAndView = new ModelAndView("teacherCourses");
+        ModelAndView modelAndView = new ModelAndView("teacher_Courses");
         try {
-
             Set<Course> courses = courseService.getUserCourses(user);
             modelAndView.addObject("user", user);
-            modelAndView.addObject ( "courseList", courses);
+            modelAndView.addObject("courseList", courses);
             return modelAndView;
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,15 +89,24 @@ public class CourseController {
         }
     }
 
-    @RequestMapping(value = "/getExamsOfCourse",method = RequestMethod.GET)
+    @RequestMapping(value = "/getExamsOfCourse", method = RequestMethod.GET)
     public ModelAndView getExamsOfCourse(@RequestParam("courseTitle") String courseTitle
-            , @RequestParam("user")String email, Model model) {
+            , @RequestParam("user") String email, Model model) {
         List<Exam> examsOfCourse = courseService.getExamsOfCourse(courseTitle);
         User user = userService.findUserByEmail(email);
         ModelAndView modelAndView = new ModelAndView("teacher_showExam", "examsOfCourse", examsOfCourse);
         modelAndView.addObject("user", user);
         modelAndView.addObject("question", new QuestionDto());
         modelAndView.addObject("exam", new ExamDto());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "getCourseList", method = RequestMethod.GET)
+    public ModelAndView getCourseList() {
+        ModelAndView modelAndView = new ModelAndView("showAllCourse");
+        List<Course> allCourse = courseService.getAllCourse();
+        List<CourseDto> courseDtoList = mapper.convertCourseToDtoList(allCourse);
+        modelAndView.addObject("allCourse", courseDtoList);
         return modelAndView;
     }
 }

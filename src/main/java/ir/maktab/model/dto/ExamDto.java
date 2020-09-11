@@ -2,34 +2,41 @@ package ir.maktab.model.dto;
 
 import ir.maktab.model.entity.Course;
 import ir.maktab.model.entity.Question;
-import ir.maktab.model.entity.Student;
 import ir.maktab.model.entity.Teacher;
 import ir.maktab.util.ExamStatus;
 import net.minidev.json.annotate.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
-import java.util.HashMap;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 
 public class ExamDto {
 
-    private Integer id;
+    private Long id;
 
+    @Size(min = 2, max = 20, message = "The title must be between 5 and 20 messages.")
+//    @ (pattern= "[a-zA-Z].{2,20}")
+    @NotNull(message = "Please provide a title")
     private String title;
 
+    @Size(max = 500, message = "The description can't be longer than 500 characters.")
+    @NotNull(message = "Please provide a description")
     private String description;
 
-    private Date startDate;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private String startDate;
 
-    private Date endDate;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private String endDate;
 
     private ExamStatus examState;
 
     private Integer time;
 
-    private int score;
 
     @JsonIgnore
     private List<Question> questions;
@@ -39,18 +46,16 @@ public class ExamDto {
     private Course course;
 
 
-    private List<Student> examiners;
-
 //    private Map<Question, Integer> scoreEachQuestion = new HashMap<>();
 
     public ExamDto() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -78,19 +83,19 @@ public class ExamDto {
         this.description = description;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -118,14 +123,6 @@ public class ExamDto {
         this.course = course;
     }
 
-    public List<Student> getExaminers() {
-        return examiners;
-    }
-
-    public void setExaminers(List<Student> examiners) {
-        this.examiners = examiners;
-    }
-
     public ExamStatus getExamState() {
         return examState;
     }
@@ -134,13 +131,6 @@ public class ExamDto {
         this.examState = examState;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
 
 //    public Map<Question, Integer> getScoreEachQuestion() {
 //        return scoreEachQuestion;
@@ -149,5 +139,19 @@ public class ExamDto {
 //    public void setScoreEachQuestion(Map<Question, Integer> scoreEachQuestion) {
 //        this.scoreEachQuestion = scoreEachQuestion;
 //    }
+
+
+    @Override
+    public String toString() {
+        return "ExamDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", examState=" + examState +
+                ", time=" + time +
+                '}';
+    }
 }
 

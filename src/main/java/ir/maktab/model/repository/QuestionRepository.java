@@ -6,11 +6,11 @@ import org.springframework.data.repository.Repository;
 import java.util.List;
 
 @org.springframework.stereotype.Repository
-public interface QuestionRepository extends Repository<Question,Integer> {
+public interface QuestionRepository extends Repository<Question,Long> {
 
     Question save(Question question);
 
     List<Question> findAll();
 
-    Question findById(Integer id);
+    Question findById(Long id);
 }

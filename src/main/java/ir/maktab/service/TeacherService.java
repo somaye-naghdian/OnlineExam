@@ -41,7 +41,7 @@ public class TeacherService {
     }
 
 
-public Teacher getTeacher(Integer id) throws Exception {
+public Teacher getTeacher(Long id) throws Exception {
     try {
         return teacherRepository.findById(id);
     } catch (Exception e){

@@ -1,7 +1,7 @@
 * { margin: 0px; padding: 0px; }
 body {
     font-size: 120%;
-    background-image: url("/resources/theme/css/img/home.png");
+    background-color:PowderBlue;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -21,9 +21,9 @@ table {
 }
 
 table, th, td {
-    border: 1px solid white;
+    border: 1px solid midnightblue;
     border-collapse: collapse;
-    color: white;
+    color: black;
 }
 form{
     align-content: center;

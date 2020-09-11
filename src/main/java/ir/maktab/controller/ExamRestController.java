@@ -23,7 +23,7 @@ public class ExamRestController {
 
         try {
 
-            examService.saveExam(examDto, Integer.parseInt(userId), courseTitle);
+            examService.saveExam(examDto, Long.valueOf((userId)), courseTitle);
             return ResponseEntity.ok()
                     .body("Exam saved with title:" + examDto.getTitle());
         } catch (Exception e) {
@@ -37,7 +37,7 @@ public class ExamRestController {
     public ResponseEntity stopExam(@PathVariable("title") String title
             , @PathVariable("id") String id) {
         try {
-            examService.stopExam(title, id);
+           // examService.stopExam(title, id);
             return ResponseEntity.ok()
                     .body("exam stopped");
         } catch (Exception e) {

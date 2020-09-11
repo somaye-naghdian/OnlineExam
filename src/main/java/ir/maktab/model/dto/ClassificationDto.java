@@ -6,17 +6,17 @@ import java.util.List;
 
 public class ClassificationDto {
 
-    private Integer id;
+    private Long id;
 
     private String classificationTitle;
 
     private List<Question> questionBank;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

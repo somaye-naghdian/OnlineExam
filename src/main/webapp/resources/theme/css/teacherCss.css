@@ -3,12 +3,11 @@
 }
 body {
     font-size: 120%;
-    background-image: url("/resources/theme/css/img/home.png");
+    background-color: PowderBlue;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
     height: 100%;
-    max-width: 600px;
 }
 button , .btn,.button{
     padding: 10px;
@@ -19,6 +18,6 @@ button , .btn,.button{
     border-radius: 5px;
     cursor:pointer;
 }
-h1,h4,h3 , label ,p{
+h1,h4,h3,h5 , label ,p{
     color: midnightblue;
 }

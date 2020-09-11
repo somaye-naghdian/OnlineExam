@@ -4,24 +4,8 @@
 
 <html>
 <head>
-    <script language="JavaScript" type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
-    <script language="JavaScript" type="text/javascript" src="/js/jquery-ui-personalized-1.5.2.packed.js"></script>
-    <script language="JavaScript" type="text/javascript" src="/js/sprinkle.js"></script>
-    <%--    <link rel="stylesheet" href="<c:url value="/resources/theme/css/courseCss.css" />">--%>
-    <title>Add User To Course</title>
-    <style>
-        table {
-            width: 60%;
-            border: 1px solid yellow;
-            border-collapse: collapse;
-            float: inside;
-        }
-
-        table, th, td {
-            border: 1px solid yellow;
-            border-collapse: collapse;
-        }
-    </style>
+   <title>Add User To Course</title>
+    <link rel="stylesheet" href="<c:url value="/resources/theme/css/courseCss.css" />">
 </head>
 <body>
 <div align="right" style=" position: absolute; right: 20px;">
@@ -37,28 +21,28 @@
         <th></th>
     </tr>
     <c:forEach items="${students}" var="student">
-        <form:form action="addStudentToCourse" modelAttribute="user" method="get">
+    <form:form action="addStudentToCourse" modelAttribute="user" method="get">
 
     <tr>
         <td>${student.name}</td>
         <td>${student.family}</td>
         <td><input type="hidden" name="email" value="${student.email}"> ${student.email}</td>
-        <td><input type="submit" value="add"></td>
-        <td><input type="submit" value="delete" formaction="/deleteStudentFromCourse"></td>
+
+        <td><select name="course" required="required" cssClass="dropdown">
+            <c:forEach var="course" items="${allCourse}">
+                <option  value="${course.courseTitle}"/>
+                ${course.courseTitle}
+            </c:forEach>
+        </select></td>
+        <td><input type="submit" class="button" value="add"></td>
+        <td><input type="submit" class="button" value="delete" formaction="/deleteStudentFromCourse"></td>
     </tr>
-
-    <label path="courseList" style="color: #dff0d8">course:</label>
-    <c:forEach var="course" items="${allCourse}">
-    <input type="radio" name="course" value="${course.courseTitle}" required="required"/>
-        ${course.courseTitle}
-    </c:forEach>
-
     </form:form>
     </c:forEach>
-    <br>
+    <br><br>
 
 
-    <table id="table">
+    <table id="table2">
         <h4>Teacher List</h4>
         <tr>
             <th>name</th>
@@ -67,43 +51,29 @@
             <th></th>
         </tr>
         <c:forEach items="${teachers}" var="teacher">
-            <form:form action="addTeacherToCourse" modelAttribute="user" method="get">
+        <form:form action="addTeacherToCourse" modelAttribute="user" method="get">
 
         <tr>
             <td>${teacher.name}</td>
+
             <td>${teacher.family}</td>
             <td><input type="hidden" name="email" value="${teacher.email}">${teacher.email}</td>
-            <td><input type="submit" value="add"></td>
+
+            <td><select name="course" required="required" cssClass="dropdown">
+                <c:forEach var="course" items="${allCourse}">
+                    <option value="${course.courseTitle}" required="required"/>
+                    ${course.courseTitle}
+                </c:forEach>
+            </select></td>
+
+            <td><input type="submit" class="button" value="add"></td>
+            <td><input type="submit" class="button" value="delete" formaction="/deleteStudentFromCourse"></td>
         </tr>
 
-        <label path="courseList" style="color: #dff0d8">course:</label>
 
-        <c:forEach var="course" items="${allCourse}">
-        <input type="radio" name="course" value="${course.courseTitle}" required="required"/>
-            ${course.courseTitle}
-        </c:forEach>
         </form:form>
         </c:forEach>
 
-
-        <br>
-
-
-        <%--<div class="button" align="center">--%>
-        <%--    <button name="add" class="btn" value="Add User" onclick="addUser()">Add User</button>--%>
-
-        <%--    <button name="delete" class="btn" value="Delete User" onclick="deleteUser()">Delete User</button>--%>
-
-        <%--    <button id="allStudents" class="btn" value="allStudents " onclick="deleteUser()"--%>
-        <%--            onClick="removeRequired(this.form)"> ALL Students Of Course--%>
-        <%--    </button>--%>
-
-        <%--</div>--%>
-        <br>
-
-        <ul id="set" align="center" style="color: darkslategrey"></ul>
-
-        <p id="demo" align="center" style="color: darkslategrey"></p>
 
 </body>
 

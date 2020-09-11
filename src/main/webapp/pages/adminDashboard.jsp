@@ -11,7 +11,7 @@
     <title>Admin Page</title>
 </head>
 <body>
-<h1 id="h1">Admin Page</h1>
+
 
 <div class="container" style="display: inline-flex">
 <div class="navbar-collapse collapse " id="myNavbar">
@@ -85,7 +85,7 @@
 
 
     <form action="/" method="get">
-        <button style="margin:5px;color: coral; cursor: pointer; background-color: powderblue;" type="submit"
+        <button type="submit" class="button"
                 value="home">Home
         </button>
     </form>

@@ -46,6 +46,8 @@
     </form:form>
 
 </div>
+
+<p align="center">${message}</p>
 <div>
     <form action="/" method="get">
         <button type="submit" class="btn">

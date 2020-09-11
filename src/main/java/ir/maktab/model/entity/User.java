@@ -13,18 +13,24 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
     private String name;
+
     private String family;
+
     @Column(unique = true)
     private String email;
+
     private UserRole role;
+
     private String password;
+
     @Column(name = "status")
     private StatusType status;
 
-   @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-   //@LazyCollection(LazyCollectionOption.FALSE)
+   @ManyToMany(cascade = CascadeType.MERGE)
+   @LazyCollection(LazyCollectionOption.FALSE)
     private List<Course> courseList;
 
     public User(String name, String family, String email, String password, UserRole role) {
@@ -39,11 +45,11 @@ public class User {
     public User() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

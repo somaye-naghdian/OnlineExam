@@ -9,34 +9,26 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="<c:url value="/resources/theme/css/teacherCss.css" />">
 
-    <title>Professor Page</title>
+    <title>Teacher Page</title>
 </head>
 <body>
-<h1 align="center">Teacher Page</h1><br>
+
 
 <div class="course">
-    <h3 style=" text-decoration: underline overline;">Course</h3><br>
-    <form:form action="getCoursePage"  method="get">
+    <h3>Course</h3><br>
+</div>
+<div class="container" style="align-items: center;">
+    <form:form action="getCoursePage" method="get">
         <input type="hidden" id="email" name="user" value="${user.email}" name="user">
-    <button id="btn" >Course List</button>
+        <button id="btn">Course List</button>
     </form:form>
-
-    <div id="courseList">
-    </div>
-
 </div>
 
 
-
-</form><br>
-
-
-
-
-<div class="d-flex align-items-end">
+<div class="align-items: flex-end;">
     <form action="/" method="get">
-        <button style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
-                value="home" class="btn">Home
+        <button type="submit"
+                value="home">home
         </button>
     </form>
 </div>

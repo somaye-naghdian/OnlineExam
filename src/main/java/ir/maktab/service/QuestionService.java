@@ -21,7 +21,7 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
-    public Question getQuestionById(Integer id){
+    public Question getQuestionById(Long id){
       return   questionRepository.findById(id);
     }
 

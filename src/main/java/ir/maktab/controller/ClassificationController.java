@@ -37,25 +37,17 @@ public class ClassificationController {
     @RequestMapping(value = "addClassificationProcess", method = RequestMethod.GET)
     public ModelAndView addClassificationProcess(@ModelAttribute("classification") ClassificationDto classificationDto) {
         ModelAndView modelAndView = new ModelAndView("simpleMessage");
+        String message = "";
         try {
             classificationService.addClassification(mapper.convertClassifyDtoToEntity(classificationDto));
+         message = " classification " + classificationDto.getClassificationTitle() + " successfully added";
 
         } catch (CourseAlreadyExist e) {
             new ModelAndView("error", "errorMsg", e.getMessage());
         }
-        String message = " classification " + classificationDto.getClassificationTitle() + " successfully add";
         new ModelAndView("simpleMessage", "message", message);
 
         return modelAndView;
     }
 
-//    @RequestMapping(value = "addQuestionToBank",method = RequestMethod.GET)
-//    public ModelAndView addQuestionToBank(@ModelAttribute("question")QuestionDto questionDto
-//         , @RequestParam("examId") String examId){
-//        System.out.println(questionDto);
-//        Classification classification = classificationService.addQuestionToClassification(questionDto);
-//        ModelAndView modelAndView = new ModelAndView("simpleMessage");
-//        modelAndView.addObject("message","question successfully added to "+classification.getClassificationTitle());
-//        return modelAndView;
-//    }
 }

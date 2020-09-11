@@ -11,30 +11,31 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
-    private Integer id;
+    private Long id;
 
+    @Column(unique = true)
     private String courseTitle;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+//, cascade = CascadeType.REMOVE
+    @ManyToOne(fetch = FetchType.EAGER)
     private Classification classification;
-
-    @OneToMany(mappedBy = "course", cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE})
+//, cascade = {
+//            CascadeType.PERSIST,
+//            CascadeType.MERGE}
+    @OneToMany(mappedBy = "course",fetch = FetchType.EAGER)
     private List<Exam> examList;
-
-    @ManyToMany(mappedBy = "courseList", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+//, cascade = CascadeType.PERSIST
+    @ManyToMany(mappedBy = "courseList", fetch = FetchType.LAZY)
     private List<User> userList;
 
 
     public Course() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

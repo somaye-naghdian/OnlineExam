@@ -6,7 +6,7 @@ import org.springframework.data.repository.Repository;
 import java.util.List;
 
 @org.springframework.stereotype.Repository
-public interface ExamRepository extends Repository<Exam, Integer> {
+public interface ExamRepository extends Repository<Exam, Long> {
 
     Exam save(Exam exam);
 
@@ -14,8 +14,8 @@ public interface ExamRepository extends Repository<Exam, Integer> {
 
     Exam findByTitle(String title);
 
-    Exam findById(Integer id);
+    Exam findById(Long id);
 
-    void deleteById(Integer id);
+    void delete(Exam exam);
 
 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class QuestionDto {
 
-    private Integer id;
+    private Long id;
 
     @Size(min = 2, max = 10, message = "The question Title should be between 2 and 10 characters")
 
@@ -32,11 +32,11 @@ public class QuestionDto {
     public QuestionDto() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

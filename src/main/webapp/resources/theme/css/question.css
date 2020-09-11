@@ -1,0 +1,35 @@
+* {
+    margin: 0px; padding: 0px;
+}
+body {
+    font-size: 100%;
+    background-color:PowderBlue;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100%;
+    max-width: 600px;
+}
+button , .button{
+    padding:10px;
+    font-size: 10px;
+    color: white;
+    background: darkcyan;
+    border: none;
+    border-radius: 5px;
+    cursor:pointer;
+}
+
+.container{
+    margin: 10px 10px 10px 10px;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 100vh;
+    margin: 0px auto;
+    padding: 2px;
+    border: 2px solid navy;
+    display: flex;
+    flex-direction: row;
+    color: navy;
+}

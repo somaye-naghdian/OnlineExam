@@ -1,6 +1,5 @@
 package ir.maktab.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -11,18 +10,18 @@ import javax.persistence.*;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String title;
 
     private String text;
-
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+  //  cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    @ManyToOne
     @JsonManagedReference
     @JsonIgnore
     private Exam exam;
-
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    //cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    @ManyToOne
     private Classification classification;
 
     public Question() {
@@ -35,11 +34,11 @@ public class Question {
         this.classification=classification;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

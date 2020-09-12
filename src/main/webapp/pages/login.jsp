@@ -12,33 +12,36 @@
     <title>Login</title>
 </head>
 <body>
-<div class="header">
-    <h2>Login Form</h2>
-</div>
-<div class="container" align="center">
-<form:form action="loginProcess" modelAttribute="user" method="get">
+<div id="holder">
+    <div class="header">
+        <h2>Login Form</h2>
+    </div>
+    <div class="container">
+        <form:form action="loginProcess" modelAttribute="user" method="get">
 
-    <form:label path="email">email</form:label>
-    <input type="text" name="email"  placeholder="email" class="form-control"
-           pattern="^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$"
-           title="simple@example.com"  required="required"><br><br>
+            <form:label path="email">email</form:label>
+            <input type="text" name="email" placeholder="email" class="form-control"
+                   pattern="^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$"
+                   title="simple@example.com" required="required"><br><br>
 
-    <form:label path="password" >password</form:label>
-    <input type="password" name="password" placeholder="password" class="form-control"
-           pattern="(?=.*\d)(?=.*[a-z]).{8,}"
-           title="Must contain at least one number, one lowercase letter, at least 8 at most 16 length"
-           required="required"><br><br>
+            <form:label path="password">password</form:label>
+            <input type="password" name="password" placeholder="password" class="form-control"
+                   pattern="(?=.*\d)(?=.*[a-z]).{8,}"
+                   title="Must contain at least one number, one lowercase letter, at least 8 at most 16 length"
+                   required="required"><br><br>
 
-    <input type="submit" name="loginButton" value="Sign in" id="s01">
+            <input type="submit" name="loginButton" value="Sign in" id="s01">
 
 
-</form:form>
-</div>
-<div align="center">
-<form action="/" method="get">
-    <button  type="submit" value="home" class="button" >home
-    </button>
-</form>
+        </form:form>
+    </div>
+
+    <div style="align-content: center">
+        <form action="/" method="get" >
+            <button type="submit" value="home" class="button" id="b1">home
+            </button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

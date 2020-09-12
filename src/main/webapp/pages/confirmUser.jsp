@@ -15,10 +15,18 @@
 
 <h4 id="h04"> Confirm User And Change User Attributes</h4>
 
-<div align="right" style="float: right;"  >
-    <button class="btn"  onclick="location.href='/admin';">back</button>
-</div><br>
+<div align="right" style="float: right;">
+    <button class="btn" onclick="location.href='/admin';">back</button>
+</div>
+<br>
 
+<div class="homeTab">
+    <form action="/" method="get">
+        <button type="submit" class="btn">
+            Home
+        </button>
+    </form>
+</div>
 <c:choose>
 
     <c:when test="${empty waitingUsers}">
@@ -30,7 +38,7 @@
             <table class="table table-hover table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th>Id</th>
+
                     <th>name</th>
                     <th>family</th>
                     <th>Email</th>
@@ -44,30 +52,26 @@
                     <form:form modelAttribute="user" action="/confirmUser" method="get">
 
                         <tr>
-                            <td>
-                                <input cssStyle="width: 2vw" name="id" path="id"
-                                       readonly="true" value="${user.id}"/>
-                            </td>
+                            <input name="id" path="id"
+                                   type="hidden" value="${user.id}"/>
 
+                            <td><input path="name" name="name" type="text"
+                                       value="${user.name}"/> </td>
                             <td>
-                                <input path="name" name="name" type="text"
-                                       value="${user.name}" cssStyle="width: 8vw"/>
-                            </td>
-                            <td>
-                                <input cssStyle="width: 8vw" name="family" path="family"
+                                <input name="family" path="family"
                                        type="text" value="${user.family}"/>
                             </td>
 
                             <td>
-                                <input cssStyle="width: 20vw" name="email" path="email"
+                                <input name="email" path="email"
                                        type="text" value="${user.email}"/>
                             </td>
                             <td>
-                                <input cssStyle="width: 5vw" name="role" path="role"
+                                <input name="role" path="role"
                                        type="text" value="${user.role}"/>
                             </td>
                             <td>
-                                <input cssStyle="width: 5vw" name="status" path="status"
+                                <input name="status" path="status"
                                        value="${user.isEnabled()}"/>
                             </td>
                             <td>
@@ -82,16 +86,6 @@
         </div>
     </c:otherwise>
 </c:choose>
-
-<div>
-
-    <form action="/" method="get">
-        <button type="submit" class="btn">
-            Home
-        </button>
-    </form>
-</div>
-
 
 </body>
 </html>

@@ -21,7 +21,13 @@
 <div align="right" style="float: right;"  >
     <button onclick="location.href='/admin';">back</button>
 </div>
-
+<div>
+    <form action="/" method="get">
+        <button type="submit" class="btn">
+            Home
+        </button>
+    </form>
+</div>
 <div class="container">
 
     <form:form action="addCourseProcess" modelAttribute="course" method="get" >
@@ -48,13 +54,7 @@
 </div>
 
 <p align="center">${message}</p>
-<div>
-    <form action="/" method="get">
-        <button type="submit" class="btn">
-            Home
-        </button>
-    </form>
-</div>
+
 
 
 </body>

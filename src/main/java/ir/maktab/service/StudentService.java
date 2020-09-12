@@ -44,4 +44,7 @@ public List<Student> createStudentListFromUser(List<User> users){
         return students;
 }
 
+public Student getStudentById(Long id){
+      return   studentRepository.findById(id);
+}
 }

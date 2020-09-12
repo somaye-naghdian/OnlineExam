@@ -4,19 +4,20 @@
 body {
     font-size: 120%;
     background-color:PowderBlue;
-
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
     height: 100%;
-    max-width: 600px;
+    max-width: 100%;
 }
 .container {
     width: 80%;
     height: 200px;
     margin: auto;
     padding: 10px;
-    display: inline-block;
+    /*display: inline-block;*/
+    display: inline-flex;
+    direction: rtl;
 }
 .myNavbar {
     width: 15%;
@@ -50,4 +51,11 @@ button{
 
 .myNavbar{
     display: inline-block;
+}
+.nav-item {
+    padding: 4%;
+}
+.home{
+    margin-left: 4%;
+    -webkit-user-modify: read-write-plaintext-only;
 }

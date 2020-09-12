@@ -4,46 +4,46 @@
 
 <html>
 <head>
-   <title>Add User To Course</title>
-    <link rel="stylesheet" href="<c:url value="/resources/theme/css/courseCss.css" />">
+    <title>Add User To Course</title>
+    <link rel="stylesheet" href="<c:url value="/resources/theme/css/addUserToCourse.css" />">
 </head>
 <body>
 <div align="right" style=" position: absolute; right: 20px;">
-    <button onclick="location.href='/admin';">back</button>
+    <button class="button" onclick="location.href='/admin';">back</button>
+</div>
+<div class="studentTable">
+    <table id="table">
+        <thead>Student List</thead>
+        <tr>
+            <th>name</th>
+            <th>family</th>
+            <th>email</th>
+            <th></th>
+        </tr>
+        <c:forEach items="${students}" var="student">
+        <form:form action="addStudentToCourse" modelAttribute="user" method="get">
+
+        <tr>
+            <td>${student.name}</td>
+            <td>${student.family}</td>
+            <td><input type="hidden" name="email" value="${student.email}"> ${student.email}</td>
+
+            <td><select name="course" required="required" cssClass="dropdown">
+                <c:forEach var="course" items="${allCourse}">
+                    <option value="${course.courseTitle}"/>
+                    ${course.courseTitle}
+                </c:forEach>
+            </select></td>
+            <td><input type="submit" class="button" value="add"></td>
+            <td><input type="submit" class="button" value="delete" formaction="/deleteStudentFromCourse"></td>
+        </tr>
+        </form:form>
+        </c:forEach>
 </div>
 
-<table id="table">
-    <h4>Student List</h4>
-    <tr>
-        <th>name</th>
-        <th>family</th>
-        <th>email</th>
-        <th></th>
-    </tr>
-    <c:forEach items="${students}" var="student">
-    <form:form action="addStudentToCourse" modelAttribute="user" method="get">
-
-    <tr>
-        <td>${student.name}</td>
-        <td>${student.family}</td>
-        <td><input type="hidden" name="email" value="${student.email}"> ${student.email}</td>
-
-        <td><select name="course" required="required" cssClass="dropdown">
-            <c:forEach var="course" items="${allCourse}">
-                <option  value="${course.courseTitle}"/>
-                ${course.courseTitle}
-            </c:forEach>
-        </select></td>
-        <td><input type="submit" class="button" value="add"></td>
-        <td><input type="submit" class="button" value="delete" formaction="/deleteStudentFromCourse"></td>
-    </tr>
-    </form:form>
-    </c:forEach>
-    <br><br>
-
-
+<div class="teacherTable">
     <table id="table2">
-        <h4>Teacher List</h4>
+        <thead>Teacher List</thead>
         <tr>
             <th>name</th>
             <th>family</th>
@@ -69,12 +69,9 @@
             <td><input type="submit" class="button" value="add"></td>
             <td><input type="submit" class="button" value="delete" formaction="/deleteStudentFromCourse"></td>
         </tr>
-
-
         </form:form>
         </c:forEach>
-
-
+</div>
 </body>
 
 

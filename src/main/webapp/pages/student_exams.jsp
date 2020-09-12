@@ -5,13 +5,6 @@
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="<c:url value="/resources/theme/css/showExamCss.css" />">
-<style>
-    th , td{
-        text-align: left;
-        padding: 8px;
-    }
-    tr:nth-child(even) {background-color: #f2f2f2;}
-</style>
 </head>
 <body>
 
@@ -27,7 +20,8 @@
     <c:forEach items="${examsOfCourse}" var="exam">
         <form:form action="/takeExam" modelAttribute="exam" method="post">
             <tr>
-                <input  type="hidden" name="examId" value="${exam.id}" />
+                <input type="hidden" name="examId" value="${exam.id}"/>
+                <input type="hidden" name="user" value="${user.id}">
                 <td>${exam.title}</td>
                 <td>${exam.description}</td>
                 <td>${exam.startDate}</td>
@@ -38,5 +32,7 @@
         </form:form>
     </c:forEach>
 </table>
+
+<p>${message}</p>
 </body>
 </html>

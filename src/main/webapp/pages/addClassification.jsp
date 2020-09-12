@@ -12,16 +12,21 @@
 </head>
 <body>
 <div class="header">
-    <h2 style="color: #eeeeee">ADD CLASSIFICATION</h2>
+    <h2 class="ch2">ADD CLASSIFICATION</h2>
 </div>
 
 <div align="right" style="float: right;"  >
     <button onclick="location.href='/admin';">back</button>
 </div>
+<div>
+    <form action="/" method="get">
+        <button type="submit" class="btn">Home</button>
+    </form>
+</div>
 
-<div class="container">
+<div class="classContainer">
 
-    <form:form action="addClassificationProcess" modelAttribute="classification" method="get">
+    <form:form action="addClassificationProcess" modelAttribute="classification" method="get" cssClass="form-group">
 
         <form:label path="classificationTitle">Classification Title</form:label>
         <form:input path="classificationTitle" name="classificationTitle" placeholder="classificationTitle"
@@ -35,12 +40,7 @@
 
 </div>
 
-    <form action="/" method="get">
-        <button type="submit" class="btn"
-                onClick="removeRequired(this.form)">
-            Home
-        </button>
-    </form>
+
 
 </body>
 </html>

@@ -21,7 +21,7 @@ public interface CourseRepository extends Repository<Course, Long> {
     Course findByCourseTitle(String title);
 
     @Query("select userList from Course where courseTitle=:title")
-    List<Student> findUsersByCourseTitle(@Param("title") String title);
+    List<User> findUsersByCourseTitle(@Param("title") String title);
 
     @Query("select examList from Course where courseTitle=:courseTitle")
     List<Exam> findExamOfCourse(@Param("courseTitle") String courseTitle);

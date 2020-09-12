@@ -17,7 +17,11 @@
 <div align="right" style="float: right;"  >
     <button class="btn" onclick="location.href='/admin';">back</button>
 </div>
-
+<div>
+    <form action="/" method="get">
+        <button   type="submit" value="home" class="btn" >Home</button>
+    </form>
+</div>
 <h4 >Course List</h4>
 <table class="center" id="t01">
 
@@ -30,18 +34,12 @@
     <c:forEach items="${allCourse}" var="course" >
     <tr>
         <td>${course.courseTitle}</td>
-        <td>${course.classification}</td>
+        <td>${course.classification.classificationTitle}</td>
     </tr>
     </c:forEach>
 </table>
 
-    <div>
-        <form action="/" method="get">
-            <button  style="margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
-                    value="home" class="btn" >Home
-            </button>
-        </form>
-    </div>
+
 
 </body>
 </html>

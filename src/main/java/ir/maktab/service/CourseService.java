@@ -59,18 +59,17 @@ public class CourseService {
         return courseRepository.findByCourseTitle(title);
     }
 
-    public List<Student> getStudentsOfCourse(String courseTitle) {
-        List<Student> allStudents = courseRepository.findUsersByCourseTitle(courseTitle);
-        return allStudents;
+    public List<User> getStudentsOfCourse(String courseTitle) {
+        List<User> allStudents = courseRepository.findUsersByCourseTitle(courseTitle);
+       List<User> students=new ArrayList<>();
+        for (User user:
+             allStudents) {
+            if(user.getRole().equals(UserRole.STUDENT)){
+                students.add(user);
+            }
+        }
+        return students;
     }
-
-//    @Transactional
-//    public void addStudentToCourse(String courseTitle, String email) {
-//        User user = userService.findUserByEmail(email);
-//        Course course = findCourseByTitle(courseTitle);
-//        course.getUserList().add(user);
-//        save(course);
-//    }
 
     @Transactional
     public void addUserToCourse(String courseTitle, String email) {

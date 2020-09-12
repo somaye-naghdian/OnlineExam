@@ -79,7 +79,7 @@ public class UserController {
     public ModelAndView getUserOfCourseProcess(@ModelAttribute("course") CourseDto courseDto) {
         ModelAndView modelAndView = new ModelAndView("showUserOfCourse");
         try {
-            List<Student> studentOfCourse = courseService.getStudentsOfCourse(courseDto.getCourseTitle());
+            List<User> studentOfCourse = courseService.getStudentsOfCourse(courseDto.getCourseTitle());
             modelAndView = new ModelAndView("showUserOfCourse");
             modelAndView.addObject("userOfCourse", studentOfCourse);
             return modelAndView;

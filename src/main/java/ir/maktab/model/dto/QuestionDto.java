@@ -26,8 +26,9 @@ public class QuestionDto {
     @JsonManagedReference
     private Exam exam;
 
-
     private Classification classification;
+
+    private String Type;
 
     public QuestionDto() {
     }
@@ -78,5 +79,13 @@ public class QuestionDto {
 
     public void setClassification(Classification classification) {
         this.classification = classification;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
     }
 }

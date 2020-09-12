@@ -1,6 +1,7 @@
 package ir.maktab.controller;
 
 import ir.maktab.model.entity.Student;
+import ir.maktab.model.entity.User;
 import ir.maktab.service.CourseService;
 import ir.maktab.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,16 +58,16 @@ public class CourseRestController {
 //        }
 //    }
 
-    @GetMapping(value = "/showAllStudentOfCourse/{courseTitle}", consumes = "application/json", produces = "text/html")
-    public List<Student> getAllStudentsOfCourse(@PathVariable("courseTitle") String courseTitle) {
-
-        try {
-            return  courseService.getStudentsOfCourse(courseTitle);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    @GetMapping(value = "/showAllStudentOfCourse/{courseTitle}", consumes = "application/json", produces = "text/html")
+//    public List<User> getAllStudentsOfCourse(@PathVariable("courseTitle") String courseTitle) {
+//
+//        try {
+//            return  courseService.getStudentsOfCourse(courseTitle);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
 
 

@@ -6,15 +6,17 @@ body {
   background-size: cover;
   background-position: center center;
   height: 100%;
-  max-width:400px;
+  max-width: 100%;
+  margin: 3%;
 }
 table {
   width:45%;
   max-width: 45%;
+  padding: 2%;
 }
 table, th, td {
   margin: 0;
-  border: 1px solid yellow;
+  border: 2px solid darkcyan;
   border-collapse: collapse;
 }
 th, td {
@@ -22,7 +24,7 @@ th, td {
   text-align: left;
 }
 th{
-  color: white;
+  color: darkcyan;
 }
 
 #t01 tr:nth-child(even) {
@@ -46,9 +48,12 @@ p{
   cursor:pointer;
 }
 #h04{
-  color: lightcyan;
+  color: darkcyan;
   align-content:center;
   text-align: center;
 }
 
-
+.resultTable{
+  margin-top: 6%;
+  margin-right: 4%;
+}

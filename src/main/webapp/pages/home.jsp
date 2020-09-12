@@ -14,8 +14,11 @@
     <title>Welcome</title>
 </head>
 <body>
+<div>
+    <h2>Online Exam</h2>
+</div>
 
-<div style="display: block" class="container" align="center" >
+<div style="display: block" class="container"  >
 <form action="register" method="get">
 
     <button  type="submit" name="submitButton" value="Register" >REGISTER</button>

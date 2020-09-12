@@ -15,15 +15,21 @@
 <div  style="float: right;"  >
     <button class="btn" onclick="location.href='/admin';">back</button>
 </div>
+<div class="homeTab">
+    <form action="/" method="get">
+        <button type="submit"
+                value="home" class="btn" >Home
+        </button>
+    </form>
+</div>
+
 <table class="center" id="t01">
 
-    <tr>
         <th>Name</th>
         <th>Family</th>
         <th>Email</th>
         <th>Role</th>
         <th>Status</th>
-    </tr>
 
     <c:forEach items="${userList}" var="user" >
     <tr>
@@ -36,13 +42,7 @@
     </c:forEach>
 
 </table>
-<div>
-    <form action="/" method="get">
-        <button style="justify-content:end; margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
-                value="home" class="btn" >Home
-        </button>
-    </form>
-</div>
+
 
 </body>
 </html>

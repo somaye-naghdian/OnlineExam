@@ -8,6 +8,7 @@ body {
     background-size: cover;
     background-position: center center;
     height: 100%;
+    max-width: 100%;
 }
 .container{
     margin: 10px 10px 10px 10px;

@@ -21,6 +21,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -144,5 +145,10 @@ public class ExamService {
             totalScore += score;
         }
         return totalScore;
+    }
+
+    public void addUserScore(Map<Question, String> answers,Exam exam){
+        System.out.println(answers);
+
     }
 }

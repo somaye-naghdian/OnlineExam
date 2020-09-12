@@ -12,6 +12,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class DescriptiveQuestionService {
 
@@ -33,15 +35,15 @@ public class DescriptiveQuestionService {
     }
 
 
-@Modifying
-@Transactional
+    @Modifying
+    @Transactional
     public DescriptiveQuestion createDQuestion(QuestionDto questionDto, String examId) {
         Classification classification = examService.getExamById(Long.valueOf((examId))).getCourse().getClassification();
         Question question = mapper.convertDtoToQuestionEntity(questionDto);
         DescriptiveQuestion descriptiveQuestion = new DescriptiveQuestion(question);
         descriptiveQuestion.setExam(examService.getExamById(Long.valueOf((examId))));
         descriptiveQuestion.setClassification(classification);
-
+        descriptiveQuestion.setType("descriptive");
         return dQuestionRepository.save(descriptiveQuestion);
     }
 
@@ -50,5 +52,7 @@ public class DescriptiveQuestionService {
         return dQuestionRepository.findById(id);
     }
 
-
+    public List<DescriptiveQuestion> getAllDescriptiveQuestions() {
+        return dQuestionRepository.findAll();
+    }
 }

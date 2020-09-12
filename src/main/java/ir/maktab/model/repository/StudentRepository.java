@@ -7,4 +7,6 @@ import org.springframework.data.repository.Repository;
 public interface StudentRepository extends Repository<Student,Long> {
 
     Student save(Student student);
+
+    Student findById(Long id);
 }

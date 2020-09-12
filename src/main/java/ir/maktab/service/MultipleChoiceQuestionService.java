@@ -30,16 +30,17 @@ public class MultipleChoiceQuestionService {
     }
 
     @Transactional
-    public MultipleChoiceQuestion saveMultiQuestion(QuestionDto questionDto, String examId, String answers,String correctAnswer) {
+    public MultipleChoiceQuestion saveMultiQuestion(QuestionDto questionDto, String examId, String answers, String correctAnswer) {
         Classification classification = examService.getExamById(Long.valueOf((examId))).getCourse().getClassification();
         Question question = mapper.convertDtoToQuestionEntity(questionDto);
         MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion(question);
         multipleChoiceQuestion.setExam(examService.getExamById(Long.valueOf((examId))));
         multipleChoiceQuestion.setClassification(classification);
-        multipleChoiceQuestion.setAnswers(getAnswerList(answers,multipleChoiceQuestion));
-        Answer rightAnswer=new Answer();
+        multipleChoiceQuestion.setAnswers(getAnswerList(answers, multipleChoiceQuestion));
+        Answer rightAnswer = new Answer();
         rightAnswer.setContent(correctAnswer);
         multipleChoiceQuestion.setCorrectAnswer(rightAnswer);
+        multipleChoiceQuestion.setType("multipleChoice");
         return mcQuestionRepository.save(multipleChoiceQuestion);
     }
 
@@ -47,7 +48,7 @@ public class MultipleChoiceQuestionService {
         return mcQuestionRepository.save(multipleChoiceQuestion);
     }
 
-    public List<Answer> getAnswerList(String answers,MultipleChoiceQuestion multipleChoiceQuestion) {
+    public List<Answer> getAnswerList(String answers, MultipleChoiceQuestion multipleChoiceQuestion) {
         String[] splitAnswer = answers.split(",");
         List<Answer> answerList = new ArrayList<>();
         for (int i = 0; i < splitAnswer.length; i++) {
@@ -59,4 +60,14 @@ public class MultipleChoiceQuestionService {
         }
         return answerList;
     }
+
+    public  MultipleChoiceQuestion getMultiQuestionById(Long id){
+        return mcQuestionRepository.findById(id);
+    }
+
+    public List<MultipleChoiceQuestion> getAllMultiChoiceQuestion() {
+        return mcQuestionRepository.findAll();
+    }
+
+
 }

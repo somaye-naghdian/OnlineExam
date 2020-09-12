@@ -6,7 +6,8 @@ body {
     background-size: cover;
     background-position: center center;
     height: 100%;
-    max-width: 600px;
+    max-width: 100%;
+    margin: 1%;
 }
 .container{
     align-items: center;
@@ -14,6 +15,9 @@ body {
 }
 .input-group{
     align-items: center;
+    margin-top: 2%;
+    display: flex;
+    margin-left: 12%;
 }
 table {
     width: 70%;
@@ -21,7 +25,8 @@ table {
 }
 
 table, th, td {
-    border: 1px solid midnightblue;
+    background-color: white;
+    border: 2px solid midnightblue;
     border-collapse: collapse;
     color: black;
 }
@@ -37,4 +42,14 @@ button {
     border: none;
     border-radius: 5px;
     cursor:pointer;
+}
+.h3{
+    color: darkcyan;
+    align-items: center;
+    justify-content: center;
+    margin-left: 43%;
+}
+.tableContainer{
+    margin-left: 11%;
+margin-top: 3%;
 }

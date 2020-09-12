@@ -41,10 +41,9 @@
                     <button type="submit" name="courseList" value="courseList">Course List</button>
                 </form:form>
             </li>
-            </nav>
-        </ul>
-        <ul class="nav navbar-nav">
-            <div class="navbar-collapse collapse " id="myNavbar2" style=" position: absolute; right: 20px;" >
+
+
+
                 <li class="nav-item">
                     <form:form action="addClassification" method="get">
                         <button type="submit" name="addClassification" value="addClassification">
@@ -72,17 +71,13 @@
                         </button>
                     </form:form>
                 </li>
-
-                </nav>
-            </div>
         </ul>
 
-    </div>
+</div>
 </div>
 </div>
 
-<div class="container">
-
+<div class="home">
 
     <form action="/" method="get">
         <button type="submit" class="button"

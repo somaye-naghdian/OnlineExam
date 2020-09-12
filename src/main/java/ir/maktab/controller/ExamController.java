@@ -1,25 +1,24 @@
 package ir.maktab.controller;
 
 import ir.maktab.model.dto.ExamDto;
-import ir.maktab.model.dto.QuestionDto;
-import ir.maktab.model.entity.Course;
-import ir.maktab.model.entity.Exam;
-import ir.maktab.model.entity.User;
-import ir.maktab.service.CourseService;
-import ir.maktab.service.ExamService;
-import ir.maktab.service.UserService;
+import ir.maktab.model.entity.*;
+import ir.maktab.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ExamController {
@@ -27,13 +26,20 @@ public class ExamController {
     private ExamService examService;
     private CourseService courseService;
     private UserService userService;
+    private StudentService studentService;
+    private DescriptiveQuestionService dQuestionService;
+    private MultipleChoiceQuestionService mQuestionService;
 
     @Autowired
     public ExamController(ExamService examService, CourseService courseService
-            , UserService userService) {
+            , UserService userService, StudentService studentService
+            , DescriptiveQuestionService dQuestionService, MultipleChoiceQuestionService mQuestionService) {
         this.examService = examService;
         this.courseService = courseService;
         this.userService = userService;
+        this.studentService = studentService;
+        this.dQuestionService = dQuestionService;
+        this.mQuestionService = mQuestionService;
     }
 
     @RequestMapping(value = "newExam", method = RequestMethod.GET)
@@ -70,18 +76,15 @@ public class ExamController {
     public String updateExam(@ModelAttribute("exam") ExamDto examDto
             , HttpServletRequest request, Model model, @RequestParam("user") String teacher) {
         String requestedValue = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
-
         ModelAndView modelAndView = new ModelAndView("simpleMessage");
         try {
             if (requestedValue.equals("/editExam")) {
                 Exam exam = examService.updateExam(examDto, teacher);
                 model.addAttribute("message", "exam " + exam.getTitle() + " successfully updated");
-            }
-            else if (requestedValue.equals("/deleteExam")) {
+            } else if (requestedValue.equals("/deleteExam")) {
                 examService.deleteExam(Long.valueOf((examDto.getId())), teacher);
                 model.addAttribute("message", "exam successfully deleted");
-            }
-            else if (requestedValue.equals("/stopExam")) {
+            } else if (requestedValue.equals("/stopExam")) {
                 examService.stopExam(examDto, teacher);
                 model.addAttribute("message", "exam successfully stop");
             }
@@ -103,10 +106,89 @@ public class ExamController {
         modelAndView.addObject("user", user);
         return modelAndView;
     }
-//@RequestMapping(value = "/takeExam" ,method = RequestMethod.POST)
-//public ModelAndView takeExam(@ModelAttribute("exam")ExamDto examDto){
-//    Exam exam = examService.getExamById(examDto.getId());
-//}
 
+    @RequestMapping(value = "/takeExam", method = RequestMethod.POST)
+    public ModelAndView takeExam(@RequestParam("examId") String examId,
+                                 @RequestParam("user") String studentId) {
+        ModelAndView modelAndView = new ModelAndView("startExam");
+        Exam exam = examService.getExamById(Long.valueOf(examId));
+        Student student = studentService.getStudentById(Long.valueOf(studentId));
+        Date date = new Date(System.currentTimeMillis());
+        if (student.getExams().contains(exam)) {
+            modelAndView = new ModelAndView("student_exams");
+            modelAndView.addObject("message", "You have already taken this exam");
+            return modelAndView;
+        } else if (exam.getEndDate().before(date)) {
+            modelAndView = new ModelAndView("student_exams");
+            modelAndView.addObject("student", student);
+            modelAndView.addObject("message", "Exam time is over");
+            return modelAndView;
+        } else {
+            List<Question> questions = exam.getQuestions();
+            Question question = questions.get(0);
+            if (question instanceof DescriptiveQuestion) {
+                DescriptiveQuestion dQuestion = dQuestionService.getDQuestionByID(question.getId());
+                modelAndView.addObject("question", dQuestion);
+
+            } else {
+                MultipleChoiceQuestion multiQuestion = mQuestionService.getMultiQuestionById(question.getId());
+                modelAndView.addObject("question", multiQuestion);
+                modelAndView.addObject("answers",multiQuestion.getAnswers());
+            }
+        }
+        modelAndView.addObject("exam",exam);
+        modelAndView.addObject("student", student);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/nextQuestion", "/previousQuestion"}, method = RequestMethod.POST)
+    public ModelAndView getNextQuestion(@RequestParam("examId") String examId,
+                                        @RequestParam("user") String studentId,
+                                        @RequestParam("questionId") String questionId,
+                                        HttpServletRequest request) {
+
+        ModelAndView modelAndView = new ModelAndView("startExam");
+        String requestedValue = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+        Student student = studentService.getStudentById(Long.valueOf(studentId));
+        //todo
+        Exam exam = examService.getExamById(Long.valueOf(examId));
+        List<Question> questions = exam.getQuestions();
+
+        Map<Question, String> answers = new HashMap<>();
+        String answer = request.getParameter("answer");
+
+        Integer counter = Integer.valueOf(questionId) -1;
+
+        answers.put(questions.get(Integer.parseInt(questionId)), answer);
+        System.out.println(answers);
+        Integer nextQuestionId = 0;
+
+        if (requestedValue.equals("/nextQuestion") &&
+                counter <= questions.size()) {
+            nextQuestionId = ++counter;
+        } else if (requestedValue.equals("/previousQuestion") &&
+                counter >= 1) {
+            nextQuestionId = --counter;
+        }
+        System.out.println("nextQuestionId "+nextQuestionId);
+        Question question = questions.get(nextQuestionId);
+        System.out.println(question);
+        System.out.println(question.getId());
+        System.out.println("*******************");
+        if (question instanceof DescriptiveQuestion) {
+            DescriptiveQuestion dQuestion = dQuestionService.getDQuestionByID(question.getId());
+            modelAndView.addObject("question", dQuestion);
+            modelAndView.addObject("answer",new Answer());
+
+        } else {
+            MultipleChoiceQuestion multiQuestion = mQuestionService.getMultiQuestionById(question.getId());
+            modelAndView.addObject("question", multiQuestion);
+            modelAndView.addObject("answers",multiQuestion.getAnswers());
+        }
+        modelAndView.addObject("student",student);
+        modelAndView.addObject("exam",exam);
+
+    return modelAndView;
+    }
 }
 

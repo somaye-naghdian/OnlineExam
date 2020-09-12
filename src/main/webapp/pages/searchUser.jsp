@@ -14,24 +14,35 @@
 
 <div align="right" style="float: right;"  >
     <button onclick="location.href='/admin';">back</button>
-</div><br>
+</div>
+<div>
+<form action="/" method="get">
+    <button  type="submit"
+             value="home" class="btn">Home
+    </button>
+</form>
+</div>
 
-<h3 style="color: maroon" > Search User </h3>
+<h3 class="h3" > Search User </h3>
 
 <div class="container">
     <form:form action="searchProcess" modelAttribute="user" method="post">
         <div class="input-group">
+            <form:label path="name" >name:</form:label><br>
             <form:input path="name" name="name" placeHolder="Name"/>
 
+            <form:label path="name" >family:</form:label><br>
             <form:input path="family" name="family" placeHolder="Family"/><br>
 
+            <form:label path="name" >email:</form:label><br>
             <form:input path="email" name="email" placeHolder="email"/>
 
+            <form:label path="name" >role:</form:label><br>
             <form:input path="role" name="role" placeHolder="role"/><br>
 
             <form:button name="search">Search</form:button>
         </div>
-        <br><br>
+        <div class="tableContainer">
         <table align="center" >
             <tr>
                 <th>Name</th>
@@ -51,14 +62,10 @@
 
             </tr>
         </table>
-
+        </div>
         <br>
     </form:form>
-    <form action="/" method="get">
-        <button  style="justify-content: end; margin:5px;color: midnightblue; cursor: pointer; background-color: powderblue;" type="submit"
-                value="home" class="btn">Home
-        </button>
-    </form>
+
 </div>
 </body>
 </html>

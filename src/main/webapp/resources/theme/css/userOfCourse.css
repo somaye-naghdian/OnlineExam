@@ -10,15 +10,27 @@ body {
     height: 100%;
     max-width: 100%;
 }
-button , .btn,.button{
+table {
+    width: 60%;
+    border: 1px solid midnightblue;
+    border-collapse: collapse;
+    float: inside;
+}
+
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+thead{
+    color:darkcyan ;
+}
+button {
     padding: 10px;
     font-size: 15px;
     color: white;
     background: darkcyan;
     border: none;
     border-radius: 5px;
-    cursor:pointer;
-}
-h1,h4,h3,h5 , label ,p{
-    color: midnightblue;
+    cursor: pointer;
+    margin-top: 7%;
 }

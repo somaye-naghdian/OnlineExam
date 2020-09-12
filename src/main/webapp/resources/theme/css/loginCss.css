@@ -7,13 +7,13 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    height: 100%;
-    max-width: 600px;
+    height: max-content;
+    max-width: 100%;
 }
 .header {
     width: 60%;
     margin: 50px auto 0px;
-    color: black;
+    color: darkcyan;
     text-align: center;
     border:5px solid #B0C4DE;
     border-bottom: none;
@@ -82,4 +82,12 @@ form, .content {
     border-radius: 5px;
     text-align: left;
 }
-
+#holder{
+    align-self: center;
+    margin-top: 4%;
+    width: 48%;
+    margin-left: 19%;
+}
+#b1{
+    margin-left: 41%;
+}

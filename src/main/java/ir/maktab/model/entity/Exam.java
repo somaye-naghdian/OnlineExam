@@ -39,6 +39,12 @@ public class Exam {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Question> questions;
 
+    @OneToMany
+    private  List<DescriptiveQuestion> descriptiveQuestions;
+
+    @OneToMany
+    private List<MultipleChoiceQuestion> multipleChoiceQuestions;
+
     @ManyToOne
     private Teacher teacher;
 
@@ -153,6 +159,30 @@ public class Exam {
 
     public void setStudentList(List<Student> studentList) {
         this.studentList = studentList;
+    }
+
+    public List<DescriptiveQuestion> getDescriptiveQuestions() {
+        return descriptiveQuestions;
+    }
+
+    public void setDescriptiveQuestions(List<DescriptiveQuestion> descriptiveQuestions) {
+        this.descriptiveQuestions = descriptiveQuestions;
+    }
+
+    public List<MultipleChoiceQuestion> getMultipleChoiceQuestions() {
+        return multipleChoiceQuestions;
+    }
+
+    public void setMultipleChoiceQuestions(List<MultipleChoiceQuestion> multipleChoiceQuestions) {
+        this.multipleChoiceQuestions = multipleChoiceQuestions;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     @Override

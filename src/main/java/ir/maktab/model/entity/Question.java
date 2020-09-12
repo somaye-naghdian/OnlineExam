@@ -24,6 +24,8 @@ public class Question {
     @ManyToOne
     private Classification classification;
 
+    private String Type;
+
     public Question() {
     }
 
@@ -72,6 +74,14 @@ public class Question {
 
     public void setClassification(Classification classification) {
         this.classification = classification;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
     }
 
     @Override

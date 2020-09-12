@@ -1,20 +1,26 @@
-* { margin: 0px; padding: 0px; }
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
 body {
     font-size: 120%;
     background-image: url("/resources/theme/css/img/dc946732adc6371c5935504d365fae13.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    height: 100vh;
-    max-width: 600px;
-}
-.container{
-    align-items: flex-start;
-    /*align-content: flex-start;*/
-   margin: 20%;
-    justify-content: center;
+    height: max-content;
+    max-width: 100%;
 }
 
+.container {
+    align-items: flex-start;
+    /*align-content: flex-start;*/
+    margin: 20%;
+    justify-content: center;
+    text-align: center;
+    margin-top: 4%;
+}
 
 
 h1 {
@@ -24,14 +30,14 @@ h1 {
     align-content: center;
 }
 
-button , .button {
+button, .button {
     padding: 10px;
     font-size: 15px;
     color: white;
     background: darkcyan;
     border: none;
     border-radius: 5px;
-    cursor:pointer;
+    cursor: pointer;
     align-content: center;
     justify-content: center;
 }
@@ -40,8 +46,14 @@ button , .button {
     display: inline-block;
     margin: 5px;
 }
+
 .profile_info:after {
     content: "";
     display: block;
     clear: both;
+}
+h2{
+    color:darkcyan ;
+    margin-left: 41%;
+    margin-top: 7%;
 }

@@ -3,7 +3,7 @@
 }
 body {
     font-size: 120%;
-    background-color: PowderBlue;
+    background-color: #FFEFD5;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -12,7 +12,7 @@ body {
 }
 table {
     width: 60%;
-    border: 1px solid midnightblue;
+    border: 1px solid  #556B2F;
     border-collapse: collapse;
     float: inside;
 }
@@ -22,13 +22,13 @@ table, th, td {
     border-collapse: collapse;
 }
 thead{
-    color:darkcyan ;
+    color: #556B2F ;
 }
 button {
     padding: 10px;
     font-size: 15px;
     color: white;
-    background: darkcyan;
+    background:  #556B2F;
     border: none;
     border-radius: 5px;
     cursor: pointer;

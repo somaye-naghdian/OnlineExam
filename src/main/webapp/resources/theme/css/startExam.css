@@ -1,0 +1,31 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    font-size: 120%;
+    background-color: white;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: max-content;
+    max-width: 100%;
+}
+.container{
+    align-items: center;
+    text-align: center;
+    border: 2px solid  #556B2F;
+
+}
+.button{
+    padding: 5px;
+    font-size: 10px;
+    color: white;
+    background:  #556B2F;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-content: center;
+    justify-content: center;
+}

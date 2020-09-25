@@ -5,7 +5,7 @@
 
 body {
     font-size: 120%;
-    background-color: PowderBlue;
+    background-color: #FFEFD5;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -19,21 +19,21 @@ body {
     align-items: center;
     width: 60%;
     padding: 20px;
-    border: 1px solid darkcyan ;
+    border: 1px solid #556B2F ;
     border-radius: 10px;
     margin-top: 2%;
     margin-left: 20%;
 }
 
 label {
-    color: darkslategrey;
+    color: #556B2F;
 }
 
 button {
     padding: 10px;
     font-size: 15px;
     color: white;
-    background: darkcyan;
+    background: #556B2F;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -41,14 +41,14 @@ button {
 }
 
 #h02 {
-    color: darkcyan;
+    color: #556B2F;
     text-align: center;
     align-content: center;
 }
 
 table {
     width: 60%;
-    border: 1px solid midnightblue;
+    border: 1px solid #556B2F;
     border-collapse: collapse;
     float: inside;
 }
@@ -59,7 +59,7 @@ table, th, td {
 }
 
 .ch2 {
-    color: darkcyan;
+    color: #556B2F;
     margin-left: 32%;
 }
 
@@ -69,7 +69,7 @@ table, th, td {
     width: 60%;
     /*margin: 0px auto;*/
     padding: 20px;
-    border: 2px solid darkcyan;
+    border: 2px solid #556B2F;
     border-radius: 10px;
     margin-top: 4%;
     margin-left: 17%;

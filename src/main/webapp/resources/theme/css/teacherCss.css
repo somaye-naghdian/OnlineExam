@@ -1,24 +1,50 @@
 * {
-    margin: 0px; padding: 0px;
+    margin: 0px;
+    padding: 0px;
 }
+
 body {
     font-size: 120%;
-    background-color: PowderBlue;
+    background-color: #FFEFD5;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
     height: 100%;
     max-width: 100%;
+    margin: 2%;
 }
-button , .btn,.button{
+
+button, .btn, .button {
     padding: 10px;
     font-size: 15px;
     color: white;
-    background: darkcyan;
+    background: #556B2F;
     border: none;
     border-radius: 5px;
-    cursor:pointer;
+    cursor: pointer;
 }
-h1,h4,h3,h5 , label ,p{
-    color: midnightblue;
+
+h1, h4, h3, h5, label, p {
+    color: #556B2F;
+}
+
+.courses {
+    margin-left: 45%;
+}
+
+.course {
+    margin-left: 46%;
+    margin-top: 3%;
+}
+
+#homeButton {
+    margin-left: 2%
+}
+#table1{
+    margin-left: 45%;
+
+}
+.tableCourses{
+    margin-left: 36%;
+    margin-top: 3%;
 }

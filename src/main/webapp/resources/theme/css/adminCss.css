@@ -3,7 +3,7 @@
 }
 body {
     font-size: 120%;
-    background-color:PowderBlue;
+    background-color:#FFEFD5;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -33,7 +33,7 @@ body {
 #h1 {
     width: 60%;
     margin: 50px auto 0px;
-    color: darkslategrey;
+    color: #556B2F;
     text-align: center;
     border-bottom: none;
     border-radius: 10px 10px 0px 0px;
@@ -43,7 +43,7 @@ button{
     padding: 10px;
     font-size: 15px;
     color: white;
-    background: darkcyan;
+    background: #556B2F;
     border: none;
     border-radius: 5px;
     cursor:pointer;

@@ -3,9 +3,6 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="<c:url value="/resources/theme/css/showAllUserCss.css" />">
 <style>
 
@@ -27,14 +24,14 @@
 
     <tr>
         <th>Title</th>
-        <th>Classification</th>
+<%--        <th>Classification</th>--%>
 
     </tr>
 
     <c:forEach items="${allCourse}" var="course" >
     <tr>
         <td>${course.courseTitle}</td>
-        <td>${course.classification.classificationTitle}</td>
+<%--        <td>${course.classification.classificationTitle}</td>--%>
     </tr>
     </c:forEach>
 </table>

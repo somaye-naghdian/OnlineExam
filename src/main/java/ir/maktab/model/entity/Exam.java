@@ -1,11 +1,8 @@
 
 package ir.maktab.model.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import ir.maktab.util.CustomKeyDeserializer;
-import ir.maktab.util.CustomKeySerializer;
-import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Entity
 public class Exam {
@@ -24,26 +22,14 @@ public class Exam {
 
     private String description;
 
-
     private Date startDate;
 
     private Date endDate;
 
     private Integer time;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Student> studentList;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "exam")
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Question> questions;
-
-    @OneToMany
-    private  List<DescriptiveQuestion> descriptiveQuestions;
-
-    @OneToMany
-    private List<MultipleChoiceQuestion> multipleChoiceQuestions;
 
     @ManyToOne
     private Teacher teacher;
@@ -53,13 +39,16 @@ public class Exam {
 
     private Boolean status;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
     @MapKeyJoinColumn(name = "question_id")
     @Column(name = "question_score")
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JsonDeserialize(keyUsing = CustomKeyDeserializer.class)
-    @JsonSerialize(keyUsing = CustomKeySerializer.class)
     private Map<Question, Double> scoreEachQuestion;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @MapKeyJoinColumn(name = "student_id")
+    @Column(name = "start_time")
+    private Map<Student, java.util.Date> studentsStartTimes;
 
     public Exam() {
     }
@@ -120,14 +109,6 @@ public class Exam {
         this.time = time;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
-
     public Course getCourse() {
         return course;
     }
@@ -161,28 +142,20 @@ public class Exam {
         this.studentList = studentList;
     }
 
-    public List<DescriptiveQuestion> getDescriptiveQuestions() {
-        return descriptiveQuestions;
-    }
-
-    public void setDescriptiveQuestions(List<DescriptiveQuestion> descriptiveQuestions) {
-        this.descriptiveQuestions = descriptiveQuestions;
-    }
-
-    public List<MultipleChoiceQuestion> getMultipleChoiceQuestions() {
-        return multipleChoiceQuestions;
-    }
-
-    public void setMultipleChoiceQuestions(List<MultipleChoiceQuestion> multipleChoiceQuestions) {
-        this.multipleChoiceQuestions = multipleChoiceQuestions;
-    }
-
     public Boolean getStatus() {
         return status;
     }
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Map<Student, java.util.Date> getStudentsStartTimes() {
+        return studentsStartTimes;
+    }
+
+    public void setStudentsStartTimes(Map<Student, java.util.Date> students) {
+        this.studentsStartTimes = students;
     }
 
     @Override
@@ -198,6 +171,25 @@ public class Exam {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Exam exam = (Exam) o;
+        return Objects.equals(id, exam.id) &&
+                Objects.equals(title, exam.title) &&
+                Objects.equals(description, exam.description) &&
+                Objects.equals(startDate, exam.startDate) &&
+                Objects.equals(endDate, exam.endDate) &&
+                Objects.equals(time, exam.time) &&
+                Objects.equals(studentList, exam.studentList) &&
+                Objects.equals(teacher, exam.teacher) &&
+                Objects.equals(course, exam.course) &&
+                Objects.equals(status, exam.status) &&
+                Objects.equals(scoreEachQuestion, exam.scoreEachQuestion) &&
+                Objects.equals(studentsStartTimes, exam.studentsStartTimes);
+    }
 
 }
 

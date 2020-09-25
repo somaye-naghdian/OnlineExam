@@ -1,6 +1,8 @@
 * {
-    margin: 0px; padding: 0px;
+    margin: 0px;
+    padding: 0px;
 }
+
 body {
     font-size: 120%;
     background-image: url("/resources/theme/css/img/dc946732adc6371c5935504d365fae13.jpg");
@@ -10,37 +12,25 @@ body {
     height: max-content;
     max-width: 100%;
 }
-.header {
-    width: 60%;
-    margin: 50px auto 0px;
-    color: darkcyan;
-    text-align: center;
-    border:5px solid #B0C4DE;
-    border-bottom: none;
-    border-radius: 10px 10px 0px 0px;
-    padding: 20px;
-}
-form, .content {
+
+.container {
     justify-content: center;
     align-items: center;
     width: 60%;
-    margin: auto;
     padding: 20px;
-    border: 5px solid #B0C4DE;
-    border-radius: 0px 0px 10px 10px;
-    margin:auto;
+    border: 5px solid #556B2F;
+    border-radius:10px;
     align-self: center;
+    margin-left: 17%;
 }
-.container {
-    margin:auto;
-    align-self: center;
-}
- label {
-    color: navy;
+
+label {
+    color: #556B2F;
     display: block;
     text-align: left;
     margin: 3px;
 }
+
 .container input {
     height: 30px;
     width: 93%;
@@ -49,45 +39,28 @@ form, .content {
     border-radius: 5px;
     border: 1px solid gray;
 }
-#user_type {
-    height: 40px;
-    width: 98%;
-    padding: 5px 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid gray;
-}
-#s01{
-    background-color: darkcyan;
-    color: white;
-    cursor:pointer;
-    border-radius: 5px;
-}
-.button{
+
+.button {
     padding: 10px;
     font-size: 15px;
     color: white;
-    background: darkcyan;
+    background: #556B2F;
     border: none;
     border-radius: 5px;
-    cursor:pointer;
+    cursor: pointer;
+    margin-left: 5%;
+    margin-top:4%;
 }
-.error {
-    width: 92%;
-    margin: 0px auto;
-    padding: 10px;
-    border: 1px solid #a94442;
-    color: #a94442;
-    background: #f2dede;
-    border-radius: 5px;
-    text-align: left;
-}
-#holder{
+
+#holder {
     align-self: center;
-    margin-top: 4%;
+    margin-top: 1%;
     width: 48%;
     margin-left: 19%;
 }
-#b1{
-    margin-left: 41%;
+
+h2 {
+    color: #556B2F;
+    align-self: center;
+    margin-left: 35%;
 }

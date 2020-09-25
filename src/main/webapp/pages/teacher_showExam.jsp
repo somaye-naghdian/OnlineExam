@@ -24,37 +24,45 @@
             <th>Start</th>
             <th>End</th>
             <th>Time</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
 
         </tr>
         <c:forEach items="${examsOfCourse}" var="exam">
             <tr>
-                <form:form modelAttribute="exam" action="/editExam" method="get">
-                    <input type="hidden" id="user" name="user" value="${user.id}"/>
-<%--                  //  ${user.id}--%>
-                    <form:input path="id" name="id" id="id" value="${exam.id}" type="hidden"/>
+            <form:form modelAttribute="exam" action="/editExam" method="get">
+                <input type="hidden" id="user" name="user" value="${user.id}"/>
+                <%--                  //  ${user.id}--%>
+                <form:input path="id" name="id" id="id" value="${exam.id}" type="hidden"/>
 
-                    <td><form:input path="title" id="title" class="examTitle" name="title" value="${exam.title}"
-                                    cssClass="title"/></td>
+                <td><form:input path="title" id="title" class="examTitle" name="title" value="${exam.title}"
+                                cssClass="title" size="6"/></td>
 
-                    <td><form:input path="description" name="description" value="${exam.description}"/></td>
+                <td><form:input path="description" name="description" value="${exam.description}"/></td>
 
-                    <td><form:input path="startDate" name="startDate" value="${exam.startDate}"/></td>
+                <td><form:input path="startDate" name="startDate" value="${exam.startDate}"/></td>
 
-                    <td><form:input path="endDate" name="endDate" value="${exam.endDate}"/></td>
+                <td><form:input path="endDate" name="endDate" value="${exam.endDate}"/></td>
 
-                    <td><form:input path="time" name="time" value=" ${exam.time}"/></td>
+                <td><form:input path="time" name="time" value=" ${exam.time}" size="3"/></td>
 
-                    <td><input type="submit" class="button" value="edit"></td>
-                    <td><input type="submit" class="button" value="delete" formaction="/deleteExam"></td>
-                    <td><input type="submit" class="button" value="stop" formaction="/stopExam" > </td>
+                <td><input type="submit" class="button" value="edit"></td>
+                <td><input type="submit" class="button" value="delete" formaction="/deleteExam"></td>
+                <td><input type="submit" class="button" value="stop" formaction="/stopExam"></td>
 
-                    <td>
-                        <button type="submit" value="addQuestion" formaction="/addQuestionToExam">Add Question</button>
-                    </td>
-                    </tr>
-                </form:form>
+                <td>
+                    <button type="submit" value="addQuestion" formaction="/addQuestionToExam">Add Question</button>
+                </td>
+                <td>
+                    <button type="submit" value="studentsResult"
+                            formaction="/studentsResult">studentsResult
+                    </button>
+                </td>
+                </tr>
+            </form:form>
 
-<%--            //onclick="stopExam()"--%>
         </c:forEach>
     </table>
 </div>
@@ -86,7 +94,6 @@
 <%--    //         xhttp.send();--%>
 <%--    //     }--%>
 <%--    // }//--%>
-
 
 
 </html>

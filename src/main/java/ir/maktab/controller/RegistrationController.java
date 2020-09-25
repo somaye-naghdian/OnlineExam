@@ -6,7 +6,6 @@ import ir.maktab.service.*;
 import ir.maktab.util.Mapper;
 import ir.maktab.util.StatusType;
 import ir.maktab.util.UserRole;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,8 +35,8 @@ public class RegistrationController {
         this.mapper = mapper;
         this.verificationTokenService = verificationTokenService;
         this.adminService = adminService;
-        this.studentService=studentService;
-        this.teacherService=teacherService;
+        this.studentService = studentService;
+        this.teacherService = teacherService;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -53,22 +52,42 @@ public class RegistrationController {
         User user = mapper.convertUserDtoToEntity(userDto);
         UserRole role = user.getRole();
         user.setStatus(StatusType.INACTIVE);
+
         switch (role) {
             case ADMIN:
-                Admin admin = adminService.save(user);
-                adminService.sendMail(admin);
+                Admin admin = null;
+                try {
+                    admin = adminService.save(user);
+                    adminService.sendMail(admin);
+                } catch (Exception e) {
+                    model.addAttribute("message", e.getMessage());
+                }
                 break;
             case STUDENT:
-                Student student = studentService.save(user);
-                studentService.sendMail(student);
+                Student student = null;
+                try {
+                    student = studentService.addNewUser(user);
+                    studentService.sendMail(student);
+                } catch (Exception e) {
+                    model.addAttribute("message", e.getMessage());
+                }
                 break;
             case TEACHER:
-                Teacher teacher = teacherService.save(user);
-                teacherService.sendMail(teacher);
+                Teacher teacher = null;
+                try {
+                    teacher = teacherService.save(user);
+                    teacherService.sendMail(teacher);
+
+                } catch (Exception e) {
+                    model.addAttribute("message", e.getMessage());
+                }
                 break;
         }
-        String message = " Verification Email send to " + userDto.getEmail();
-        model.addAttribute("message", message);
+        if (user.getId() != null) {
+            String message = " Verification Email send to " + userDto.getEmail();
+            model.addAttribute("message", message);
+        }
+
         return "simpleMessage";
     }
 
@@ -98,8 +117,7 @@ public class RegistrationController {
             userService.updateUser(StatusType.AWAITING, user.getEmail());
             confirmModel = new ModelAndView("simpleMessage");
             confirmModel.addObject("message", "Your account will be checked by the administrator");
-        }
-        else {
+        } else {
             if (user.getStatus().equals(StatusType.AWAITING) ||
                     user.getStatus().equals(StatusType.ACCEPTED)) {
                 confirmModel = new ModelAndView("error");

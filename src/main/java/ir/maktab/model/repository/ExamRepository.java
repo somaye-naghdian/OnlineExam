@@ -12,8 +12,6 @@ public interface ExamRepository extends Repository<Exam, Long> {
 
     List<Exam> findAll();
 
-    Exam findByTitle(String title);
-
     Exam findById(Long id);
 
     void delete(Exam exam);

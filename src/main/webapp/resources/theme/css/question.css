@@ -3,7 +3,7 @@
 }
 body {
     font-size: 100%;
-    background-color:PowderBlue;
+    background-color:#FFEFD5;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -14,7 +14,7 @@ button , .button{
     padding:10px;
     font-size: 10px;
     color: white;
-    background: darkcyan;
+    background: #556B2F;
     border: none;
     border-radius: 5px;
     cursor:pointer;
@@ -24,12 +24,12 @@ button , .button{
     margin: 10px 10px 10px 10px;
     justify-content: center;
     align-items: center;
-    width: 70%;
-    height: 100vh;
-    margin: 0px auto;
+    width: 85%;
+    height: 100%;
     padding: 2px;
-    border: 2px solid navy;
+    border: 2px solid #556B2F;
     display: flex;
     flex-direction: row;
-    color: navy;
+    color: #556B2F;
+    margin-left: 30%;
 }

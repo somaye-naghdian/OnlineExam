@@ -1,0 +1,38 @@
+* {
+    margin: 0px; padding: 0px;
+}
+body {
+    font-size: 120%;
+    background-color: #FFEFD5;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100%;
+    max-width: 100%;
+    margin-left: 3%;
+}
+button , .btn,.button{
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background:  #556B2F;
+    border: none;
+    border-radius: 5px;
+    cursor:pointer;
+}
+h2 , label ,p{
+    color:  #556B2F;
+}
+table {
+    border: 1px solid #556B2F;
+    border-collapse: collapse;
+    float: inside;
+    table-layout: fixed;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid #556B2F;
+    border-collapse: collapse;
+    text-align: center;
+}

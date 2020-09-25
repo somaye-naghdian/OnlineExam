@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class Mapper {
@@ -22,7 +23,6 @@ public class Mapper {
         userDto.setRole(user.getRole());
         userDto.setPassword(user.getPassword());
         userDto.setStatus(user.getStatus());
-//        userDto.setCourseList(user.getCourseList());
         return userDto;
     }
 
@@ -35,7 +35,6 @@ public class Mapper {
         user.setRole(userDto.getRole());
         user.setPassword(userDto.getPassword());
         user.setStatus(userDto.getStatus());
-//        user.setCourseList(userDto.getCourseList());
         return user;
     }
 
@@ -50,13 +49,7 @@ public class Mapper {
     }
 
     public List<UserDto> convertEntityListToDto(List<User> userList) {
-        List<UserDto> userDtoList = new ArrayList<>();
-        for (User user :
-                userList) {
-            UserDto userDto = convertUserEntityToDto(user);
-            userDtoList.add(userDto);
-        }
-        return userDtoList;
+        return userList.stream().map(user -> convertUserEntityToDto(user)).collect(Collectors.toList());
     }
 
     public CourseDto convertCourseToDto(Course course) {
@@ -64,7 +57,6 @@ public class Mapper {
         courseDto.setId(course.getId());
         courseDto.setCourseTitle(course.getCourseTitle());
         courseDto.setClassification(String.valueOf(course.getClassification()));
-//        courseDto.setUserList(course.getUserList());
         return courseDto;
     }
 
@@ -95,21 +87,19 @@ public class Mapper {
         exam.setDescription(examDto.getDescription());
         exam.setEndDate(convertStringToSqlDate(examDto.getEndDate()));
         exam.setStartDate(convertStringToSqlDate(examDto.getStartDate()));
-        exam.setQuestions(examDto.getQuestions());
         exam.setTeacher(examDto.getTeacher());
         exam.setTime(examDto.getTime());
         exam.setTitle(examDto.getTitle());
         return exam;
     }
 
-    public ExamDto  convertEntityToExamDto(Exam exam) {
+    public ExamDto convertEntityToExamDto(Exam exam) {
         ExamDto examDto = new ExamDto();
         examDto.setId(exam.getId());
         examDto.setCourse(exam.getCourse());
         examDto.setDescription(exam.getDescription());
         examDto.setEndDate(String.valueOf(exam.getEndDate()));
         examDto.setStartDate(String.valueOf(exam.getStartDate()));
-        examDto.setQuestions(exam.getQuestions());
         examDto.setTeacher(exam.getTeacher());
         examDto.setTime(exam.getTime());
         examDto.setTitle(exam.getTitle());
@@ -117,19 +107,17 @@ public class Mapper {
     }
 
 
-    public Question convertDtoToQuestionEntity(QuestionDto questionDto){
-        Question question =new Question();
+    public Question convertDtoToQuestionEntity(QuestionDto questionDto) {
+        Question question = new Question();
         question.setId(questionDto.getId());
         question.setText(questionDto.getText());
         question.setTitle(questionDto.getTitle());
-        question.setExam(questionDto.getExam());
         question.setClassification(questionDto.getClassification());
-       return  question;
+        return question;
     }
 
 
-
-    public Date convertStringToSqlDate(String inputDate){
+    public Date convertStringToSqlDate(String inputDate) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = null;
         try {
@@ -140,4 +128,25 @@ public class Mapper {
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         return sqlDate;
     }
+
+    public MultipleChoiceQuestion convertMultiQuestionDtoToEntity(MultipleChoiceQuestionDto mCQuestionDto) {
+        MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion();
+        multipleChoiceQuestion.setTitle(mCQuestionDto.getTitle());
+        multipleChoiceQuestion.setText(mCQuestionDto.getText());
+        multipleChoiceQuestion.setType(mCQuestionDto.getType());
+        return multipleChoiceQuestion;
+    }
+
+    public List<Student> getStudentList(List<User> users) {
+        List<Student> students = new ArrayList<>();
+        for (User user :
+                users) {
+            if (user.getRole().equals(UserRole.STUDENT)) {
+                Student student = new Student(user);
+                students.add(student);
+            }
+        }
+        return students;
+    }
+
 }

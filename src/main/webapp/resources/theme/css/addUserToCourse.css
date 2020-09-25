@@ -1,7 +1,11 @@
-* { margin: 0px; padding: 0px; }
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
 body {
     font-size: 120%;
-    background-color:PowderBlue;
+    background-color: #FFEFD5;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -9,43 +13,60 @@ body {
     max-width: 100%;
     margin: 3%;
 }
+
 table {
-    width:60%;
-    border: 2px solid navy;
+    width: 60%;
+    border: 2px solid #556B2F;
     border-collapse: collapse;
     float: inside;
+    margin-top: 3%;
 }
+
 table, th, td {
-    border: 1px solid navy;
+    border: 2px solid #556B2F;
     border-collapse: collapse;
     text-align: center;
+    margin-left: 15%;
 
 }
+
 th, td {
     /*padding: 15px;*/
     text-align: center;
 }
+
 #t01 tr:nth-child(even) {
     background-color: #eee;
 }
+
 #t01 tr:nth-child(odd) {
     background-color: #B0C4DE;
 }
+
 #t01 th {
     background-color: white;
-    color: darkslategrey;
+    color: #556B2F;
 }
-h4{
-    text-align:center;
-    color: teal;
+
+h4 {
+    text-align: center;
+    color: #556B2F;
     margin-top: 2%;
 }
-.button{
-    padding: 10px;
+
+.button {
+    padding: 7px;
     font-size: 15px;
     color: white;
-    background: darkcyan;
+    background: #556B2F;
     border: none;
     border-radius: 5px;
-    cursor:pointer;
+    cursor: pointer;
+}
+
+.thead {
+    color: #556B2F;
+}
+.container1{
+    margin-left: 36%;
 }

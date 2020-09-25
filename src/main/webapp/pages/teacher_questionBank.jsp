@@ -7,20 +7,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="<c:url value="/resources/theme/css/teacherCss.css" />">
     <title>Question Bank</title>
-    <style>
-        table {
-            border: 1px solid yellow;
-            border-collapse: collapse;
-            float: inside;
-            table-layout: fixed;
-            width: 100%;
-        }
-
-        table, th, td {
-            border: 1px solid yellow;
-            border-collapse: collapse;
-        }
-    </style>
 </head>
 <body>
 <div class="navbar" align="right" >
@@ -42,7 +28,7 @@
         <td><form:input path="title" name="title" value="${question.title}" type="hidden"/>${question.title}</td>
         <td><form:input path="text" name="text" value="${question.text}" type="hidden"/> ${question.text}</td>
             <%--    <td><form:input path="classification" name="classification" value="${question.classification}" type="hidden" />${question.classification} </td>--%>
-        <td><input name="score" placeholder="score"/></td>
+        <td><input name="score" size="3" placeholder="score"/></td>
         <input type="hidden" name="examId" value="${exam.id}"/>
         <td><form:button>Add to exam </form:button></td>
     </tr>

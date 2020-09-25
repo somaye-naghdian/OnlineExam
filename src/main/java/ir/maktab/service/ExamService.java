@@ -2,47 +2,43 @@ package ir.maktab.service;
 
 import ir.maktab.model.dto.ExamDto;
 import ir.maktab.model.dto.QuestionDto;
-import ir.maktab.model.entity.DescriptiveQuestion;
-import ir.maktab.model.entity.Exam;
-import ir.maktab.model.entity.Question;
-import ir.maktab.model.entity.User;
+import ir.maktab.model.entity.*;
 import ir.maktab.model.repository.ExamRepository;
-import ir.maktab.util.ExamStatus;
 import ir.maktab.util.Mapper;
+import ir.maktab.util.comperator.SortQuestionById;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.nio.file.AccessDeniedException;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ExamService {
-
+    @Autowired
     private ExamRepository examRepository;
+    @Autowired
     private CourseService courseService;
+    @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private StudentService studentService;
+    @Autowired
     private QuestionService questionService;
+    @Autowired
+    private DescriptiveQuestionService dQuestionService;
+    @Autowired
+    private MultipleChoiceQuestionService mCQuestionService;
+    @Autowired
+    private StudentAnswerService studentAnswerService;
+    @Autowired
     private Mapper mapper;
 
-    @Autowired
-    public ExamService(ExamRepository examRepository, Mapper mapper,
-                       CourseService courseService, QuestionService questionService
-            , TeacherService teacherService) {
-        this.examRepository = examRepository;
-        this.courseService = courseService;
-        this.teacherService = teacherService;
-        this.questionService = questionService;
-        this.mapper = mapper;
-    }
 
     public Exam getExamById(Long id) {
         return examRepository.findById(id);
@@ -65,17 +61,24 @@ public class ExamService {
         }
     }
 
-    public Exam getExamByTitle(String title) {
-        return examRepository.findByTitle(title);
+    @Transactional
+    public void update(Exam exam) {
+        examRepository.save(exam);
     }
 
-    public Exam stopExam(ExamDto examDto, String id) throws Exception {
+    public void addQuestionToExam(Long examId, Question question, Double score) {
+        Exam exam = getExamById(Long.valueOf(examId));
+        exam.getScoreEachQuestion().put(question, score);
+        examRepository.save(exam);
+    }
+
+    public Exam stopExam(ExamDto examDto, Long id) throws Exception {
         Exam exam = getExamById(examDto.getId());
         Date startDate = exam.getStartDate();
         Date endDate = exam.getEndDate();
         Date now = new Date(System.currentTimeMillis());
 
-        if (exam.getTeacher().getId().equals(Long.valueOf(id))) {
+        if (exam.getTeacher().getId().equals(id)) {
             if (startDate.after(now)) {
                 throw new Exception(" exam not yet started");
             } else if (endDate.before(now)) {
@@ -91,10 +94,10 @@ public class ExamService {
 
     @Modifying
     @Transactional
-    public Exam updateExam(ExamDto examDto, String teacherId) throws Exception {
+    public Exam updateExam(ExamDto examDto, Long teacherId) throws Exception {
         Exam exam = examRepository.findById(examDto.getId());
         try {
-            if (Long.valueOf(teacherId) == exam.getTeacher().getId()) {
+            if (teacherId == exam.getTeacher().getId()) {
                 exam.setTitle(examDto.getTitle());
                 exam.setDescription(examDto.getDescription());
                 exam.setStartDate(java.sql.Date.valueOf(examDto.getStartDate()));
@@ -110,9 +113,9 @@ public class ExamService {
     }
 
     @Transactional
-    public void deleteExam(Long id, String teacher_Id) throws AccessDeniedException {
+    public void deleteExam(Long id, Long teacher_Id) throws AccessDeniedException {
         Exam exam = examRepository.findById(id);
-        if (exam.getTeacher().getId() == Long.valueOf(teacher_Id)) {
+        if (exam.getTeacher().getId() == teacher_Id) {
             examRepository.delete(exam);
         } else {
             throw new AccessDeniedException("you can't delete this exam");
@@ -124,22 +127,39 @@ public class ExamService {
         Exam exam = getExamById(id);
         Map<Question, Double> scoreEachQuestion = exam.getScoreEachQuestion();
         scoreEachQuestion.put(question, score);
+        exam.setScoreEachQuestion(scoreEachQuestion);
+        Double totalPoint = calculateExamTotalPoint(scoreEachQuestion);
         examRepository.save(exam);
-        return calculateExamTotalPoint(scoreEachQuestion);
+        return totalPoint;
+
     }
 
-    public Double addQuestionToExamFromBank(String examId, String score, QuestionDto questionDto) throws Exception {
+    public List<Question> getExamQuestions(Long examId) {
+        Exam exam = getExamById(examId);
+        Map<Question, Double> examQuestion = exam.getScoreEachQuestion();
+        List<Question> questions = new ArrayList<>(examQuestion.keySet());
+        for (int i = 0; i < questions.size(); i++) {
+            questions.sort(new SortQuestionById());
+        }
+        System.out.println(questions);
+        return questions;
+    }
+
+
+    public void addQuestionToExamFromBank(Long examId, String score, QuestionDto questionDto) throws Exception {
         Question question = questionService.getQuestionById(questionDto.getId());
-        Exam exam = getExamById(Long.valueOf(examId));
-        if (exam.getQuestions().contains(question)) {
+        Exam exam = getExamById(examId);
+        if (exam.getScoreEachQuestion().get(question).equals(question)) {
             throw new Exception("duplicate question");
         } else {
-            return addExamScore(Long.valueOf((examId)), Double.valueOf(score), question);
+            Double examScore = addExamScore((examId), Double.valueOf(score), question);
+            addQuestionToExam(examId,question,examScore);
         }
     }
 
     public Double calculateExamTotalPoint(Map<Question, Double> scoreOfQuestion) {
         Double totalScore = 0.0;
+//        scoreOfQuestion.keySet().stream().reduce(0.0,(x,y)->Collectors.summingDouble(x,y) );
         for (Double score :
                 scoreOfQuestion.values()) {
             totalScore += score;
@@ -147,8 +167,90 @@ public class ExamService {
         return totalScore;
     }
 
-    public void addUserScore(Map<Question, String> answers,Exam exam){
-        System.out.println(answers);
 
+    @Modifying
+    @Transactional
+    public void addStudentToExam(Long examId, Long studentId) {
+        Exam exam = getExamById(examId);
+        Student student = studentService.getStudentById(studentId);
+        if (!exam.getStudentsStartTimes().containsKey(student)) {
+            exam.getStudentsStartTimes().put(student, new java.util.Date());
+           // student.getExams().add(exam);
+           // studentService.save(student);
+           // exam.getStudentList().add(student);
+            examRepository.save(exam);
+        }
+    }
+
+    @Transactional
+    public StudentAnswer addStudentAnswers(String answer, Long examId, Long questionId, Long studentId) {
+        Question question = questionService.getQuestionById(questionId);
+        Student student = studentService.getStudentById(studentId);
+        Exam exam = examRepository.findById(examId);
+        StudentAnswer newStudentAnswer = null;
+
+        if (question.getType().equals("multipleChoice")) {
+            Double point = getStudentPoint(answer, question.getId(), exam.getId());
+            newStudentAnswer = setStudentAnswer(student.getId(), question, exam.getId(), answer);
+            newStudentAnswer.setScore(point);
+        } else if (question.getType().equals("descriptive")) {
+                newStudentAnswer = setStudentAnswer(student.getId(), question, exam.getId(), answer);
+            newStudentAnswer.setScore(0.0);
+            }
+
+        studentAnswerService.save(newStudentAnswer);
+        return newStudentAnswer;
+    }
+
+    @Transactional
+    public Double getStudentPoint(String answer, Long questionId, Long examId) {
+        Question question = questionService.getQuestionById(questionId);
+        MultipleChoiceQuestion multiQuestion = mCQuestionService.getMultiQuestionById(question.getId());
+        String content = multiQuestion.getCorrectAnswer().getContent();
+        if (content.equals(answer)) {
+            Double score = getQuestionPoint(examId, questionId);
+            return score;
+        }
+        return 0.0;
+    }
+
+    @Transactional
+    public Double getQuestionPoint(Long examId, Long questionId) {
+        Double score = null;
+        Exam exam = getExamById(examId);
+        Map<Question, Double> scoreEachQuestion = exam.getScoreEachQuestion();
+        for (Map.Entry<Question, Double> entry : scoreEachQuestion.entrySet()) {
+            Question key = entry.getKey();
+            if (key.getId().equals(questionId)) {
+                score = entry.getValue();
+            }
+        }
+        return score;
+    }
+
+    public long getRemainingTime(Long examId, Long studentId) {
+        Exam exam = getExamById(examId);
+        Student student = studentService.getStudentById(studentId);
+
+        Map<Student, java.util.Date> students = exam.getStudentsStartTimes();
+        boolean b = students.containsKey(student);
+        java.util.Date startTime = exam.getStudentsStartTimes().get(student);
+        System.out.println(startTime);
+
+        long remainingTime = (exam.getTime() * 60) - ((new java.util.Date()).getTime() - startTime.getTime()) / 1000;
+        return remainingTime;
+    }
+
+    public StudentAnswer setStudentAnswer(Long studentId, Question question, Long examId, String inputAnswer) {
+        StudentAnswer studentAnswer = new StudentAnswer();
+        if (inputAnswer==null) {
+            inputAnswer="no answer";
+            studentAnswer.setScore(0.0);
+        }
+        studentAnswer.setQuestion(question);
+        studentAnswer.setExam(examRepository.findById(examId));
+        studentAnswer.setStudent(studentService.getStudentById(studentId));
+        studentAnswer.setAnswer(inputAnswer);
+        return studentAnswerService.save(studentAnswer);
     }
 }

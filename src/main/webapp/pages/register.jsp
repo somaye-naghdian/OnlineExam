@@ -11,55 +11,58 @@
     <title>Registration</title>
 </head>
 <body>
+<div id="homeButton">
+    <form action="/" method="get">
+        <button type="submit" class="button">
+            home
+        </button>
+
+    </form>
+</div>
+<h4>Registration Form</h4>
+
 <div id="holder" class="container">
-<div class="header">
-    <h2>Registration Form</h2>
-</div>
-<div class=input-group">
-    <form:form action="registration" modelAttribute="user" method="post" id="registrationForm" cssClass="content">
+    <div class=input-group">
+        <form:form action="registration" modelAttribute="user" method="post" id="registrationForm" cssClass="content">
 
-        <form:label path="name">name:</form:label>
-        <input path="name" name="name" placeholder="name" type="text" class="form-control"
-               required="required"/><br>
+            <form:label path="name">name:</form:label>
+            <input path="name" name="name" placeholder="name" type="text" class="form-control"
+                   required="required"/><br>
 
-        <form:label path="family">family:</form:label>
-        <input path="family" name="family" placeholder="family" class="form-control" required="required"/><br>
+            <form:label path="family">family:</form:label>
+            <input path="family" name="family" placeholder="family" class="form-control" required="required"/><br>
 
 
-        <form:label path="email">email:</form:label>
-        <input path="email" name="email" placeholder="email"
-               pattern="^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$"
-               title="simple@example.com" class="form-control"
-               required="required"/><br>
+            <form:label path="email">email:</form:label>
+            <input path="email" name="email" placeholder="email"
+                   pattern="^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$"
+                   title="simple@example.com" class="form-control"
+                   required="required"/><br>
 
-        <form:label path="password">password:</form:label>
-        <input path="password" type="password" id="password" name="password" placeholder="password" class="form-control"
-               pattern="(?=.*\d)(?=.*[a-z]).{8,}"
-               title="Must contain at least one number, one lowercase letter, at least 8 at most 16 length"
-               required="required"><br>
+            <form:label path="password">password:</form:label>
+            <input path="password" type="password" id="password" name="password" placeholder="password"
+                   class="form-control"
+                   pattern="(?=.*\d)(?=.*[a-z]).{8,}"
+                   title="Must contain at least one number, one lowercase letter, at least 8 at most 16 length"
+                   required="required">
 
-        <form:label path="password">confirm:</form:label>
-        <input type="password" class="form-control" id="confirm_password"
-               placeholder="confirm password" oninvalid="validatePassword()" required="required"/><br>
+            <form:label path="password">confirm:</form:label>
+            <input type="password" class="form-control" id="confirm_password"
+                   placeholder="confirm password" oninvalid="validatePassword()" required="required"/><br>
 
-        <form:label path="role">Role:</form:label>
-        <form:select id="role" name="role" path="role">
-            <option name="student" value="STUDENT">student</option>
-            <option name="teacher" value="TEACHER">teacher</option>
-            <option name="admin" value="ADMIN">admin</option>
-        </form:select><br>
+            <form:label path="role">Role:</form:label>
+            <form:select id="role" name="role" path="role">
+                <option name="student" value="STUDENT">student</option>
+                <option name="teacher" value="TEACHER">teacher</option>
+                <option name="admin" value="ADMIN">admin</option>
+            </form:select><br><br>
 
-        <form:button name="register" id="register"  onClick="removeRequired(this.form)" class="btn">Register</form:button><br>
+            <form:button name="register" id="register" onClick="removeRequired(this.form)"
+                         class="btn">Register</form:button><br>
 
-    </form:form>
-</div>
-<div id="h1" >
-<form action="/" method="get">
-    <button type="submit" class="button">
-       home
-    </button>
-</div>
-</form>
+        </form:form>
+    </div>
+
 </div>
 
 
@@ -88,14 +91,14 @@
         });
     }
 
-    document.getElementById("register").onclick = function() {
+    document.getElementById("register").onclick = function () {
         let allAreFilled = true;
-        document.getElementById("registrationForm").querySelectorAll("[required]").forEach(function(i) {
+        document.getElementById("registrationForm").querySelectorAll("[required]").forEach(function (i) {
             if (!allAreFilled) return;
             if (!i.value) allAreFilled = false;
             if (i.type === "radio") {
                 let radioValueCheck = false;
-                document.getElementById("registrationForm").querySelectorAll(`[name=${i.name}]`).forEach(function(r) {
+                document.getElementById("registrationForm").querySelectorAll(`[name=${i.name}]`).forEach(function (r) {
                     if (r.checked) radioValueCheck = true;
                 })
                 allAreFilled = radioValueCheck;

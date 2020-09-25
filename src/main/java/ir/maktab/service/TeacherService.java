@@ -29,7 +29,10 @@ public class TeacherService {
 
     @Modifying
     @Transactional
-    public Teacher save(User user) {
+    public Teacher save(User user) throws Exception {
+        if (userService.findUserByEmail(user.getEmail()) != null){
+            throw new Exception("A user has already registered with this email");
+        }
         Teacher teacher = new Teacher(user);
         teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
         return teacherRepository.save(teacher);

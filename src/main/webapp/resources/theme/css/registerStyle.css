@@ -13,30 +13,25 @@ body {
 }
 .header {
     width: 60%;
-    color: darkcyan;
+    color: #556B2F;
     text-align: center;
     border: 3px solid #B0C4DE;
     border-bottom: none;
     border-radius: 10px 10px 0px 0px;
     padding: 2%;
 }
-form, .content {
+.container {
     justify-content: center;
     align-items: center;
     width: 64%;
     align-self: center;
     /*margin:  auto;*/
-    border: 3px solid #B0C4DE;
-    border-radius: 0px 0px 10px 10px;
+    border: 3px solid #556B2F;
+    border-radius: 10px;
     text-align: center;
-}
-.input-group {
     display: flex;
-    justify-content: center;
-    align-self: center;
-    margin: auto;
-    width: 64%;
 }
+
 .input-group label {
     display: block;
     text-align: left;
@@ -48,25 +43,26 @@ form, .content {
     width: 93%;
     padding: 2px 7px;
     font-size: 16px;
-    color: midnightblue;
+    color: #556B2F;
     border-radius: 5px;
     border: 1px solid gray;
     align-items: center;
     align-self: center;
 }
 
-.btn ,.button{
+.button{
     padding: 10px;
     font-size: 15px;
     color: white;
-    background: #5F9EA0;
+    background: #556B2F;
     border: none;
     border-radius: 5px;
-    cursor:pointer;
-    margin: auto;
+    cursor: pointer;
+    margin-left: 5%;
+    margin-top:4%;
 }
 label{
-    color: midnightblue;
+    color: #556B2F;
 }
 
 .container input {
@@ -81,10 +77,15 @@ label{
     margin-left: 5%;
 }
 #holder{
-    max-width: 60%;
+    max-width:37%;
     margin-left: 28%;
-    margin-top: 4%;
+    margin-top: 1%;
 }
-#h1{
-    width: 100%;
+#homeButton{
+   align-self: start;
+}
+h4{
+    color: #556B2F;
+    align-self: center;
+    margin-left: 38%;
 }

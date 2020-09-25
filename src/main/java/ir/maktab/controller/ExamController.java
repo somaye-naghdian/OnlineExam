@@ -1,6 +1,8 @@
 package ir.maktab.controller;
 
 import ir.maktab.model.dto.ExamDto;
+import ir.maktab.model.dto.QuestionDto;
+import ir.maktab.model.dto.UserDto;
 import ir.maktab.model.entity.*;
 import ir.maktab.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +16,22 @@ import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ExamController {
-
     private ExamService examService;
     private CourseService courseService;
     private UserService userService;
     private StudentService studentService;
     private DescriptiveQuestionService dQuestionService;
     private MultipleChoiceQuestionService mQuestionService;
+    @Autowired
+    private StudentAnswerService studentAnswerService;
+    @Autowired
+    private QuestionService questionService;
 
     @Autowired
     public ExamController(ExamService examService, CourseService courseService
@@ -46,7 +49,6 @@ public class ExamController {
     public ModelAndView getNewExam(@RequestParam("courseTitle") String courseTitle,
                                    @RequestParam("userEmail") String email,
                                    Model model) {
-        System.out.println(email);
         User user = userService.findUserByEmail(email);
         Course course = courseService.findCourseByTitle(courseTitle);
         ModelAndView modelAndView = new ModelAndView("teacher_addExam");
@@ -79,13 +81,13 @@ public class ExamController {
         ModelAndView modelAndView = new ModelAndView("simpleMessage");
         try {
             if (requestedValue.equals("/editExam")) {
-                Exam exam = examService.updateExam(examDto, teacher);
+                Exam exam = examService.updateExam(examDto, Long.valueOf(teacher));
                 model.addAttribute("message", "exam " + exam.getTitle() + " successfully updated");
             } else if (requestedValue.equals("/deleteExam")) {
-                examService.deleteExam(Long.valueOf((examDto.getId())), teacher);
+                examService.deleteExam(Long.valueOf((examDto.getId())), Long.valueOf(teacher));
                 model.addAttribute("message", "exam successfully deleted");
             } else if (requestedValue.equals("/stopExam")) {
-                examService.stopExam(examDto, teacher);
+                examService.stopExam(examDto, Long.valueOf(teacher));
                 model.addAttribute("message", "exam successfully stop");
             }
 
@@ -98,97 +100,141 @@ public class ExamController {
 
 
     @RequestMapping(value = "/examsOfCourse", method = RequestMethod.GET)
-    public ModelAndView getExamsOfCourse(@RequestParam("courseTitle") String courseTitle
-            , @RequestParam("user") String email) {
+    public ModelAndView getExamsOfCourse(@RequestParam("courseTitle") String courseTitle, HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        UserDto userDto = (UserDto) session.getAttribute("user");
+        Student student = studentService.getStudentById(userDto.getId());
         List<Exam> examsOfCourse = courseService.getExamsOfCourse(courseTitle);
-        User user = userService.findUserByEmail(email);
+        Map<Exam, Double> studentScoreEachExam = null;
         ModelAndView modelAndView = new ModelAndView("student_exams", "examsOfCourse", examsOfCourse);
-        modelAndView.addObject("user", user);
+
+        try {
+            studentScoreEachExam = studentService.getStudentScoreEachExam(student.getId());
+        } catch (Exception e) {
+            modelAndView.addObject("message", e.getMessage());
+        }
+
+        modelAndView.addObject("studentScoreEachExam", studentScoreEachExam);
+        modelAndView.addObject("user", student);
         return modelAndView;
     }
 
-    @RequestMapping(value = "/takeExam", method = RequestMethod.POST)
-    public ModelAndView takeExam(@RequestParam("examId") String examId,
-                                 @RequestParam("user") String studentId) {
+    @RequestMapping(value = "/takeExam", method = RequestMethod.GET)
+    public ModelAndView takeExam(@RequestParam("examId") String examId, HttpServletRequest request) {
+
         ModelAndView modelAndView = new ModelAndView("startExam");
+        HttpSession session = request.getSession(false);
+        UserDto userDto = (UserDto) session.getAttribute("user");
+        Student student = studentService.getStudentById(userDto.getId());
         Exam exam = examService.getExamById(Long.valueOf(examId));
-        Student student = studentService.getStudentById(Long.valueOf(studentId));
         Date date = new Date(System.currentTimeMillis());
-        if (student.getExams().contains(exam)) {
-            modelAndView = new ModelAndView("student_exams");
-            modelAndView.addObject("message", "You have already taken this exam");
+        modelAndView.addObject("exam", exam);
+        String message;
+        if (studentAnswerService.participateStudentExam(exam, student)) {
+            modelAndView = new ModelAndView("simpleMessage");
+             message="You have already taken this exam";
+            modelAndView.addObject("message",message );
             return modelAndView;
         } else if (exam.getEndDate().before(date)) {
-            modelAndView = new ModelAndView("student_exams");
-            modelAndView.addObject("student", student);
-            modelAndView.addObject("message", "Exam time is over");
+            modelAndView = new ModelAndView("simpleMessage");
+            message="Exam time is over";
+            modelAndView.addObject("message", message);
             return modelAndView;
         } else {
-            List<Question> questions = exam.getQuestions();
-            Question question = questions.get(0);
-            if (question instanceof DescriptiveQuestion) {
-                DescriptiveQuestion dQuestion = dQuestionService.getDQuestionByID(question.getId());
-                modelAndView.addObject("question", dQuestion);
-
-            } else {
-                MultipleChoiceQuestion multiQuestion = mQuestionService.getMultiQuestionById(question.getId());
-                modelAndView.addObject("question", multiQuestion);
-                modelAndView.addObject("answers",multiQuestion.getAnswers());
-            }
+            examService.addStudentToExam(Long.valueOf(examId), student.getId());
+            modelAndView.addObject("examStarted", exam.getStudentsStartTimes().get(student));
+            modelAndView.addObject("question", new QuestionDto());
         }
-        modelAndView.addObject("exam",exam);
-        modelAndView.addObject("student", student);
-        return modelAndView;
+        return getNextQuestion(request);
     }
 
-    @RequestMapping(value = {"/nextQuestion", "/previousQuestion"}, method = RequestMethod.POST)
-    public ModelAndView getNextQuestion(@RequestParam("examId") String examId,
-                                        @RequestParam("user") String studentId,
-                                        @RequestParam("questionId") String questionId,
-                                        HttpServletRequest request) {
+    @RequestMapping(value = {"/nextQuestion", "/previousQuestion", "/finishExam"}, method = RequestMethod.GET)
+    public ModelAndView getNextQuestion(HttpServletRequest request) {
 
         ModelAndView modelAndView = new ModelAndView("startExam");
         String requestedValue = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
-        Student student = studentService.getStudentById(Long.valueOf(studentId));
-        //todo
+        int index = Integer.parseInt(request.getParameter("index"));
+        Long examId = Long.valueOf(request.getParameter("examId"));
+        List<Question> questions = examService.getExamQuestions(examId);
+        String requestAnswer = request.getParameter("userAnswer");
+        HttpSession session = request.getSession(false);
+        UserDto userDto = (UserDto) session.getAttribute("user");
+        Student student = studentService.getStudentById(userDto.getId());
+        Map<Integer, Question> questionList = questionService.getQuestionMap(questions);
+
+        if (index < questionList.size() && index > 0) {
+            Question question = questionList.get(index);
+
+
+            if (studentAnswerService.isAnsweredQuestion(question) != null) {
+                StudentAnswer studentAnswer = studentAnswerService.isAnsweredQuestion(question);
+                studentAnswerService.changeAnswer(studentAnswer.getId(), requestAnswer);
+            } else {
+                StudentAnswer studentAnswer1 = examService.addStudentAnswers(requestAnswer, examId, question.getId(), student.getId());
+            }
+
+            switch (requestedValue) {
+                case "/nextQuestion":
+                    index += 1;
+                    question = questionList.get(index);
+                    break;
+                case "/previousQuestion":
+                    if (index > 1) {
+                        index -= 1;
+                        question = questionList.get(index);
+                    }
+                    break;
+            }
+
+            if (question instanceof DescriptiveQuestion) {
+                DescriptiveQuestion dQuestion = dQuestionService.getDQuestionByID(question.getId());
+                modelAndView.addObject("question", dQuestion);
+                request.setAttribute("question", dQuestion);
+
+            } else if (question instanceof MultipleChoiceQuestion) {
+                MultipleChoiceQuestion multiQuestion = mQuestionService.getMultiQuestionById(question.getId());
+                modelAndView.addObject("question", multiQuestion);
+                request.setAttribute("question", multiQuestion);
+            }
+            modelAndView.addObject("questionType", questionList.get(index).getType());
+        }
+
+        if (requestedValue.equals("/finishExam")) {
+            StudentAnswer studentAnswer1 = examService.addStudentAnswers(requestAnswer, examId,  questionList.get(index).getId(), student.getId());
+            modelAndView = new ModelAndView("simpleMessage", "message", "exam finished");
+            return modelAndView;
+        }
+        java.util.Date startTime = getStartTime(examService.getExamById(examId), student);
+        modelAndView.addObject("index", index);
+        modelAndView.addObject("startTime",startTime);
+        modelAndView.addObject("examTime", examService.getExamById(examId).getTime());
+        modelAndView.addObject("exam", examService.getExamById(examId));
+        modelAndView.addObject("listSize", questionList.size());
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/studentsResult", method = RequestMethod.GET)
+    public ModelAndView getExamResult(@RequestParam("id") String examId) {
         Exam exam = examService.getExamById(Long.valueOf(examId));
-        List<Question> questions = exam.getQuestions();
+        Map<Student, Double> studentScores = studentAnswerService.getResultTeacher(Long.valueOf(examId));
+        ModelAndView modelAndView = new ModelAndView("teacher_studentResult");
+        modelAndView.addObject("size", studentScores.size());
+        modelAndView.addObject("studentScores", studentScores);
+        modelAndView.addObject("exam", exam);
+        return modelAndView;
+    }
 
-        Map<Question, String> answers = new HashMap<>();
-        String answer = request.getParameter("answer");
-
-        Integer counter = Integer.valueOf(questionId) -1;
-
-        answers.put(questions.get(Integer.parseInt(questionId)), answer);
-        System.out.println(answers);
-        Integer nextQuestionId = 0;
-
-        if (requestedValue.equals("/nextQuestion") &&
-                counter <= questions.size()) {
-            nextQuestionId = ++counter;
-        } else if (requestedValue.equals("/previousQuestion") &&
-                counter >= 1) {
-            nextQuestionId = --counter;
+    private java.util.Date getStartTime(Exam exam, Student student) {
+        java.util.Date start = new java.util.Date();
+        for (Map.Entry<Student, java.util.Date> entry : exam.getStudentsStartTimes().entrySet()) {
+            Student key = entry.getKey();
+            if (key.getId().equals(student.getId())) {
+                start = entry.getValue();
+            }
         }
-        System.out.println("nextQuestionId "+nextQuestionId);
-        Question question = questions.get(nextQuestionId);
-        System.out.println(question);
-        System.out.println(question.getId());
-        System.out.println("*******************");
-        if (question instanceof DescriptiveQuestion) {
-            DescriptiveQuestion dQuestion = dQuestionService.getDQuestionByID(question.getId());
-            modelAndView.addObject("question", dQuestion);
-            modelAndView.addObject("answer",new Answer());
-
-        } else {
-            MultipleChoiceQuestion multiQuestion = mQuestionService.getMultiQuestionById(question.getId());
-            modelAndView.addObject("question", multiQuestion);
-            modelAndView.addObject("answers",multiQuestion.getAnswers());
-        }
-        modelAndView.addObject("student",student);
-        modelAndView.addObject("exam",exam);
-
-    return modelAndView;
+        return start;
     }
 }
 

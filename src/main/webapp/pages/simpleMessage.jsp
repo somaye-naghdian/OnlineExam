@@ -17,5 +17,13 @@
             value="login" >LOGIN
     </button>
 </form>
+
+<div>
+    <form action="/logout" method="get">
+        <button type="submit"
+                value="logout" class="button">logout
+        </button>
+    </form>
+</div>
 </body>
 </html>

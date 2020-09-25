@@ -23,19 +23,4 @@ public class AuthenticationService {
         return true;
     }
 
-//    public boolean checkMail(String email) {
-//        String regex = "^[\w!#$%&'*+/=?{|}~^-]+(?:\.[\w!#$%&'*+/=?{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$";
-//        Pattern pattern = Pattern.compile(regex);
-//        Matcher matcher = pattern.matcher(email);
-//        return matcher.matches();
-//    }
-//
-//    public boolean checkPassword(String password) {
-//        String regex = "\\\\A(?=.*[A-Z])(?=.*\\\\d)[a-zA-Z0-9]{8,16}\\\\z";
-//        //"(?=.*\\d)(?=.*[a-z]).{8,}"
-//        Pattern pattern = Pattern.compile(regex);
-//        Matcher matcher = pattern.matcher(password);
-//        return matcher.matches();
-//    }
-
 }

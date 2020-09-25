@@ -1,10 +1,8 @@
 package ir.maktab.service;
 
 import ir.maktab.exceptions.CourseAlreadyExist;
-import ir.maktab.model.dto.QuestionDto;
 import ir.maktab.model.entity.*;
 import ir.maktab.model.repository.ClassificationRepository;
-import ir.maktab.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,6 +68,14 @@ public class ClassificationService {
     @Transactional
     public Classification addMultiQuestionToClassification(MultipleChoiceQuestion multipleChoiceQuestion) {
         Classification classification = multipleChoiceQuestion.getClassification();
+        Answer correctAnswer = multipleChoiceQuestion.getCorrectAnswer();
+        List<Answer> answers = multipleChoiceQuestion.getAnswers();
+        for (Answer answer : answers) {
+            answer.setCorrect(false);
+            if (answer.getContent().equals(correctAnswer)) {
+                answer.setCorrect(true);
+            }
+        }
         mcqService.saveQuestion(multipleChoiceQuestion);
         classification.getQuestionBank().add(multipleChoiceQuestion);
 

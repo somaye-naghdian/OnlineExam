@@ -7,11 +7,9 @@ import java.util.List;
 
 @Entity
 public class Teacher extends User {
-  //  cascade = { CascadeType.PERSIST, CascadeType.MERGE}
+
     @OneToMany(mappedBy = "teacher",fetch = FetchType.LAZY)
     private List<Exam> exams;
-
-
 
 
     public Teacher(User user) {

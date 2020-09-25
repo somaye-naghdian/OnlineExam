@@ -1,9 +1,12 @@
 package ir.maktab.model.entity;
 
 import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Course {
@@ -15,16 +18,15 @@ public class Course {
 
     @Column(unique = true)
     private String courseTitle;
-//, cascade = CascadeType.REMOVE
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Classification classification;
-//, cascade = {
-//            CascadeType.PERSIST,
-//            CascadeType.MERGE}
+
     @OneToMany(mappedBy = "course",fetch = FetchType.EAGER)
     private List<Exam> examList;
-//, cascade = CascadeType.PERSIST
-    @ManyToMany(mappedBy = "courseList", fetch = FetchType.LAZY)
+
+    @ManyToMany(mappedBy = "courseList")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<User> userList;
 
 
@@ -80,4 +82,20 @@ public class Course {
         this.examList = examList;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Objects.equals(id, course.id) &&
+                Objects.equals(courseTitle, course.courseTitle) &&
+                Objects.equals(classification, course.classification) &&
+                Objects.equals(examList, course.examList) &&
+                Objects.equals(userList, course.userList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, courseTitle, classification, examList, userList);
+    }
 }

@@ -34,7 +34,7 @@ button, .button {
     padding: 10px;
     font-size: 15px;
     color: white;
-    background: darkcyan;
+    background: #556B2F;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -53,7 +53,7 @@ button, .button {
     clear: both;
 }
 h2{
-    color:darkcyan ;
+    color:#556B2F ;
     margin-left: 41%;
     margin-top: 7%;
 }

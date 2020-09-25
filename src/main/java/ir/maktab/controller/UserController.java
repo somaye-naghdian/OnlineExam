@@ -13,13 +13,17 @@ import ir.maktab.util.Mapper;
 import ir.maktab.util.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -39,6 +43,7 @@ public class UserController {
         this.courseService = courseService;
         this.adminService = adminService;
         this.mapper = mapper;
+
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -122,5 +127,13 @@ public class UserController {
                 userDto.getEmail(), userDto.getRole(), 0, 100);
         List<UserDto> userDtoPage = mapper.convertEntityListToDto(userList.toList());
         return new ModelAndView("searchUser", "userList", userDtoPage);
+    }
+
+    @GetMapping(value = "/logout")
+    public ModelAndView logout(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        session.invalidate();
+        ModelAndView modelAndView=new ModelAndView("simpleMessage","message","logout");
+        return modelAndView;
     }
 }

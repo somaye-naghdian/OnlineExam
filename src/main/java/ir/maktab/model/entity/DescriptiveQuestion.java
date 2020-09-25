@@ -10,8 +10,7 @@ public class DescriptiveQuestion extends Question {
     private Answer answer;
 
     public DescriptiveQuestion(Question question) {
-        super(question.getTitle(), question.getText(),question.getExam(),question.getClassification());
-
+        super(question.getTitle(), question.getText());
     }
 
     public DescriptiveQuestion() {
@@ -23,5 +22,12 @@ public class DescriptiveQuestion extends Question {
 
     public void setAnswer(Answer answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public String toString() {
+        return "DescriptiveQuestion{" +
+                "answer=" + answer +
+                '}';
     }
 }

@@ -17,9 +17,8 @@
 </nav>
 <div class="container">
     <h3 align="center">Course List</h3>
-<div class="table" style="justify-content: center;">
-    <table class="table" align="center">
-
+<div class="table1" >
+    <table class="tableCourses" align="center">
 
         <c:forEach items="${courseList}" var="course">
             <tr>
@@ -30,12 +29,16 @@
                      <td><button class="btn" id="newExam" value="ACTIVE">New Exam</button></td>
                     </form:form>
 
-                    <for:form action="getExamsOfCourse" method="get">
+                    <form:form action="getExamsOfCourse" method="get">
                         <input type="hidden" name="courseTitle" value="${course.courseTitle}">
                         <input type="hidden" name="user" value="${user.email}">
                       <td> <button class="btn1" id="examList">Exam List</button></td>
-                    </for:form>
+                    </form:form>
 
+<%--                <form:form action="/studentsResult" method="get">--%>
+<%--                    <input type="hidden" name="courseTitle" value="${course.courseTitle}">--%>
+<%--                    <td><button type="submit" value="studentsResult" >studentsResult</button></td>--%>
+<%--                </form:form>--%>
             </tr>
 
         </c:forEach>

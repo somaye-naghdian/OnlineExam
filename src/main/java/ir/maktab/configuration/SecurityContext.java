@@ -19,9 +19,9 @@ import javax.sql.DataSource;
 public class SecurityContext extends WebSecurityConfigurerAdapter {
 
 
-    private static final String AUTHORITY_QUERY = "select email, role from user where email = ?";
+    private static final String AUTHORITY_QUERY = "select user.email, user.role from user where email = ? and role =?";
 
-    private static final String USERNAME_QUERY = "SELECT email, password, 1 FROM `user` WHERE `email` = ?";
+    private static final String USERNAME_QUERY = "SELECT email, password  FROM `user` WHERE `email` = ?  ";
 
     @Autowired
     DataSource dataSource;
@@ -40,14 +40,13 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .successForwardUrl("/")
-                .failureUrl("/error")
+                .failureUrl("/loginError")
                 .permitAll()
                 .and()
                 .authorizeRequests()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/verify").permitAll()
-                .antMatchers("/addnewDQuestion").permitAll()
                 .and()
                 .httpBasic();
 

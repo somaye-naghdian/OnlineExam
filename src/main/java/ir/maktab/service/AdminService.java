@@ -42,32 +42,18 @@ public class AdminService {
     }
 
     @Transactional
-    public Admin save(User user) {
+    public Admin save(User user) throws Exception {
+        if (userService.findUserByEmail(user.getEmail()) != null){
+            throw new Exception("A user has already registered with this email");
+        }
         Admin admin = new Admin(user);
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         return adminRepository.save(admin);
     }
 
-
-    public Page<User> findMaxMatch(String name,
-                                   String family,
-                                   String email,
-                                   UserRole role,
-                                   int offset, int limit) {
-        Pageable pageable = PageRequest.of(offset, limit);
-        return userRepository.findAll(UserSpecifications.findMaxMatch(name, family, email, role), pageable);
-    }
-
-
     public List<User> findByStatus(StatusType statusType) {
         return userRepository.findByStatus(statusType);
     }
-
-    public void editUser(User user) {
-
-    }
-
-
 
     public boolean sendMail(Admin admin) {
        return userService.sendTo(admin);

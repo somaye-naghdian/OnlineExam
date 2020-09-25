@@ -3,7 +3,7 @@
 }
 body {
     font-size: 120%;
-    background-color: PowderBlue;
+    background-color: #FFEFD5;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -17,10 +17,10 @@ body {
     width: 40%;
     margin: 0px auto;
     padding: 10px;
-    border: 3px solid navy;
+    border: 3px solid #556B2F ;
     display: flex;
     flex-direction: row;
-    color: navy;
+    color: #556B2F ;
 }
 .input-group {
     margin: 10px 0px 10px 0px;
@@ -50,7 +50,7 @@ button{
     padding: 10px;
     font-size: 15px;
     color: white;
-    background: darkcyan;
+    background: #556B2F ;
     border: none;
     border-radius: 5px;
     cursor:pointer;
@@ -78,7 +78,7 @@ input[type=number]{
     border: 1px solid gray;
 }
 #s01{
-    background-color: darkcyan;
+    background-color: #556B2F ;
     color: white;
     cursor:pointer;
     border-radius: 5px;

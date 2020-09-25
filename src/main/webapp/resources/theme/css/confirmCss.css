@@ -1,7 +1,7 @@
 * { margin: 0px; padding: 0px; }
 body {
   font-size: 120%;
-  background-color:PowderBlue;
+  background-color:#FFEFD5;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -16,7 +16,7 @@ table {
 }
 table, th, td {
   margin: 0;
-  border: 2px solid darkcyan;
+  border: 2px solid #556B2F;
   border-collapse: collapse;
 }
 th, td {
@@ -24,7 +24,7 @@ th, td {
   text-align: left;
 }
 th{
-  color: darkcyan;
+  color: #556B2F;
 }
 
 #t01 tr:nth-child(even) {
@@ -42,13 +42,13 @@ p{
   padding: 5px;
   font-size: 10px;
   color: white;
-  background: darkcyan;
+  background: #556B2F;
   border: none;
   border-radius: 5px;
   cursor:pointer;
 }
 #h04{
-  color: darkcyan;
+  color: #556B2F;
   align-content:center;
   text-align: center;
 }

@@ -12,10 +12,15 @@
     <title>Login</title>
 </head>
 <body>
+<div id="homeButton">
+    <form action="/" method="get" >
+        <button type="submit" value="home" class="button" id="b1">home
+        </button>
+    </form>
+</div>
+
+<h2 >Login Form</h2>
 <div id="holder">
-    <div class="header">
-        <h2>Login Form</h2>
-    </div>
     <div class="container">
         <form:form action="loginProcess" modelAttribute="user" method="get">
 
@@ -35,13 +40,9 @@
 
         </form:form>
     </div>
-
-    <div style="align-content: center">
-        <form action="/" method="get" >
-            <button type="submit" value="home" class="button" id="b1">home
-            </button>
-        </form>
-    </div>
 </div>
+
+<p>${message}</p>
+
 </body>
 </html>

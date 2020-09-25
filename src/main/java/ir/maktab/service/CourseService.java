@@ -117,6 +117,19 @@ public class CourseService {
             courses.add(course);
         return courses;
     }
+
+    public List<Course> getStudentCourses(String email){
+        Student student = studentService.getStudentByEmail(email);
+        List<Course> allCourse = getAllCourse();
+        List<Course> studentUserList =new ArrayList<>();
+        for (Course course:
+             allCourse) {
+            if( course.getUserList().contains(student)){
+                studentUserList.add(course);
+            }
+        }
+        return studentUserList;
+    }
 }
 
 

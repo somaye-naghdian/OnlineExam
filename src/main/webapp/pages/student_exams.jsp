@@ -4,11 +4,15 @@
 <html>
 <head>
     <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="<c:url value="/resources/theme/css/showExamCss.css" />">
 </head>
 <body>
-
-<table>
+<h4> Exam List</h4>
+<table id="table1">
 
     <th>Title</th>
     <th>Description</th>
@@ -18,10 +22,11 @@
     <th></th>
 
     <c:forEach items="${examsOfCourse}" var="exam">
-        <form:form action="/takeExam" modelAttribute="exam" method="post">
+        <form:form action="/takeExam" modelAttribute="exam" method="get">
             <tr>
                 <input type="hidden" name="examId" value="${exam.id}"/>
                 <input type="hidden" name="user" value="${user.id}">
+                <input type="hidden" name="index" value="1">
                 <td>${exam.title}</td>
                 <td>${exam.description}</td>
                 <td>${exam.startDate}</td>
@@ -33,6 +38,8 @@
     </c:forEach>
 </table>
 
-<p>${message}</p>
+
+
+<%--<p style="color: red" >${message}</p>--%>
 </body>
 </html>

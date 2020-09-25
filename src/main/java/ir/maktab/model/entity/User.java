@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.Mapping;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class User {
@@ -22,6 +23,7 @@ public class User {
     @Column(unique = true)
     private String email;
 
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     private String password;
@@ -29,7 +31,7 @@ public class User {
     @Column(name = "status")
     private StatusType status;
 
-   @ManyToMany(cascade = CascadeType.MERGE)
+   @ManyToMany
    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Course> courseList;
 
@@ -113,5 +115,15 @@ public class User {
         this.courseList = courseList;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(family, user.family) &&
+                Objects.equals(email, user.email);
+    }
 
 }

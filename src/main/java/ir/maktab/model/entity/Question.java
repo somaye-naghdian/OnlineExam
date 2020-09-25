@@ -1,9 +1,10 @@
 package ir.maktab.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -15,12 +16,11 @@ public class Question {
     private String title;
 
     private String text;
-  //  cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
-    @ManyToOne
-    @JsonManagedReference
-    @JsonIgnore
-    private Exam exam;
-    //cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+
+   /* @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @ManyToMany(mappedBy = "scoreEachQuestion")
+    private List<Exam>  exam;*/
+
     @ManyToOne
     private Classification classification;
 
@@ -29,11 +29,11 @@ public class Question {
     public Question() {
     }
 
-    public Question(String title, String text,Exam exam,Classification classification) {
-        this.title=title;
-        this.text=text;
-        this.exam=exam;
-        this.classification=classification;
+    public Question( String title, String text) {
+        this.title = title;
+        this.text = text;
+
+
     }
 
     public Long getId() {
@@ -60,13 +60,13 @@ public class Question {
         this.text = text;
     }
 
-    public Exam getExam() {
+   /* public List<Exam> getExam() {
         return exam;
     }
 
-    public void setExam(Exam exam) {
+    public void setExam(List<Exam> exam) {
         this.exam = exam;
-    }
+    }*/
 
     public Classification getClassification() {
         return classification;
@@ -92,4 +92,13 @@ public class Question {
                 ", text='" + text + '\'' +
                 '}';
     }
-}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Question question = (Question) o;
+        return Objects.equals(id, question.id);
+    }
+
+   }

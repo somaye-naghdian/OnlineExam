@@ -13,11 +13,18 @@
 </head>
 <body>
 
+<div class="align-items: flex-end;">
+    <form action="/" method="get">
+        <button type="submit"
+                value="home" id="homeButton">home
+        </button>
+    </form>
+</div>
 
 <div class="course">
     <h3>Course</h3><br>
 </div>
-<div class="container" style="align-items: center;">
+<div class="courses" >
     <form:form action="getCoursePage" method="get">
         <input type="hidden" id="email" name="user" value="${user.email}" name="user">
         <button id="btn">Course List</button>
@@ -25,13 +32,14 @@
 </div>
 
 
-<div class="align-items: flex-end;">
-    <form action="/" method="get">
+<div>
+    <form action="/logout" method="get">
         <button type="submit"
-                value="home">home
+                value="logout" class="button">logout
         </button>
     </form>
 </div>
+
 
 </body>
 

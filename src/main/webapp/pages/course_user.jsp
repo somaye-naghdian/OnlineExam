@@ -13,7 +13,7 @@
 </div>
 <div class="studentTable">
     <table id="table">
-        <thead>Student List</thead>
+        <thead class="thead">Student List</thead>
         <tr>
             <th>name</th>
             <th>family</th>
@@ -43,7 +43,7 @@
 
 <div class="teacherTable">
     <table id="table2">
-        <thead>Teacher List</thead>
+        <thead class="thead" style="text-align: center">Teacher List</thead>
         <tr>
             <th>name</th>
             <th>family</th>

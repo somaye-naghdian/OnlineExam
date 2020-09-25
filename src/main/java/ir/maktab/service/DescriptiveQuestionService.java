@@ -6,6 +6,7 @@ import ir.maktab.model.entity.DescriptiveQuestion;
 import ir.maktab.model.entity.Exam;
 import ir.maktab.model.entity.Question;
 import ir.maktab.model.repository.DescriptiveQuestionRepository;
+import ir.maktab.model.repository.ExamRepository;
 import ir.maktab.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,20 +17,17 @@ import java.util.List;
 
 @Service
 public class DescriptiveQuestionService {
-
+    @Autowired
     private DescriptiveQuestionRepository dQuestionRepository;
+    @Autowired
     private ExamService examService;
-    private Mapper mapper;
+    @Autowired
+    private ExamRepository examRepository;
 
     @Autowired
-    public DescriptiveQuestionService(DescriptiveQuestionRepository dQuestionRepository
-            , ExamService examService, Mapper mapper) {
-        this.dQuestionRepository = dQuestionRepository;
-        this.examService = examService;
-        this.mapper = mapper;
-    }
+    private Mapper mapper;
 
-
+    @Transactional
     public DescriptiveQuestion saveQuestion(DescriptiveQuestion descriptiveQuestion) {
         return dQuestionRepository.save(descriptiveQuestion);
     }
@@ -37,11 +35,10 @@ public class DescriptiveQuestionService {
 
     @Modifying
     @Transactional
-    public DescriptiveQuestion createDQuestion(QuestionDto questionDto, String examId) {
+    public DescriptiveQuestion createDQuestion(QuestionDto questionDto, Long examId) {
         Classification classification = examService.getExamById(Long.valueOf((examId))).getCourse().getClassification();
         Question question = mapper.convertDtoToQuestionEntity(questionDto);
         DescriptiveQuestion descriptiveQuestion = new DescriptiveQuestion(question);
-        descriptiveQuestion.setExam(examService.getExamById(Long.valueOf((examId))));
         descriptiveQuestion.setClassification(classification);
         descriptiveQuestion.setType("descriptive");
         return dQuestionRepository.save(descriptiveQuestion);
@@ -52,7 +49,4 @@ public class DescriptiveQuestionService {
         return dQuestionRepository.findById(id);
     }
 
-    public List<DescriptiveQuestion> getAllDescriptiveQuestions() {
-        return dQuestionRepository.findAll();
-    }
 }

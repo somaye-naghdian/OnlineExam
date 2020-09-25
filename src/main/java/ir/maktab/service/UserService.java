@@ -31,7 +31,8 @@ public class UserService {
     private MailService mailService;
     private Mapper mapper;
 
-
+    @Autowired
+    private  PasswordEncoder passwordEncoder;
     @Autowired
     public UserService(UserRepository userRepository, MailService mailService
             , VerificationTokenService verificationTokenService,
@@ -58,42 +59,6 @@ public class UserService {
    }
 
 
-//   public List<Course> getUserCourses(String email){
-//      return   userRepository.findUserCourse(email);
-//    }
-
-
-    @Transactional
-    public void registerNewUser(User user) {
-//        try {
-//         //   User found = userRepository.findByEmail(user.getEmail());
-//        }catch (NullPointerException e){
-//            e.
-//        }
-
-//        user.setStatus(StatusType.INACTIVE);
-//        //   if (found == null) {
-//        if (authenticationService.isUserInformationTrue(user)) {
-//            user.setPassword(passwordEncoder.encode(user.getPassword()));
-//            UserRole userRole = user.getRole();
-//            switch (userRole) {
-//                case ADMIN:
-//                   return adminService.save(getAdminFromUser(user));
-//                    break;
-//                case TEACHER:
-//                   return teacherService.save(getTeacherFromUser(user));
-//                    break;
-//                case STUDENT:
-//                   return studentService.save(getStudentFromUser(user));
-//                    break;
-//            }
-//            //   sendTo(user);
-//        } else
-//            throw new UserAlreadyExistsException("duplicate email!");
-//        //   }
-
-    }
-
     public User findById(Long id) {
         return userRepository.findById(id);
     }
@@ -101,12 +66,12 @@ public class UserService {
     public UserRole authenticationUser(String email, String password) throws UserNotFoundException {
         try {
             User user = userRepository.findByEmail(email);
-            String userPassword = user.getPassword();
-            if (userPassword.equals(password)) {
+            boolean  result= passwordEncoder.matches(password, user.getPassword());
+            if (result) {
                 return user.getRole();
             }
         } catch (NullPointerException ne) {
-            throw new UserNotFoundException("Not Found");
+            throw new UserNotFoundException("Not Found or wrong Password");
         }
         return null;
     }

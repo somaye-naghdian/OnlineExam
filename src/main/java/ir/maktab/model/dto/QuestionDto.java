@@ -21,10 +21,11 @@ public class QuestionDto {
     @Size(min = 10, max = 150, message = "The question should be between 10 and 150 characters")
     private String text;
 
-
+    private Answer answer;
     private List<Answer> answers;
-    @JsonManagedReference
-    private Exam exam;
+
+
+    private List<Exam> exam;
 
     private Classification classification;
 
@@ -65,11 +66,11 @@ public class QuestionDto {
         this.answers = answers;
     }
 
-    public Exam getExam() {
+    public List<Exam> getExam() {
         return exam;
     }
 
-    public void setExam(Exam exam) {
+    public void setExam(List<Exam> exam) {
         this.exam = exam;
     }
 
@@ -87,5 +88,23 @@ public class QuestionDto {
 
     public void setType(String type) {
         Type = type;
+    }
+
+    public Answer getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(Answer answer) {
+        this.answer = answer;
+    }
+
+    @Override
+    public String toString() {
+        return "QuestionDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", Type='" + Type + '\'' +
+                '}';
     }
 }

@@ -15,21 +15,17 @@ import java.util.List;
 @Service
 public class MultipleChoiceQuestionService {
 
-    @Autowired
-    private ExamRepository examRepository;
     private MultipleChoiceQuestionRepository mcQuestionRepository;
     private ExamService examService;
-    private QuestionService questionService;
     private Mapper mapper;
     @Autowired
     private AnswerService answerService;
 
     @Autowired
     public MultipleChoiceQuestionService(MultipleChoiceQuestionRepository mcQuestionRepository
-            , ExamService examService, Mapper mapper, QuestionService questionService) {
+            , ExamService examService, Mapper mapper) {
         this.mcQuestionRepository = mcQuestionRepository;
         this.examService = examService;
-        this.questionService = questionService;
         this.mapper = mapper;
     }
 
@@ -70,33 +66,5 @@ public class MultipleChoiceQuestionService {
     public MultipleChoiceQuestion getMultiQuestionById(Long id) {
         return mcQuestionRepository.findById(id);
     }
-
-    public List<MultipleChoiceQuestion> getAllMultiChoiceQuestion() {
-        return mcQuestionRepository.findAll();
-    }
-//
-//    public Double getScoreEachQuestion(String questionId, String answer) {
-//        Question question = questionService.getQuestionById(Long.valueOf(questionId));
-//
-////    }
-//
-//
-//    public Double getUserScore(Map<Question, String> answers, Exam exam) {
-//        System.out.println(answers);
-//        Double testTotalScore = null;
-//        Map<Question, Double> scoreEachQuestion = exam.getScoreEachQuestion();
-//        for (Question question :
-//                answers.keySet()) {
-//            if (question.getType().equals("multipleChoice")) {
-//
-//                String answer = answers.get(question);
-//                MultipleChoiceQuestion multiQuestion = getMultiQuestionById(question.getId());
-//                List<Answer> answers1 = multiQuestion.getAnswers();
-////                if ()
-//            }
-//        }
-//        return testTotalScore;
-//    }
-
 
 }

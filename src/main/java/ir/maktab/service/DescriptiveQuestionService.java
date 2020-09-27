@@ -22,9 +22,6 @@ public class DescriptiveQuestionService {
     @Autowired
     private ExamService examService;
     @Autowired
-    private ExamRepository examRepository;
-
-    @Autowired
     private Mapper mapper;
 
     @Transactional

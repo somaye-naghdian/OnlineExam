@@ -35,8 +35,8 @@ public class CourseAspect {
     }
     @After("deleteStudentFromCourse()")
     public void afterDelete(JoinPoint joinPoint) throws Throwable {
-        User user = (User) joinPoint.getArgs()[0];
-        logger = LogManager.getLogger(user.getEmail());
+        Object arg = joinPoint.getArgs()[0];
+        logger = LogManager.getLogger(arg.toString());
         logger.info(joinPoint.getSignature().getName() + "called");
 
     }

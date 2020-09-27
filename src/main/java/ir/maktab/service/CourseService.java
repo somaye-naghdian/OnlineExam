@@ -23,19 +23,16 @@ public class CourseService {
 
     private CourseRepository courseRepository;
     private StudentService studentService;
-    private Mapper mapper;
+
     private UserService userService;
 
     @Autowired
     public CourseService(CourseRepository courseRepository
-            , StudentService studentService, Mapper mapper,
-                         UserService userService) {
+            , StudentService studentService, UserService userService) {
         this.courseRepository = courseRepository;
         this.studentService = studentService;
-        this.mapper = mapper;
         this.userService = userService;
     }
-
 
     @Transactional
     public Course save(Course course) throws CourseAlreadyExist {
@@ -61,13 +58,15 @@ public class CourseService {
 
     public List<User> getStudentsOfCourse(String courseTitle) {
         List<User> allStudents = courseRepository.findUsersByCourseTitle(courseTitle);
-       List<User> students=new ArrayList<>();
-        for (User user:
-             allStudents) {
-            if(user.getRole().equals(UserRole.STUDENT)){
+        List<User> students = new ArrayList<>();
+       allStudents.stream().filter(user -> user.getRole().equals(UserRole.STUDENT))
+               .forEachOrdered(students::add);
+       /* for (User user :
+                allStudents) {
+            if (user.getRole().equals(UserRole.STUDENT)) {
                 students.add(user);
             }
-        }
+        }*/
         return students;
     }
 
@@ -94,9 +93,9 @@ public class CourseService {
     public void deleteStudentFromCourse(String courseTitle, String email) {
         User user = userService.findUserByEmail(email);
         Course course = findCourseByTitle(courseTitle);
-        if(course.getUserList().isEmpty() ||(! course.getUserList().contains(user))){
+        if (course.getUserList().isEmpty() || (!course.getUserList().contains(user))) {
             throw new UserNotFoundException("not Found");
-        }else{
+        } else {
             course.getUserList().remove(user);
             user.getCourseList().remove(course);
             userService.save(user);
@@ -113,21 +112,18 @@ public class CourseService {
     public Set<Course> getUserCourses(User user) {
         List<Course> courseList = user.getCourseList();
         Set<Course> courses = new HashSet<>();
-        for (Course course : courseList)
-            courses.add(course);
+        courseList.stream().forEachOrdered(courses::add);
         return courses;
     }
 
-    public List<Course> getStudentCourses(String email){
+    public List<Course> getStudentCourses(String email) {
         Student student = studentService.getStudentByEmail(email);
         List<Course> allCourse = getAllCourse();
-        List<Course> studentUserList =new ArrayList<>();
-        for (Course course:
-             allCourse) {
-            if( course.getUserList().contains(student)){
-                studentUserList.add(course);
-            }
-        }
+        List<Course> studentUserList = new ArrayList<>();
+
+        allCourse.stream().filter(course -> course.getUserList().contains(student)).
+                forEachOrdered(studentUserList::add);
+
         return studentUserList;
     }
 }

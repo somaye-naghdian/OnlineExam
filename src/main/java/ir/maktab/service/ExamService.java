@@ -13,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.AccessDeniedException;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,8 +28,6 @@ public class ExamService {
     private StudentService studentService;
     @Autowired
     private QuestionService questionService;
-    @Autowired
-    private DescriptiveQuestionService dQuestionService;
     @Autowired
     private MultipleChoiceQuestionService mCQuestionService;
     @Autowired
@@ -138,9 +134,11 @@ public class ExamService {
         Exam exam = getExamById(examId);
         Map<Question, Double> examQuestion = exam.getScoreEachQuestion();
         List<Question> questions = new ArrayList<>(examQuestion.keySet());
-        for (int i = 0; i < questions.size(); i++) {
+       questions.sort(Comparator.comparing(Question::getId));
+
+        /*for (int i = 0; i < questions.size(); i++) {
             questions.sort(new SortQuestionById());
-        }
+        }*/
         System.out.println(questions);
         return questions;
     }
@@ -158,12 +156,8 @@ public class ExamService {
     }
 
     public Double calculateExamTotalPoint(Map<Question, Double> scoreOfQuestion) {
-        Double totalScore = 0.0;
-//        scoreOfQuestion.keySet().stream().reduce(0.0,(x,y)->Collectors.summingDouble(x,y) );
-        for (Double score :
-                scoreOfQuestion.values()) {
-            totalScore += score;
-        }
+        Double totalScore ;
+        totalScore = scoreOfQuestion.values().stream().reduce(0.0, Double::sum);
         return totalScore;
     }
 
@@ -175,9 +169,6 @@ public class ExamService {
         Student student = studentService.getStudentById(studentId);
         if (!exam.getStudentsStartTimes().containsKey(student)) {
             exam.getStudentsStartTimes().put(student, new java.util.Date());
-           // student.getExams().add(exam);
-           // studentService.save(student);
-           // exam.getStudentList().add(student);
             examRepository.save(exam);
         }
     }
@@ -219,6 +210,7 @@ public class ExamService {
         Double score = null;
         Exam exam = getExamById(examId);
         Map<Question, Double> scoreEachQuestion = exam.getScoreEachQuestion();
+
         for (Map.Entry<Question, Double> entry : scoreEachQuestion.entrySet()) {
             Question key = entry.getKey();
             if (key.getId().equals(questionId)) {
